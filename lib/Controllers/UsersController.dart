@@ -1,12 +1,10 @@
+import 'package:fasten/Helpers/Network.dart';
+import 'package:fasten/Models/UsersModel.dart';
 
-
-import '../Helpers/Network.dart';
-import '../Models/HomeModel.dart';
-
-class HomeController {
+class UsersController {
   NetWork _netWork = NetWork();
-  HomeModel _homeModel = HomeModel();
-  Future<HomeModel> getHomeData() async {
+  UsersModel _usersModel = UsersModel();
+  Future<UsersModel> getUsers() async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
     // print(prefs.getString('token'));
     List<Map<String, dynamic>> _headers = [
@@ -17,8 +15,8 @@ class HomeController {
       // {'Authorization': prefs.getString('token');
       // }
     ];
-    var data = await _netWork.getData(url: 'home', headers: _headers);
-    _homeModel = HomeModel.fromJson(data);
-    return _homeModel;
+    var data = await _netWork.getData(url: 'user', headers: _headers);
+    _usersModel = UsersModel.fromJson(data);
+    return _usersModel;
   }
 }

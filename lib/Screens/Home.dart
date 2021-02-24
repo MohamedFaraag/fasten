@@ -4,7 +4,7 @@ import '../Controllers/HomeController.dart';
 import '../Models/HomeModel.dart';
 import '../Helpers/images.dart';
 import '../Screens/ProductForSell.dart';
-import '../Screens/details.dart';
+
 import '../Widget/TestCat.dart';
 import '../Widget/CustomButton.dart';
 import '../Widget/HomeNavigationBar.dart';
@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
   bool _isLoading = false;
   initState() {
     _getHomeData();
+    super.initState();
   }
 
   _getHomeData() async {
@@ -135,8 +136,13 @@ class _HomeState extends State<Home> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      TestCat(
-                                        image: CategoryImage[0],
+                                      Column(
+                                        children: [
+                                          TestCat(
+                                            image: CategoryImage[0],
+                                          ),
+                                          Text(_homeModel.data.types[0].name)
+                                        ],
                                       ),
                                       GestureDetector(
                                         onTap: () {
@@ -144,15 +150,29 @@ class _HomeState extends State<Home> {
                                               .pushReplacementNamed(
                                                   ProductForSell.routeName);
                                         },
-                                        child: TestCat(
-                                          image: CategoryImage[1],
+                                        child: Column(
+                                          children: [
+                                            TestCat(
+                                              image: CategoryImage[1],
+                                            ),
+                                            Text(_homeModel.data.types[1].name)
+                                          ],
                                         ),
                                       ),
-                                      TestCat(
-                                        image: CategoryImage[2],
+                                      Column(
+                                        children: [
+                                          TestCat(
+                                            image: CategoryImage[2],
+                                          ),
+                                          Text(_homeModel.data.types[2].name)
+                                        ],
                                       ),
                                     ],
                                   ),
+                                  SizedBox(
+                                    height: getProportionateScreenHeight(13),
+                                  ),
+
                                   Container(
                                     child: Row(
                                       mainAxisAlignment:
@@ -181,509 +201,44 @@ class _HomeState extends State<Home> {
                                       ],
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      Detials.routeName);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.5),
-                                              ),
-                                              child: Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.5)),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        260),
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        170),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              160),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  ProImage[0]),
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          'Women shoes',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          '300 \$',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text('Guess tan'),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        CustomButton(
-                                                          name: 'XXl',
-                                                        ),
-                                                        CustomButton(
-                                                            name: 'Xl'),
-                                                        CustomButton(name: 'L'),
-                                                        SizedBox(
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  35),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: getProportionateScreenWidth(
-                                                170),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Image.asset(sale),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        sel = !sel;
-                                                        print(sel);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      size:
-                                                          getProportionateScreenWidth(
-                                                              20),
-                                                      color: sel
-                                                          ? Colors.grey
-                                                          : Colors.red,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: getProportionateScreenWidth(3),
-                                      ),
-                                      Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      Detials.routeName);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.5),
-                                              ),
-                                              child: Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.5)),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        260),
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        170),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              160),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  ProImage[0]),
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          'Women shoes',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          '300 \$',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text('Guess tan'),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        CustomButton(
-                                                          name: 'XXl',
-                                                        ),
-                                                        CustomButton(
-                                                            name: 'Xl'),
-                                                        CustomButton(name: 'L'),
-                                                        SizedBox(
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  35),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: getProportionateScreenWidth(
-                                                170),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Image.asset(sale),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        sel = !sel;
-                                                        print(sel);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      size:
-                                                          getProportionateScreenWidth(
-                                                              20),
-                                                      color: sel
-                                                          ? Colors.grey
-                                                          : Colors.red,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      // SizedBox(
-                                      //   width: getProportionateScreenWidth(3),
-                                      // ),
-                                    ],
-                                  ),
                                   SizedBox(
-                                    height: getProportionateScreenHeight(15),
+                                    height: getProportionateScreenHeight(13),
                                   ),
-                                  Row(
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      Detials.routeName);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.5),
-                                              ),
-                                              child: Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                decoration: BoxDecoration(
+                                  Container(
+                                    width: double.infinity,
+                                    height: getProportionateScreenHeight(285),
+                                    child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount:
+                                            _homeModel.data.latestAds.length,
+                                        itemBuilder: (context, index) {
+                                          return Card(
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            10.5)),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        260),
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        170),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              160),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  ProImage[0]),
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          'Women shoes',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          '300 \$',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text('Guess tan'),
-                                                    Row(
+                                                            10.5),
+                                                  ),
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.all(5.0),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.5),
+                                                        border: Border.all(
+                                                            color: Color(
+                                                                0xFFB83B5E),
+                                                            width: 1.5)),
+                                                    height:
+                                                        getProportionateScreenHeight(
+                                                            300),
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            170),
+                                                    child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .spaceAround,
@@ -691,771 +246,1470 @@ class _HomeState extends State<Home> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        CustomButton(
-                                                          name: 'XXl',
-                                                        ),
-                                                        CustomButton(
-                                                            name: 'Xl'),
-                                                        CustomButton(name: 'L'),
-                                                        SizedBox(
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  35),
-                                                        ),
                                                         Container(
                                                           height:
                                                               getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
+                                                                  160),
                                                           decoration:
                                                               BoxDecoration(
-                                                            color: Colors.green,
+                                                            image:
+                                                                DecorationImage(
+                                                              image: NetworkImage(
+                                                                  _homeModel
+                                                                      .data
+                                                                      .latestAds[
+                                                                          index]
+                                                                      .images[0]
+                                                                      .fullFile),
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        10),
+                                                                        10.0),
                                                           ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              _homeModel
+                                                                  .data
+                                                                  .latestAds[
+                                                                      index]
+                                                                  .name,
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      getProportionateScreenWidth(
+                                                                          12),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                            Text(
+                                                              '${_homeModel.data.latestAds[index].price} \$',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      getProportionateScreenWidth(
+                                                                          12),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Text(_homeModel
+                                                            .data
+                                                            .latestAds[index]
+                                                            .body),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomButton(
+                                                              name: 'XXl',
+                                                            ),
+                                                            CustomButton(
+                                                                name: 'Xl'),
+                                                            CustomButton(
+                                                                name: 'L'),
+                                                            SizedBox(
                                                               width:
                                                                   getProportionateScreenWidth(
-                                                                      3),
+                                                                      35),
+                                                            ),
+                                                            Container(
+                                                              height:
+                                                                  getProportionateScreenHeight(
+                                                                      12),
+                                                              width:
+                                                                  getProportionateScreenWidth(
+                                                                      12),
                                                               decoration:
                                                                   BoxDecoration(
                                                                 color: Colors
-                                                                    .white,
+                                                                    .green,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            2),
+                                                                            10),
+                                                              ),
+                                                              child: Center(
+                                                                child:
+                                                                    Container(
+                                                                  height:
+                                                                      getProportionateScreenHeight(
+                                                                          3),
+                                                                  width:
+                                                                      getProportionateScreenWidth(
+                                                                          3),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(2),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
+                                                            Container(
                                                               height:
                                                                   getProportionateScreenHeight(
-                                                                      3),
+                                                                      12),
                                                               width:
                                                                   getProportionateScreenWidth(
-                                                                      3),
+                                                                      12),
                                                               decoration:
                                                                   BoxDecoration(
                                                                 color: Colors
-                                                                    .white,
+                                                                    .green,
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            2),
+                                                                            10),
+                                                              ),
+                                                              child: Center(
+                                                                child:
+                                                                    Container(
+                                                                  height:
+                                                                      getProportionateScreenHeight(
+                                                                          3),
+                                                                  width:
+                                                                      getProportionateScreenWidth(
+                                                                          3),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(2),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
-                                                        ),
+                                                          ],
+                                                        )
                                                       ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: getProportionateScreenWidth(
-                                                170),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Image.asset(sale),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        sel = !sel;
-                                                        print(sel);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      size:
-                                                          getProportionateScreenWidth(
-                                                              20),
-                                                      color: sel
-                                                          ? Colors.grey
-                                                          : Colors.red,
                                                     ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width:
+                                                      getProportionateScreenWidth(
+                                                          170),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(15.0),
+                                                        child:
+                                                            Image.asset(sale),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(15.0),
+                                                        child: Image.asset(fav),
+                                                      ),
+                                                    ],
                                                   ),
                                                 )
                                               ],
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                      Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      Detials.routeName);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.5),
-                                              ),
-                                              child: Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.5)),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        260),
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        170),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              160),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  ProImage[0]),
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          'Women shoes',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          '300 \$',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text('Guess tan'),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        CustomButton(
-                                                          name: 'XXl',
-                                                        ),
-                                                        CustomButton(
-                                                            name: 'Xl'),
-                                                        CustomButton(name: 'L'),
-                                                        SizedBox(
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  35),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: getProportionateScreenWidth(
-                                                170),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Image.asset(sale),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        sel = !sel;
-                                                        print(sel);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      size:
-                                                          getProportionateScreenWidth(
-                                                              20),
-                                                      color: sel
-                                                          ? Colors.grey
-                                                          : Colors.red,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(15),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      Detials.routeName);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.5),
-                                              ),
-                                              child: Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.5)),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        260),
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        170),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              160),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  ProImage[0]),
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          'Women shoes',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          '300 \$',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text('Guess tan'),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        CustomButton(
-                                                          name: 'XXl',
-                                                        ),
-                                                        CustomButton(
-                                                            name: 'Xl'),
-                                                        CustomButton(name: 'L'),
-                                                        SizedBox(
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  35),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: getProportionateScreenWidth(
-                                                170),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Image.asset(sale),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        sel = !sel;
-                                                        print(sel);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      size:
-                                                          getProportionateScreenWidth(
-                                                              20),
-                                                      color: sel
-                                                          ? Colors.grey
-                                                          : Colors.red,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: getProportionateScreenWidth(0),
-                                      ),
-                                      Stack(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      Detials.routeName);
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.5),
-                                              ),
-                                              child: Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.5)),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        260),
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        170),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              160),
-                                                      decoration: BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  ProImage[0]),
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          'Women shoes',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        Text(
-                                                          '300 \$',
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  getProportionateScreenWidth(
-                                                                      12),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    Text('Guess tan'),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        CustomButton(
-                                                          name: 'XXl',
-                                                        ),
-                                                        CustomButton(
-                                                            name: 'Xl'),
-                                                        CustomButton(name: 'L'),
-                                                        SizedBox(
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  35),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  12),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  12),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Container(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      3),
-                                                              width:
-                                                                  getProportionateScreenWidth(
-                                                                      3),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            2),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: getProportionateScreenWidth(
-                                                170),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: Image.asset(sale),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        sel = !sel;
-                                                        print(sel);
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.favorite,
-                                                      size:
-                                                          getProportionateScreenWidth(
-                                                              20),
-                                                      color: sel
-                                                          ? Colors.grey
-                                                          : Colors.red,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                          );
+                                        }),
+                                  )
+                                  // Row(
+                                  //   children: [
+                                  //     Stack(
+                                  //       children: [
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             Navigator.of(context)
+                                  //                 .pushReplacementNamed(
+                                  //                     Detials.routeName);
+                                  //           },
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(10.5),
+                                  //             ),
+                                  //             child: Container(
+                                  //               padding: EdgeInsets.all(5.0),
+                                  //               decoration: BoxDecoration(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           10.5)),
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       260),
+                                  //               width:
+                                  //                   getProportionateScreenWidth(
+                                  //                       170),
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment
+                                  //                         .spaceAround,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     height:
+                                  //                         getProportionateScreenHeight(
+                                  //                             160),
+                                  //                     decoration: BoxDecoration(
+                                  //                         image: DecorationImage(
+                                  //                             image: AssetImage(
+                                  //                                 ProImage[0]),
+                                  //                             fit: BoxFit
+                                  //                                 .cover)),
+                                  //                   ),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceBetween,
+                                  //                     children: [
+                                  //                       Text(
+                                  //                         'Women shoes',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                       Text(
+                                  //                         '300 \$',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Text('Guess tan'),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceAround,
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       CustomButton(
+                                  //                         name: 'XXl',
+                                  //                       ),
+                                  //                       CustomButton(
+                                  //                           name: 'Xl'),
+                                  //                       CustomButton(name: 'L'),
+                                  //                       SizedBox(
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 35),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           width: getProportionateScreenWidth(
+                                  //               170),
+                                  //           child: Row(
+                                  //             crossAxisAlignment:
+                                  //                 CrossAxisAlignment.start,
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment
+                                  //                     .spaceBetween,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: Image.asset(sale),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: GestureDetector(
+                                  //                   onTap: () {
+                                  //                     setState(() {
+                                  //                       sel = !sel;
+                                  //                       print(sel);
+                                  //                     });
+                                  //                   },
+                                  //                   child: Icon(
+                                  //                     Icons.favorite,
+                                  //                     size:
+                                  //                         getProportionateScreenWidth(
+                                  //                             20),
+                                  //                     color: sel
+                                  //                         ? Colors.grey
+                                  //                         : Colors.red,
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //     SizedBox(
+                                  //       width: getProportionateScreenWidth(3),
+                                  //     ),
+                                  //     Stack(
+                                  //       children: [
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             Navigator.of(context)
+                                  //                 .pushReplacementNamed(
+                                  //                     Detials.routeName);
+                                  //           },
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(10.5),
+                                  //             ),
+                                  //             child: Container(
+                                  //               padding: EdgeInsets.all(5.0),
+                                  //               decoration: BoxDecoration(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           10.5)),
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       260),
+                                  //               width:
+                                  //                   getProportionateScreenWidth(
+                                  //                       170),
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment
+                                  //                         .spaceAround,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     height:
+                                  //                         getProportionateScreenHeight(
+                                  //                             160),
+                                  //                     decoration: BoxDecoration(
+                                  //                         image: DecorationImage(
+                                  //                             image: AssetImage(
+                                  //                                 ProImage[0]),
+                                  //                             fit: BoxFit
+                                  //                                 .cover)),
+                                  //                   ),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceBetween,
+                                  //                     children: [
+                                  //                       Text(
+                                  //                         'Women shoes',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                       Text(
+                                  //                         '300 \$',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Text('Guess tan'),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceAround,
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       CustomButton(
+                                  //                         name: 'XXl',
+                                  //                       ),
+                                  //                       CustomButton(
+                                  //                           name: 'Xl'),
+                                  //                       CustomButton(name: 'L'),
+                                  //                       SizedBox(
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 35),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           width: getProportionateScreenWidth(
+                                  //               170),
+                                  //           child: Row(
+                                  //             crossAxisAlignment:
+                                  //                 CrossAxisAlignment.start,
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment
+                                  //                     .spaceBetween,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: Image.asset(sale),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: GestureDetector(
+                                  //                   onTap: () {
+                                  //                     setState(() {
+                                  //                       sel = !sel;
+                                  //                       print(sel);
+                                  //                     });
+                                  //                   },
+                                  //                   child: Icon(
+                                  //                     Icons.favorite,
+                                  //                     size:
+                                  //                         getProportionateScreenWidth(
+                                  //                             20),
+                                  //                     color: sel
+                                  //                         ? Colors.grey
+                                  //                         : Colors.red,
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //     // SizedBox(
+                                  //     //   width: getProportionateScreenWidth(3),
+                                  //     // ),
+                                  //   ],
+                                  // ),
+                                  // SizedBox(
+                                  //   height: getProportionateScreenHeight(15),
+                                  // ),
+                                  // Row(
+                                  //   children: [
+                                  //     Stack(
+                                  //       children: [
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             Navigator.of(context)
+                                  //                 .pushReplacementNamed(
+                                  //                     Detials.routeName);
+                                  //           },
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(10.5),
+                                  //             ),
+                                  //             child: Container(
+                                  //               padding: EdgeInsets.all(5.0),
+                                  //               decoration: BoxDecoration(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           10.5)),
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       260),
+                                  //               width:
+                                  //                   getProportionateScreenWidth(
+                                  //                       170),
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment
+                                  //                         .spaceAround,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     height:
+                                  //                         getProportionateScreenHeight(
+                                  //                             160),
+                                  //                     decoration: BoxDecoration(
+                                  //                         image: DecorationImage(
+                                  //                             image: AssetImage(
+                                  //                                 ProImage[0]),
+                                  //                             fit: BoxFit
+                                  //                                 .cover)),
+                                  //                   ),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceBetween,
+                                  //                     children: [
+                                  //                       Text(
+                                  //                         'Women shoes',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                       Text(
+                                  //                         '300 \$',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Text('Guess tan'),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceAround,
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       CustomButton(
+                                  //                         name: 'XXl',
+                                  //                       ),
+                                  //                       CustomButton(
+                                  //                           name: 'Xl'),
+                                  //                       CustomButton(name: 'L'),
+                                  //                       SizedBox(
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 35),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           width: getProportionateScreenWidth(
+                                  //               170),
+                                  //           child: Row(
+                                  //             crossAxisAlignment:
+                                  //                 CrossAxisAlignment.start,
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment
+                                  //                     .spaceBetween,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: Image.asset(sale),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: GestureDetector(
+                                  //                   onTap: () {
+                                  //                     setState(() {
+                                  //                       sel = !sel;
+                                  //                       print(sel);
+                                  //                     });
+                                  //                   },
+                                  //                   child: Icon(
+                                  //                     Icons.favorite,
+                                  //                     size:
+                                  //                         getProportionateScreenWidth(
+                                  //                             20),
+                                  //                     color: sel
+                                  //                         ? Colors.grey
+                                  //                         : Colors.red,
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //     Stack(
+                                  //       children: [
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             Navigator.of(context)
+                                  //                 .pushReplacementNamed(
+                                  //                     Detials.routeName);
+                                  //           },
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(10.5),
+                                  //             ),
+                                  //             child: Container(
+                                  //               padding: EdgeInsets.all(5.0),
+                                  //               decoration: BoxDecoration(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           10.5)),
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       260),
+                                  //               width:
+                                  //                   getProportionateScreenWidth(
+                                  //                       170),
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment
+                                  //                         .spaceAround,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     height:
+                                  //                         getProportionateScreenHeight(
+                                  //                             160),
+                                  //                     decoration: BoxDecoration(
+                                  //                         image: DecorationImage(
+                                  //                             image: AssetImage(
+                                  //                                 ProImage[0]),
+                                  //                             fit: BoxFit
+                                  //                                 .cover)),
+                                  //                   ),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceBetween,
+                                  //                     children: [
+                                  //                       Text(
+                                  //                         'Women shoes',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                       Text(
+                                  //                         '300 \$',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Text('Guess tan'),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceAround,
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       CustomButton(
+                                  //                         name: 'XXl',
+                                  //                       ),
+                                  //                       CustomButton(
+                                  //                           name: 'Xl'),
+                                  //                       CustomButton(name: 'L'),
+                                  //                       SizedBox(
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 35),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           width: getProportionateScreenWidth(
+                                  //               170),
+                                  //           child: Row(
+                                  //             crossAxisAlignment:
+                                  //                 CrossAxisAlignment.start,
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment
+                                  //                     .spaceBetween,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: Image.asset(sale),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: GestureDetector(
+                                  //                   onTap: () {
+                                  //                     setState(() {
+                                  //                       sel = !sel;
+                                  //                       print(sel);
+                                  //                     });
+                                  //                   },
+                                  //                   child: Icon(
+                                  //                     Icons.favorite,
+                                  //                     size:
+                                  //                         getProportionateScreenWidth(
+                                  //                             20),
+                                  //                     color: sel
+                                  //                         ? Colors.grey
+                                  //                         : Colors.red,
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // SizedBox(
+                                  //   height: getProportionateScreenHeight(15),
+                                  // ),
+                                  // Row(
+                                  //   children: [
+                                  //     Stack(
+                                  //       children: [
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             Navigator.of(context)
+                                  //                 .pushReplacementNamed(
+                                  //                     Detials.routeName);
+                                  //           },
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(10.5),
+                                  //             ),
+                                  //             child: Container(
+                                  //               padding: EdgeInsets.all(5.0),
+                                  //               decoration: BoxDecoration(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           10.5)),
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       260),
+                                  //               width:
+                                  //                   getProportionateScreenWidth(
+                                  //                       170),
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment
+                                  //                         .spaceAround,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     height:
+                                  //                         getProportionateScreenHeight(
+                                  //                             160),
+                                  //                     decoration: BoxDecoration(
+                                  //                         image: DecorationImage(
+                                  //                             image: AssetImage(
+                                  //                                 ProImage[0]),
+                                  //                             fit: BoxFit
+                                  //                                 .cover)),
+                                  //                   ),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceBetween,
+                                  //                     children: [
+                                  //                       Text(
+                                  //                         'Women shoes',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                       Text(
+                                  //                         '300 \$',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Text('Guess tan'),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceAround,
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       CustomButton(
+                                  //                         name: 'XXl',
+                                  //                       ),
+                                  //                       CustomButton(
+                                  //                           name: 'Xl'),
+                                  //                       CustomButton(name: 'L'),
+                                  //                       SizedBox(
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 35),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           width: getProportionateScreenWidth(
+                                  //               170),
+                                  //           child: Row(
+                                  //             crossAxisAlignment:
+                                  //                 CrossAxisAlignment.start,
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment
+                                  //                     .spaceBetween,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: Image.asset(sale),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: GestureDetector(
+                                  //                   onTap: () {
+                                  //                     setState(() {
+                                  //                       sel = !sel;
+                                  //                       print(sel);
+                                  //                     });
+                                  //                   },
+                                  //                   child: Icon(
+                                  //                     Icons.favorite,
+                                  //                     size:
+                                  //                         getProportionateScreenWidth(
+                                  //                             20),
+                                  //                     color: sel
+                                  //                         ? Colors.grey
+                                  //                         : Colors.red,
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //     SizedBox(
+                                  //       width: getProportionateScreenWidth(0),
+                                  //     ),
+                                  //     Stack(
+                                  //       children: [
+                                  //         GestureDetector(
+                                  //           onTap: () {
+                                  //             Navigator.of(context)
+                                  //                 .pushReplacementNamed(
+                                  //                     Detials.routeName);
+                                  //           },
+                                  //           child: Container(
+                                  //             decoration: BoxDecoration(
+                                  //               borderRadius:
+                                  //                   BorderRadius.circular(10.5),
+                                  //             ),
+                                  //             child: Container(
+                                  //               padding: EdgeInsets.all(5.0),
+                                  //               decoration: BoxDecoration(
+                                  //                   borderRadius:
+                                  //                       BorderRadius.circular(
+                                  //                           10.5)),
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       260),
+                                  //               width:
+                                  //                   getProportionateScreenWidth(
+                                  //                       170),
+                                  //               child: Column(
+                                  //                 mainAxisAlignment:
+                                  //                     MainAxisAlignment
+                                  //                         .spaceAround,
+                                  //                 crossAxisAlignment:
+                                  //                     CrossAxisAlignment.start,
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     height:
+                                  //                         getProportionateScreenHeight(
+                                  //                             160),
+                                  //                     decoration: BoxDecoration(
+                                  //                         image: DecorationImage(
+                                  //                             image: AssetImage(
+                                  //                                 ProImage[0]),
+                                  //                             fit: BoxFit
+                                  //                                 .cover)),
+                                  //                   ),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceBetween,
+                                  //                     children: [
+                                  //                       Text(
+                                  //                         'Women shoes',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                       Text(
+                                  //                         '300 \$',
+                                  //                         style: TextStyle(
+                                  //                             fontSize:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     12),
+                                  //                             fontWeight:
+                                  //                                 FontWeight
+                                  //                                     .w400),
+                                  //                       ),
+                                  //                     ],
+                                  //                   ),
+                                  //                   Text('Guess tan'),
+                                  //                   Row(
+                                  //                     mainAxisAlignment:
+                                  //                         MainAxisAlignment
+                                  //                             .spaceAround,
+                                  //                     crossAxisAlignment:
+                                  //                         CrossAxisAlignment
+                                  //                             .start,
+                                  //                     children: [
+                                  //                       CustomButton(
+                                  //                         name: 'XXl',
+                                  //                       ),
+                                  //                       CustomButton(
+                                  //                           name: 'Xl'),
+                                  //                       CustomButton(name: 'L'),
+                                  //                       SizedBox(
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 35),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                       Container(
+                                  //                         height:
+                                  //                             getProportionateScreenHeight(
+                                  //                                 12),
+                                  //                         width:
+                                  //                             getProportionateScreenWidth(
+                                  //                                 12),
+                                  //                         decoration:
+                                  //                             BoxDecoration(
+                                  //                           color: Colors.green,
+                                  //                           borderRadius:
+                                  //                               BorderRadius
+                                  //                                   .circular(
+                                  //                                       10),
+                                  //                         ),
+                                  //                         child: Center(
+                                  //                           child: Container(
+                                  //                             height:
+                                  //                                 getProportionateScreenHeight(
+                                  //                                     3),
+                                  //                             width:
+                                  //                                 getProportionateScreenWidth(
+                                  //                                     3),
+                                  //                             decoration:
+                                  //                                 BoxDecoration(
+                                  //                               color: Colors
+                                  //                                   .white,
+                                  //                               borderRadius:
+                                  //                                   BorderRadius
+                                  //                                       .circular(
+                                  //                                           2),
+                                  //                             ),
+                                  //                           ),
+                                  //                         ),
+                                  //                       ),
+                                  //                     ],
+                                  //                   )
+                                  //                 ],
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         Container(
+                                  //           width: getProportionateScreenWidth(
+                                  //               170),
+                                  //           child: Row(
+                                  //             crossAxisAlignment:
+                                  //                 CrossAxisAlignment.start,
+                                  //             mainAxisAlignment:
+                                  //                 MainAxisAlignment
+                                  //                     .spaceBetween,
+                                  //             children: [
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: Image.asset(sale),
+                                  //               ),
+                                  //               Padding(
+                                  //                 padding: const EdgeInsets.all(
+                                  //                     10.0),
+                                  //                 child: GestureDetector(
+                                  //                   onTap: () {
+                                  //                     setState(() {
+                                  //                       sel = !sel;
+                                  //                       print(sel);
+                                  //                     });
+                                  //                   },
+                                  //                   child: Icon(
+                                  //                     Icons.favorite,
+                                  //                     size:
+                                  //                         getProportionateScreenWidth(
+                                  //                             20),
+                                  //                     color: sel
+                                  //                         ? Colors.grey
+                                  //                         : Colors.red,
+                                  //                   ),
+                                  //                 ),
+                                  //               )
+                                  //             ],
+                                  //           ),
+                                  //         )
+                                  //       ],
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),

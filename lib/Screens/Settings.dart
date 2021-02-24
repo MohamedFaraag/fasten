@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../Helpers/size_conifg.dart';
-import '../Helpers/size_conifg.dart';
 import '../Screens/NavgatorForSettings/lang.dart';
 import '../Widget/myAppBar.dart';
 import '../Widget/ProfileText.dart';
 import '../Helpers/images.dart';
-import '../Helpers/size_conifg.dart';
-import 'EditProFiel.dart';
-import 'Home.dart';
+
 import 'Profile.dart';
 
 class Settings extends StatelessWidget {

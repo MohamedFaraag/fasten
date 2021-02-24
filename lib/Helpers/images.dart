@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 const String welcomeImage = 'assets/images/Logo.png';
 const String woImage = 'assets/images/ss.png';

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:fasten/Screens/EditProFiel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Controllers/UsersController.dart';
+import '../Models/UsersModel.dart';
+import '../Screens/EditProFiel.dart';
 import '../Screens/Login.dart';
 import '../Widget/HomeNavigationBar.dart';
 import '../Widget/ProfileText.dart';
@@ -21,16 +22,30 @@ class ProFile extends StatefulWidget {
 class _ProFileState extends State<ProFile> {
   final _auth = FirebaseAuth.instance;
   Future<void> logout() => _auth.signOut();
-  String _token;
+  UsersModel _usersModel = UsersModel();
+  UsersController _usersController = UsersController();
+  bool _isLoading = false;
+  // String _token;
   @override
   void initState() {
-    _getToken();
+    // _getToken();
+    _getUsers();
     super.initState();
+  }
+
+  _getUsers() async {
+    setState(() {
+      _isLoading = true;
+    });
+    _usersModel = await _usersController.getUsers();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('Token in ProFile is $_token');
+    // print('Token in ProFile is $_token');
     SizeConfig().init(context);
     return Scaffold(
       bottomNavigationBar: MyHomeBottomNavBar(),
@@ -86,8 +101,8 @@ class _ProFileState extends State<ProFile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Ahmed Hassan'),
-                      Text('anwarahmed@gmail.com'),
+                      Text(_usersModel.data.user.name),
+                      Text(_usersModel.data.user.email),
                     ],
                   ),
                   CircleAvatar(
@@ -165,10 +180,10 @@ class _ProFileState extends State<ProFile> {
     );
   }
 
-  _getToken() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _token = prefs.getString('token');
-    });
-  }
+  // _getToken() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _token = prefs.getString('token');
+  //   });
+  // }
 }

@@ -6,6 +6,7 @@ import '../Helpers/size_conifg.dart';
 import '../Screens/Otp.dart';
 import '../Widget/Buttons.dart';
 
+// ignore: must_be_immutable
 class ForgetPassword extends StatelessWidget {
   static String routeName = '/ForgetPassword';
   var firebasePhone;

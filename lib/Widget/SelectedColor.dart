@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class SelectedColor extends StatelessWidget {
   final Function onTap;
-  final bool selected;
-  final Color s;
 
-  const SelectedColor({this.onTap, this.s, this.selected});
+  final Color s;
+  final Color set;
+
+  const SelectedColor({this.onTap, this.s, this.set});
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -16,7 +17,7 @@ class SelectedColor extends StatelessWidget {
             height: 35,
             width: 35,
             decoration: BoxDecoration(
-              color: selected ? Colors.white : s,
+              color: set,
               border: Border.all(color: Colors.grey[400]),
               borderRadius: BorderRadius.circular(30),
             ),
