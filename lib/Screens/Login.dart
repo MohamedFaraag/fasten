@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fasten/Controllers/LoginController.dart';
 import 'package:fasten/Helpers/Loading.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../Screens/Home.dart';

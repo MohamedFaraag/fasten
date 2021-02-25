@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         return supportedLocales.first;
       },
       routes: routes,
-      initialRoute: AddAdds.routeName,
+      initialRoute: Boob.routeName,
     );
   }
 }
