@@ -7,6 +7,7 @@ import './localization/Demo_localization.dart';
 import './localization/Local_localization.dart';
 import './Helpers/routes.dart';
 import './Screens/Home.dart';
+import './Screens/Boob.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         return supportedLocales.first;
       },
       routes: routes,
-      initialRoute: Home.routeName,
+      initialRoute: Boob.routeName,
     );
   }
 }

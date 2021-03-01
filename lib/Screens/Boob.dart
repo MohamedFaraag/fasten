@@ -1,6 +1,4 @@
-import 'package:fasten/Helpers/constant.dart';
-
-
+import '../Helpers/constant.dart';
 import '../Helpers/size_conifg.dart';
 import '../Models/BoobModels.dart';
 import '../Screens/Login.dart';
@@ -112,6 +110,7 @@ class Boob extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
+
                               Navigator.of(context)
                                   .pushReplacementNamed(Login.routeName);
                             },
