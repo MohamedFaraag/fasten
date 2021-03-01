@@ -30,7 +30,7 @@ class AllCategoryModel {
 class Data {
   int id;
   String name;
-  List<Data> childs;
+  List<Childs> childs;
 
   Data({this.id, this.name, this.childs});
 
@@ -38,9 +38,9 @@ class Data {
     id = json['id'];
     name = json['name'];
     if (json['childs'] != null) {
-      childs = new List<Null>();
+      childs = new List<Childs>();
       json['childs'].forEach((v) {
-        childs.add(new Data.fromJson(v));
+        childs.add(new Childs.fromJson(v));
       });
     }
   }
@@ -52,6 +52,25 @@ class Data {
     if (this.childs != null) {
       data['childs'] = this.childs.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Childs {
+  int id;
+  String name;
+
+  Childs({this.id, this.name});
+
+  Childs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }

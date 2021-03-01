@@ -1,6 +1,6 @@
-import 'package:fasten/Screens/add_Adds.dart';
 import 'package:flutter/material.dart';
 
+import '../Screens/add_Adds.dart';
 import '../Helpers/images.dart';
 import '../Helpers/size_conifg.dart';
 

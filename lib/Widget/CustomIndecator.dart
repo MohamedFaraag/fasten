@@ -1,5 +1,6 @@
-import 'package:fasten/Helpers/size_conifg.dart';
 import 'package:flutter/material.dart';
+
+import '../Helpers/size_conifg.dart';
 
 class Indecator extends StatelessWidget {
   final int index;

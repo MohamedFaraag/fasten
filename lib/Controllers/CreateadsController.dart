@@ -29,7 +29,9 @@ class CreateadsController {
       {
         'name': name,
         'body': body,
-        'contact_types[1]': contname,
+        'contact_types[1]': "whatsapp",
+        'contact_types[2]': "chat",
+        'contact_types[3]': "phone",
         'category_id': category_Id,
         'ad_type': ad_typeId,
         'price': price,

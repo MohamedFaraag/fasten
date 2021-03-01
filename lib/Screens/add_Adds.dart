@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'dart:io';
+import 'package:dio/dio.dart' as dio;
+import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart';
 import '../Controllers/AttributeForAddController.dart';
 import '../Helpers/FormatColor.dart';
 import '../Models/AttributeForAddModel.dart';
@@ -15,6 +18,7 @@ import '../Controllers/CreateadsController.dart';
 import '../Models/CreateadsModel.dart';
 import '../Helpers/Loading.dart';
 import '../Helpers/contactData.dart';
+import '../Controllers/UploadImageController.dart';
 
 class AddAdds extends StatefulWidget {
   static String routeName = '/AddAdds';
@@ -51,6 +55,45 @@ class _AddAddsState extends State<AddAdds> {
   String body;
   String price;
   String contactname;
+
+  File _file;
+  Future getFile() async {
+    File file = await FilePicker.getFile();
+    setState(() {
+      _file = file;
+    });
+  }
+
+  void _uploadFile(filePath, BuildContext context) async {
+    setState(() {
+      _isLoad = true;
+    });
+    String fileName = basename(filePath.path);
+    print("file base name: $fileName");
+    try {
+      dio.FormData formData = new dio.FormData.fromMap({
+        "images":
+            await dio.MultipartFile.fromFile(filePath.path, filename: fileName),
+      });
+      dio.Response response = await dio.Dio()
+          .post("https://fostan.demo.asol-tec.com/api/v1/ads/files/2",
+              data: formData,
+              options: dio.Options(headers: {
+                "Authorization":
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZm9zdGFuLmRlbW8uYXNvbC10ZWMuY29tXC9hcGlcL3YxXC9sb2dpbiIsImlhdCI6MTYxNDUyNjU2MCwibmJmIjoxNjE0NTI2NTYwLCJqdGkiOiJwc2lmUWhOeVpZT0VpYUdtIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.g3MP_yzPjwK2NW36KX014EAWJJf5eBqJ3wBgJgCwYKM"
+              }));
+      print("File Upload response:$response");
+      print(response.data);
+    } catch (e) {
+      print("Exiption is :$e");
+      setState(() {
+        _isLoad = false;
+      });
+    }
+    setState(() {
+      _isLoad = false;
+    });
+  }
 
   _getData() async {
     setState(() {
@@ -155,9 +198,14 @@ class _AddAddsState extends State<AddAdds> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Advertising photos'),
-                          Container(
-                            height: 90,
-                            child: Image.asset(gallery),
+                          GestureDetector(
+                            onTap: getFile,
+                            child: Container(
+                              height: getProportionateScreenHeight(90),
+                              child: _file == null
+                                  ? Image.asset(gallery)
+                                  : Image.file(_file),
+                            ),
                           ),
                           Text('Advertising video'),
                           Container(
@@ -475,7 +523,8 @@ class _AddAddsState extends State<AddAdds> {
                                     ),
                                     child: FlatButton(
                                       onPressed: () {
-                                        _createads();
+                                        // _createads();
+                                        _uploadFile(_file,context);
                                         // Navigator.of(context)
                                         //     .pushReplacementNamed(MyAdds.routeName);
                                       },

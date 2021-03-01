@@ -1,13 +1,12 @@
-import 'package:fasten/Screens/Boob.dart';
-import 'package:fasten/Screens/add_Adds.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import './localization/Demo_localization.dart';
 import './localization/Local_localization.dart';
-import 'Helpers/routes.dart';
-import 'Screens/Profile.dart';
-
+import './Helpers/routes.dart';
+import './Screens/Home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         return supportedLocales.first;
       },
       routes: routes,
-      initialRoute: Boob.routeName,
+      initialRoute: Home.routeName,
     );
   }
 }

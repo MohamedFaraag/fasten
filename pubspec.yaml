@@ -33,13 +33,16 @@ dependencies:
   shared_preferences: ^0.5.12+4
   ## Networking
   dio: ^3.0.10
-  http: ^0.12.2
+#  http: ^0.12.2
   ##FireBase
   firebase_auth: ^0.18.4+1
   firebase_core: ^0.5.2
   ##socialMediaLogin
-  google_sign_in: ^4.5.1
+  google_sign_in: ^4.5.6
   flutter_facebook_login: ^3.0.0
+  ## For Uploading Image
+  file_picker: ^1.4.3+2
+  image_picker: ^0.6.7+14
   ## Localization
   flutter_localizations:
     sdk: flutter

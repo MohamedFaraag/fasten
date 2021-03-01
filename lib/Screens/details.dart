@@ -1,13 +1,13 @@
-import 'package:fasten/Helpers/images.dart';
-import 'package:fasten/Helpers/size_conifg.dart';
-import 'package:fasten/Widget/Buttons.dart';
-import 'package:fasten/Widget/CustomButton.dart';
-import 'package:fasten/Widget/SelectedColorSmallVer.dart';
+import '../Helpers/images.dart';
+import '../Helpers/size_conifg.dart';
+import '../Widget/Buttons.dart';
+import '../Widget/CustomButton.dart';
+import '../Widget/SelectedColorSmallVer.dart';
+import '../Screens/Home.dart';
+import '../Models/SingleProductModel.dart';
+import '../Controllers/SingleProductController.dart';
 import 'package:flutter/material.dart';
-
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-
-import 'Home.dart';
 
 class Detials extends StatefulWidget {
   static String routeName = '/Details';
@@ -17,12 +17,37 @@ class Detials extends StatefulWidget {
 }
 
 class _DetialsState extends State<Detials> {
+  int idd;
+  SingleProductContoller _singleProductContoller = SingleProductContoller();
+  SingleProductModel _singleProductModel = SingleProductModel();
   var rating = 3.0;
   bool isSet = false;
+  @override
+  initState() {
+    _getData();
+    super.initState();
+  }
+
+  _getData() async {
+    setState(() {
+      isSet = true;
+    });
+    _singleProductModel = await _singleProductContoller.getSingleProduct(2);
+    print(idd);
+    setState(() {
+      isSet = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
+    final routeArg =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    setState(() {
+      idd = routeArg["id"];
+    });
+    print(idd);
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -99,7 +124,11 @@ class _DetialsState extends State<Detials> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('It is 5 km away'),
+                          GestureDetector(
+                              onTap: () {
+                                print(_singleProductModel.data.id.toString());
+                              },
+                              child: Text('It is 5 km away')),
                           Text('2 days ago'),
                           Text('255'),
                           Text('Share'),
@@ -347,7 +376,7 @@ class _DetialsState extends State<Detials> {
                                             Container(
                                               height:
                                                   getProportionateScreenHeight(
-                                                      160),
+                                                      150),
                                               decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                       image: AssetImage(

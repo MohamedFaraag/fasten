@@ -330,7 +330,7 @@ class Category {
     id = json['id'];
     name = json['name'];
     if (json['childs'] != null) {
-      childs = new List<Null>();
+      childs = new List();
       json['childs'].forEach((v) {
         childs.add(new Data.fromJson(v));
       });
