@@ -1,4 +1,4 @@
-import '../Models/AllCitiesModel.dart';
+import '../Models/AllCountriesModel.dart';
 
 class RegesterModel {
   bool success;

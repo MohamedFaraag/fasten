@@ -8,6 +8,7 @@ import '../Helpers/images.dart';
 import '../Helpers/size_conifg.dart';
 import '../Widget/Buttons.dart';
 import '../Screens/NewPassword.dart';
+import 'Regiester.dart';
 
 class OTP extends StatefulWidget {
   final String firebasePhone;
@@ -108,9 +109,14 @@ class _OTPState extends State<OTP> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              NewPassword(widget.phoneForAPI)),
+                                          builder: (context) => Regeister()),
                                       (route) => false);
+                                  // Navigator.pushAndRemoveUntil(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             NewPassword(widget.phoneForAPI)),
+                                  //     (route) => false);
                                 }
                               });
                             } catch (e) {
@@ -138,9 +144,14 @@ class _OTPState extends State<OTP> {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            NewPassword(widget.phoneForAPI)),
+                                        builder: (context) => Regeister()),
                                     (route) => false);
+                                // Navigator.pushAndRemoveUntil(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             NewPassword(widget.phoneForAPI)),
+                                //     (route) => false);
                               }
                             });
                           } catch (e) {
@@ -211,10 +222,14 @@ class _OTPState extends State<OTP> {
               print('DONE USER');
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => NewPassword(widget.phoneForAPI),
-                  ),
+                  MaterialPageRoute(builder: (context) => Regeister()),
                   (route) => false);
+              // Navigator.pushAndRemoveUntil(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => NewPassword(widget.phoneForAPI),
+              //     ),
+              //     (route) => false);
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => Home()),

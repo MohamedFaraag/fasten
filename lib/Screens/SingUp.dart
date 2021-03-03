@@ -6,8 +6,19 @@ import '../Helpers/size_conifg.dart';
 import '../Screens/Otp.dart';
 import '../Widget/Buttons.dart';
 
-class SingUp extends StatelessWidget {
+class SingUp extends StatefulWidget {
   static String routeName = '/SingUp';
+
+  @override
+  _SingUpState createState() => _SingUpState();
+}
+
+class _SingUpState extends State<SingUp> {
+  String firebasePhone;
+
+  String phoneForAPI;
+  String errorMassage;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,13 +107,25 @@ class SingUp extends StatelessWidget {
                           initialCountryCode:
                               'EG', //default contry code, NP for Nepal
                           onChanged: (phone) {
+                            setState(() {
+                              firebasePhone = phone.completeNumber;
+                              phoneForAPI = phone.number;
+                            });
                             //when phone number country code is changed
-                            print(phone.completeNumber); //get complete number
-                            print(phone.countryCode); // get country code only
-                            print(phone.number); // only phone number
+                            // print(phone.completeNumber); //get complete number
+                            // print(phone.countryCode); // get country code only
+                            // print(phone.number); // only phone number
                           },
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(5),
+                    ),
+                    Text(
+                      "${errorMassage ?? ''}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.red),
                     ),
                     SizedBox(
                       height: getProportionateScreenHeight(16),
@@ -110,12 +133,20 @@ class SingUp extends StatelessWidget {
                     Button(
                       textButton: 'Next',
                       onPressed: () {
+                        setState(() {
+                          errorMassage = 'Failed';
+                        });
                         print('Next');
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => OTP('',""),
-                          ),
-                        );
+                        print(firebasePhone);
+                        print(phoneForAPI);
+                        phoneForAPI == null
+                            ? print('Failed')
+                            : Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      OTP(firebasePhone, phoneForAPI),
+                                ),
+                              );
                       },
                     ),
                   ],
