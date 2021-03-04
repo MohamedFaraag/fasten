@@ -6,7 +6,7 @@ import './localization/Demo_localization.dart';
 import './localization/Local_localization.dart';
 import './Helpers/routes.dart';
 import './Screens/Home.dart';
-import './Screens/Boob.dart';
+import './Screens/ForgetPassword.dart';
 import 'Screens/Regiester.dart';
 
 void main() async {
@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         return supportedLocales.first;
       },
       routes: routes,
-      initialRoute: Regeister.routeName,
+      initialRoute: ForgetPassword.routeName,
     );
   }
 }

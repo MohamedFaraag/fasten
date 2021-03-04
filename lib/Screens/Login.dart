@@ -1,11 +1,9 @@
-import 'package:fasten/Providers/google_sgin_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fasten/Controllers/LoginController.dart';
-import 'package:fasten/Helpers/Loading.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
+import '../Providers/google_sgin_in.dart';
 import '../Screens/Home.dart';
 import '../Screens/ForgetPassword.dart';
 import '../Screens/SingUp.dart';
@@ -13,6 +11,8 @@ import '../Widget/Buttons.dart';
 import '../Widget/SocialLogin.dart';
 import '../Helpers/size_conifg.dart';
 import '../Helpers/images.dart';
+import '../Helpers/Loading.dart';
+import '../Controllers/LoginController.dart';
 import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {

@@ -1,16 +1,59 @@
+import 'package:fasten/Controllers/NewPasswordController.dart';
+import 'package:fasten/Helpers/Loading.dart';
+import 'package:fasten/Models/NewPasswordModel.dart';
 import 'package:flutter/material.dart';
 
 import '../Helpers/images.dart';
 import '../Helpers/size_conifg.dart';
 import '../Widget/Buttons.dart';
-import 'Home.dart';
+import '../Screens/Home.dart';
 
 // widget.phoneForAPI,widget.firebasePhone
-class NewPassword extends StatelessWidget {
+class NewPassword extends StatefulWidget {
   // static String routeName = '/NewPassword';
   final String phoneForAPI;
+  final int code;
 
-  const NewPassword(this.phoneForAPI);
+  const NewPassword(this.phoneForAPI, this.code);
+
+  @override
+  _NewPasswordState createState() => _NewPasswordState();
+}
+
+class _NewPasswordState extends State<NewPassword> {
+  String _newPassword;
+  String confPassword;
+  bool _load = false;
+  String errorMassage = "";
+  NewPasswordController _newPasswordController = NewPasswordController();
+
+  _changePassword() async {
+    setState(() {
+      _load = true;
+    });
+    Map<String, dynamic> _result = await _newPasswordController.changePassword(
+      phone: widget.phoneForAPI,
+      code: widget.code,
+      newPassword: _newPassword,
+    );
+    if (_newPassword == confPassword) {
+      print('Match');
+      if (_result["success"]) {
+        print('Response Done');
+        print(_result);
+      } else {
+        print('error');
+      }
+    } else {
+      setState(() {
+        errorMassage = 'Password doesn\'t match';
+      });
+      print('Donot match');
+    }
+    setState(() {
+      _load = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +122,9 @@ class NewPassword extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: TextFormField(
+                        onChanged: (val) {
+                          _newPassword = val;
+                        },
                         keyboardType: TextInputType.phone,
                         cursorColor: Colors.black,
                         obscureText: true,
@@ -91,8 +137,13 @@ class NewPassword extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Text(
+                      errorMassage,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.red),
+                    ),
                     SizedBox(
-                      height: getProportionateScreenHeight(20),
+                      height: getProportionateScreenHeight(10),
                     ),
                     Text(
                       'Confirm Password *',
@@ -118,19 +169,38 @@ class NewPassword extends StatelessWidget {
                           hintText: '*****',
                           suffixIcon: Icon(Icons.visibility),
                         ),
+                        onChanged: (vla) {
+                          confPassword = vla;
+                        },
                       ),
                     ),
+                    Text(
+                      errorMassage,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.red),
+                    ),
                     SizedBox(
-                      height: getProportionateScreenHeight(16),
+                      height: getProportionateScreenHeight(10),
                     ),
-                    Button(
-                      textButton: 'Change Password',
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(Home.routeName);
-                        print('change Password');
-                      },
-                    ),
+                    _load
+                        ? Reusable.showLoader(_load,
+                            width: getProportionateScreenWidth(100),
+                            height: getProportionateScreenHeight(100))
+                        : Button(
+                            textButton: 'Change Password',
+                            onPressed: () {
+                              _changePassword();
+                              // Navigator.of(context)
+                              //     .pushReplacementNamed(Home.routeName);
+                              print('change Password');
+                              print('Data To change Password');
+                              print('----------------');
+                              print('Phone is ${widget.phoneForAPI}');
+                              print('Code is ${widget.code}');
+                              print('NewPassword $_newPassword');
+                              // print(code);
+                            },
+                          ),
                   ],
                 ),
               ),
