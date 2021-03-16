@@ -1,5 +1,5 @@
 
-const String welcomeImage = 'assets/images/Logo.png';
+const String welcomeImage = 'assets/images/logo.png';
 const String woImage = 'assets/images/ss.png';
 const String facebookImage = 'assets/images/facebook.png';
 const String gmailImage = 'assets/images/gmail.png';

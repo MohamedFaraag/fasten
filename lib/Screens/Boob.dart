@@ -1,16 +1,28 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Helpers/constant.dart';
 import '../Helpers/size_conifg.dart';
 import '../Models/BoobModels.dart';
 import '../Screens/Login.dart';
-
+import '../Screens/Home.dart';
 
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class Boob extends StatelessWidget {
+class Boob extends StatefulWidget {
   static String routeName = '/Boob';
 
+  @override
+  _BoobState createState() => _BoobState();
+}
+
+class _BoobState extends State<Boob> {
+  String _token;
   PageController _pageController = PageController(initialPage: 0);
+  @override
+  void initState() {
+    _getToke();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -110,9 +122,9 @@ class Boob extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-
-                              Navigator.of(context)
-                                  .pushReplacementNamed(Login.routeName);
+                              _token==null ? Navigator.of(context)
+                                  .pushReplacementNamed(Login.routeName):Navigator.of(context)
+                                  .pushReplacementNamed(Home.routeName);
                             },
                             child: Text(
                               myData[index].buttonText,
@@ -128,5 +140,13 @@ class Boob extends StatelessWidget {
                 );
               })),
     );
+  }
+
+  Future _getToke() async {
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token');
+      print(_token);
+    });
   }
 }

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+
 import '../Controllers/AttributeForAddController.dart';
 import '../Helpers/FormatColor.dart';
 import '../Models/AttributeForAddModel.dart';
@@ -18,7 +20,6 @@ import '../Controllers/CreateadsController.dart';
 import '../Models/CreateadsModel.dart';
 import '../Helpers/Loading.dart';
 import '../Helpers/contactData.dart';
-import '../Controllers/UploadImageController.dart';
 
 class AddAdds extends StatefulWidget {
   static String routeName = '/AddAdds';
@@ -42,6 +43,12 @@ class _AddAddsState extends State<AddAdds> {
   bool isSelectionMode = false;
   bool _isLoading = false;
   bool _isLoad = false;
+  bool _isVisible = false;
+  void showToast() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
 
   ///var for index
   var colorindex;
@@ -49,6 +56,9 @@ class _AddAddsState extends State<AddAdds> {
   var categoryindex;
   var tybeindex;
   int contactindex;
+  List<dynamic> _selecteditems = [];
+  List<dynamic> _selecteditems2 =[];
+  var item;
 
   ///var for create ads
   String name;
@@ -118,7 +128,7 @@ class _AddAddsState extends State<AddAdds> {
       price: price,
       body: body,
       ad_typeId: tybeindex,
-      attributes1: sizeindex,
+      attributes1: _selecteditems2,
       attributes2: colorindex,
       contname: contactname,
     );
@@ -222,39 +232,134 @@ class _AddAddsState extends State<AddAdds> {
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
-                          Container(
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemCount: _allCategoryModel.data.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 120,
-                                      childAspectRatio: 4.5 / 1,
-                                      crossAxisSpacing: 40,
-                                      mainAxisSpacing: 10),
-                              itemBuilder: (BuildContext context, int index) {
-                                return selectedCategory(
-                                  textColor: categoryindex !=
-                                          _allCategoryModel.data[index].id
-                                      ? Colors.black
-                                      : Colors.white,
-                                  onTap: () {
-                                    setState(() {
-                                      categoryindex =
-                                          _allCategoryModel.data[index].id;
-                                      print('categoryindex is $categoryindex');
-                                    });
-                                  },
-                                  name: _allCategoryModel.data[index].name,
-                                  sele: categoryindex !=
-                                          _allCategoryModel.data[index].id
-                                      ? Colors.white
-                                      : s,
-                                );
-                              },
+
+                          ///WE Will Use it
+                          // MultiSelectChipField(
+                          //   items: _allCategoryModel.data
+                          //       .map((e) => MultiSelectItem(e.id, e.name))
+                          //       .toList(),
+                          //   // initialValue: [
+                          //   //   _animals[4],
+                          //   //   _animals[7],
+                          //   //   _animals[9]
+                          //   // ],
+                          //   title: Text(
+                          //     "Choose the Category",
+                          //     style: TextStyle(
+                          //         decoration: TextDecoration.underline),
+                          //   ),
+                          //   headerColor: Colors.transparent,
+                          //   decoration: BoxDecoration(
+                          //     border:
+                          //         Border.all(color: Colors.white, width: 1.8),
+                          //   ),
+                          //   selectedChipColor: s,
+                          //   selectedTextStyle: TextStyle(color: Colors.white),
+                          //   onTap: (values) {
+                          //     _selecteditems = values;
+                          //   },
+                          // ),
+                          ///Finish
+                          ///ForTest
+                          // MultiSelectDialogField(
+                          //   items: _allCategoryModel.data
+                          //       .map((e) => MultiSelectItem(e, e.name.toString()))
+                          //       .toList(),
+                          //   title: Text("Animals"),
+                          //   selectedColor: Colors.blue,
+                          //   buttonIcon: Icon(
+                          //     Icons.pets,
+                          //     color: Colors.blue,
+                          //   ),
+                          //   buttonText: Text(
+                          //     "Favorite Animals",
+                          //     style: TextStyle(
+                          //       color: Colors.blue[800],
+                          //       fontSize: 16,
+                          //     ),
+                          //   ),
+                          //   onConfirm: (results) {
+                          //     // _selectedAnimals = results;
+                          //   },
+                          // ),
+                          ///Finish
+                          AnimatedOpacity(
+                            opacity: !_isVisible ? 1.0 : 0.5,
+                            duration: Duration(milliseconds: 500),
+                            child: Container(
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                physics: ScrollPhysics(),
+                                itemCount: _allCategoryModel.data.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 120,
+                                        childAspectRatio: 4.5 / 1,
+                                        crossAxisSpacing: 40,
+                                        mainAxisSpacing: 10),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return selectedCategory(
+                                    textColor: categoryindex !=
+                                            _allCategoryModel.data[index].id
+                                        ? Colors.black
+                                        : Colors.white,
+                                    onTap: () {
+                                      setState(() {
+                                        categoryindex =
+                                            _allCategoryModel.data[index].id;
+                                        print(
+                                            'categoryindex is $categoryindex');
+                                      });
+                                      showToast();
+                                    },
+                                    name: _allCategoryModel.data[index].name,
+                                    sele: categoryindex !=
+                                            _allCategoryModel.data[index].id
+                                        ? Colors.white
+                                        : s,
+                                  );
+                                },
+                              ),
                             ),
                           ),
+                          categoryindex != 0 && categoryindex != null
+                              ? AnimatedOpacity(
+                                  opacity: _isVisible ? 1.0 : 0.0,
+                                  duration: Duration(milliseconds: 500),
+                                  child: MultiSelectChipField(
+                                    height: 40,
+                                    items: _allCategoryModel
+                                        .data[categoryindex - 1].childs
+                                        .map((e) =>
+                                            MultiSelectItem(e.id, e.name))
+                                        .toList(),
+                                    // initialValue: [
+                                    //   _animals[4],
+                                    //   _animals[7],
+                                    //   _animals[9]
+                                    // ],
+                                    title: Text(
+                                      "Choose the Childs",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 12),
+                                    ),
+                                    headerColor: Colors.transparent,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 1.8),
+                                    ),
+                                    selectedChipColor: s,
+                                    selectedTextStyle:
+                                        TextStyle(color: Colors.white),
+                                    onTap: (values) {
+                                      setState(() {
+                                        _selecteditems = values;
+                                      });
+                                    },
+                                  ))
+                              : Container(),
+
                           SizedBox(
                             height: getProportionateScreenHeight(30),
                           ),
@@ -371,7 +476,7 @@ class _AddAddsState extends State<AddAdds> {
                                           _adTypesForAddModel.data[index].id
                                       ? Colors.white
                                       : s,
-                                  name: _adTypesForAddModel.data[index].name.en,
+                                  name: _adTypesForAddModel.data[index].name,
                                 ),
                               )),
                           SizedBox(
@@ -381,43 +486,74 @@ class _AddAddsState extends State<AddAdds> {
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
-                          Container(
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemCount:
-                                  _attributeForAddModel.data[1].options.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 120,
-                                      childAspectRatio: 4.5 / 1,
-                                      crossAxisSpacing: 40,
-                                      mainAxisSpacing: 10),
-                              itemBuilder: (BuildContext context, int index) {
-                                return selectedCategory(
-                                  textColor: sizeindex !=
-                                          _attributeForAddModel
-                                              .data[1].options[index].id
-                                      ? Colors.black
-                                      : Colors.white,
-                                  onTap: () {
-                                    setState(() {
-                                      sizeindex = _attributeForAddModel
-                                          .data[1].options[index].id;
-                                    });
-                                    print('Size index is $sizeindex');
-                                  },
-                                  name: _attributeForAddModel
-                                      .data[1].options[index].name,
-                                  sele: sizeindex !=
-                                          _attributeForAddModel
-                                              .data[1].options[index].id
-                                      ? Colors.white
-                                      : s,
-                                );
-                              },
+                          MultiSelectChipField(
+                            height: 40,
+                            items: _attributeForAddModel.data[1].options
+                                .map((e) => MultiSelectItem(e.id, e.name))
+                                .toList(),
+                            // initialValue: [
+                            //   _animals[4],
+                            //   _animals[7],
+                            //   _animals[9]
+                            // ],
+                            title: Text(
+                              "Choose the Options",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontSize: 12),
                             ),
+                            chipWidth: 30,
+                            headerColor: Colors.transparent,
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.white, width: 0.5),
+                            ),
+                            selectedChipColor: s,
+
+                            selectedTextStyle: TextStyle(color: Colors.white),
+                            onTap: (values) {
+                              setState(() {
+                                _selecteditems2 = values;
+                              });
+                            },
                           ),
+                          // Container(
+                          //   child: GridView.builder(
+                          //     shrinkWrap: true,
+                          //     physics: ScrollPhysics(),
+                          //     itemCount:
+                          //         _attributeForAddModel.data[1].options.length,
+                          //     gridDelegate:
+                          //         SliverGridDelegateWithMaxCrossAxisExtent(
+                          //             maxCrossAxisExtent: 120,
+                          //             childAspectRatio: 4.5 / 1,
+                          //             crossAxisSpacing: 40,
+                          //             mainAxisSpacing: 10),
+                          //     itemBuilder: (BuildContext context, int index) {
+                          //       return selectedCategory(
+                          //         textColor: sizeindex !=
+                          //                 _attributeForAddModel
+                          //                     .data[1].options[index].id
+                          //             ? Colors.black
+                          //             : Colors.white,
+                          //         onTap: () {
+                          //           setState(() {
+                          //             sizeindex = _attributeForAddModel
+                          //                 .data[1].options[index].id;
+                          //           });
+                          //           print('Size index is $sizeindex');
+                          //         },
+                          //         name: _attributeForAddModel
+                          //             .data[1].options[index].name,
+                          //         sele: sizeindex !=
+                          //                 _attributeForAddModel
+                          //                     .data[1].options[index].id
+                          //             ? Colors.white
+                          //             : s,
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
@@ -523,8 +659,18 @@ class _AddAddsState extends State<AddAdds> {
                                     ),
                                     child: FlatButton(
                                       onPressed: () {
-                                        // _createads();
-                                        _uploadFile(_file,context);
+                                        print(_selecteditems);
+                                        // print(_allCategoryModel
+                                        //         .data[1].childs??[0].name ??
+                                        //     0);
+                                        print(categoryindex);
+                                        // print(_allCategoryModel
+                                        //     .data[categoryindex]
+                                        //     .childs[categoryindex]
+                                        //     .id
+                                        //     .toString());
+                                        _createads();
+                                        // _uploadFile(_file, context);
                                         // Navigator.of(context)
                                         //     .pushReplacementNamed(MyAdds.routeName);
                                       },

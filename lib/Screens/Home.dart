@@ -329,36 +329,29 @@ class _HomeState extends State<Home> {
                                                                           10.0),
                                                             ),
                                                           ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                _homeModel
-                                                                    .data
-                                                                    .latestAds[
-                                                                        index]
-                                                                    .name,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        getProportionateScreenWidth(
-                                                                            12),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                              Text(
-                                                                '${_homeModel.data.latestAds[index].price} \$',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        getProportionateScreenWidth(
-                                                                            12),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
+                                                          Text(
+                                                            _homeModel
+                                                                .data
+                                                                .latestAds[
+                                                                    index]
+                                                                .name,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    getProportionateScreenWidth(
+                                                                        10),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                          Text(
+                                                            '${_homeModel.data.latestAds[index].price} \$',
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    getProportionateScreenWidth(
+                                                                        12),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
                                                           ),
                                                           Text(_homeModel
                                                               .data
@@ -465,7 +458,7 @@ class _HomeState extends State<Home> {
                                                   Container(
                                                     width:
                                                         getProportionateScreenWidth(
-                                                            170),
+                                                            180),
                                                     child: Row(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment

@@ -1,3 +1,5 @@
+import 'package:fasten/Models/AllCitiesModel.dart';
+
 class MyAdsModel {
   bool success;
   Data data;
@@ -23,146 +25,115 @@ class MyAdsModel {
 }
 
 class Data {
-  int currentPage;
-  List<MyData> data;
-  String firstPageUrl;
-  int from;
-  int lastPage;
-  String lastPageUrl;
-  var nextPageUrl;
-  String path;
-  int perPage;
-  var prevPageUrl;
-  int to;
-  int total;
+  List<DataUser> data;
+  Links links;
+  Meta meta;
 
-  Data(
-      {this.currentPage,
-      this.data,
-      this.firstPageUrl,
-      this.from,
-      this.lastPage,
-      this.lastPageUrl,
-      this.nextPageUrl,
-      this.path,
-      this.perPage,
-      this.prevPageUrl,
-      this.to,
-      this.total});
+  Data({this.data, this.links, this.meta});
 
   Data.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
     if (json['data'] != null) {
-      data = new List<MyData>();
+      data = new List<DataUser>();
       json['data'].forEach((v) {
-        data.add(new MyData.fromJson(v));
+        data.add(new DataUser.fromJson(v));
       });
     }
-    firstPageUrl = json['first_page_url'];
-    from = json['from'];
-    lastPage = json['last_page'];
-    lastPageUrl = json['last_page_url'];
-    nextPageUrl = json['next_page_url'];
-    path = json['path'];
-    perPage = json['per_page'];
-    prevPageUrl = json['prev_page_url'];
-    to = json['to'];
-    total = json['total'];
+    links = json['links'] != null ? new Links.fromJson(json['links']) : null;
+    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['current_page'] = this.currentPage;
     if (this.data != null) {
       data['data'] = this.data.map((v) => v.toJson()).toList();
     }
-    data['first_page_url'] = this.firstPageUrl;
-    data['from'] = this.from;
-    data['last_page'] = this.lastPage;
-    data['last_page_url'] = this.lastPageUrl;
-    data['next_page_url'] = this.nextPageUrl;
-    data['path'] = this.path;
-    data['per_page'] = this.perPage;
-    data['prev_page_url'] = this.prevPageUrl;
-    data['to'] = this.to;
-    data['total'] = this.total;
+    if (this.links != null) {
+      data['links'] = this.links.toJson();
+    }
+    if (this.meta != null) {
+      data['meta'] = this.meta.toJson();
+    }
     return data;
   }
 }
 
-class MyData {
+class DataUser {
   int id;
   String name;
   String body;
-  Null video;
-  String status;
-  List<String> contactTypes;
-  String lat;
-  String lng;
   int featured;
   int adViews;
+  Conversation conversation;
+  String lat;
+  String lng;
+  int distance;
+  List<AttributesData> attributesData;
+  AdType adType;
+  List<String> contactTypes;
   String price;
-  int userId;
-  int adType;
-  int categoryId;
-  String createdAt;
-  String updatedAt;
-  bool isFav;
   String averageRating;
+  bool isFav;
+  User user;
   Category category;
   List<Images> images;
-  List comments;
-  List<AttributesData> attributesData;
+  Null video;
+  List<Comments> comments;
+  String status;
   Images lastImage;
-  int distance;
-  User user;
+  String createdAt;
+  String updatedAt;
 
-  MyData(
+  DataUser(
       {this.id,
-      this.name,
-      this.body,
-      this.video,
-      this.status,
-      this.contactTypes,
-      this.lat,
-      this.lng,
-      this.featured,
-      this.adViews,
-      this.price,
-      this.userId,
-      this.adType,
-      this.categoryId,
-      this.createdAt,
-      this.updatedAt,
-      this.isFav,
-      this.averageRating,
-      this.category,
-      this.images,
-      this.comments,
-      this.attributesData,
-      this.lastImage,
-      this.distance,
-      this.user});
+        this.name,
+        this.body,
+        this.featured,
+        this.adViews,
+        this.conversation,
+        this.lat,
+        this.lng,
+        this.distance,
+        this.attributesData,
+        this.adType,
+        this.contactTypes,
+        this.price,
+        this.averageRating,
+        this.isFav,
+        this.user,
+        this.category,
+        this.images,
+        this.video,
+        this.comments,
+        this.status,
+        this.lastImage,
+        this.createdAt,
+        this.updatedAt});
 
-  MyData.fromJson(Map<String, dynamic> json) {
+  DataUser.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     body = json['body'];
-    video = json['video'];
-    status = json['status'];
-    contactTypes = json['contact_types'].cast<String>();
-    lat = json['lat'];
-    lng = json['lng'];
     featured = json['featured'];
     adViews = json['ad_views'];
+    conversation = json['conversation'] != null
+        ? new Conversation.fromJson(json['conversation'])
+        : null;
+    lat = json['lat'];
+    lng = json['lng'];
+    distance = json['distance'];
+    if (json['attributesData'] != null) {
+      attributesData = new List<AttributesData>();
+      json['attributesData'].forEach((v) {
+        attributesData.add(new AttributesData.fromJson(v));
+      });
+    }
+    adType =
+    json['ad_type'] != null ? new AdType.fromJson(json['ad_type']) : null;
+    contactTypes = json['contact_types'].cast<String>();
     price = json['price'];
-    userId = json['user_id'];
-    adType = json['ad_type'];
-    categoryId = json['category_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    isFav = json['isFav'];
     averageRating = json['averageRating'];
+    isFav = json['isFav'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
@@ -172,82 +143,17 @@ class MyData {
         images.add(new Images.fromJson(v));
       });
     }
+    video = json['video'];
     if (json['comments'] != null) {
-      comments = new List<Null>();
+      comments = new List<Comments>();
       json['comments'].forEach((v) {
-        comments.add(new Data.fromJson(v));
+        comments.add(new Comments.fromJson(v));
       });
     }
-    if (json['attributesData'] != null) {
-      attributesData = new List<AttributesData>();
-      json['attributesData'].forEach((v) {
-        attributesData.add(new AttributesData.fromJson(v));
-      });
-    }
+    status = json['status'];
     lastImage = json['lastImage'] != null
         ? new Images.fromJson(json['lastImage'])
         : null;
-    distance = json['distance'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['body'] = this.body;
-    data['video'] = this.video;
-    data['status'] = this.status;
-    data['contact_types'] = this.contactTypes;
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    data['featured'] = this.featured;
-    data['ad_views'] = this.adViews;
-    data['price'] = this.price;
-    data['user_id'] = this.userId;
-    data['ad_type'] = this.adType;
-    data['category_id'] = this.categoryId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['isFav'] = this.isFav;
-    data['averageRating'] = this.averageRating;
-    if (this.category != null) {
-      data['category'] = this.category.toJson();
-    }
-    if (this.images != null) {
-      data['images'] = this.images.map((v) => v.toJson()).toList();
-    }
-    if (this.comments != null) {
-      data['comments'] = this.comments.map((v) => v.toJson()).toList();
-    }
-    if (this.attributesData != null) {
-      data['attributesData'] =
-          this.attributesData.map((v) => v.toJson()).toList();
-    }
-    if (this.lastImage != null) {
-      data['lastImage'] = this.lastImage.toJson();
-    }
-    data['distance'] = this.distance;
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
-    return data;
-  }
-}
-
-class Category {
-  int id;
-  Name name;
-  Null parentId;
-  String createdAt;
-  String updatedAt;
-
-  Category({this.id, this.name, this.parentId, this.createdAt, this.updatedAt});
-
-  Category.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'] != null ? new Name.fromJson(json['name']) : null;
-    parentId = json['parent_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -255,31 +161,277 @@ class Category {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    if (this.name != null) {
-      data['name'] = this.name.toJson();
+    data['name'] = this.name;
+    data['body'] = this.body;
+    data['featured'] = this.featured;
+    data['ad_views'] = this.adViews;
+    if (this.conversation != null) {
+      data['conversation'] = this.conversation.toJson();
     }
-    data['parent_id'] = this.parentId;
+    data['lat'] = this.lat;
+    data['lng'] = this.lng;
+    data['distance'] = this.distance;
+    if (this.attributesData != null) {
+      data['attributesData'] =
+          this.attributesData.map((v) => v.toJson()).toList();
+    }
+    if (this.adType != null) {
+      data['ad_type'] = this.adType.toJson();
+    }
+    data['contact_types'] = this.contactTypes;
+    data['price'] = this.price;
+    data['averageRating'] = this.averageRating;
+    data['isFav'] = this.isFav;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    if (this.category != null) {
+      data['category'] = this.category.toJson();
+    }
+    if (this.images != null) {
+      data['images'] = this.images.map((v) => v.toJson()).toList();
+    }
+    data['video'] = this.video;
+    if (this.comments != null) {
+      data['comments'] = this.comments.map((v) => v.toJson()).toList();
+    }
+    data['status'] = this.status;
+    if (this.lastImage != null) {
+      data['lastImage'] = this.lastImage.toJson();
+    }
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
   }
 }
 
-class Name {
-  String en;
-  String ar;
+class Conversation {
+  int id;
+  int toId;
+  int adId;
+  int fromId;
+  String createdAt;
+  String updatedAt;
 
-  Name({this.en, this.ar});
+  Conversation(
+      {this.id,
+        this.toId,
+        this.adId,
+        this.fromId,
+        this.createdAt,
+        this.updatedAt});
 
-  Name.fromJson(Map<String, dynamic> json) {
-    en = json['en'];
-    ar = json['ar'];
+  Conversation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    toId = json['to_id'];
+    adId = json['ad_id'];
+    fromId = json['from_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['en'] = this.en;
-    data['ar'] = this.ar;
+    data['id'] = this.id;
+    data['to_id'] = this.toId;
+    data['ad_id'] = this.adId;
+    data['from_id'] = this.fromId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class AttributesData {
+  int attributeId;
+  String name;
+  String type;
+  List<SelectedOptions> selectedOptions;
+
+  AttributesData(
+      {this.attributeId, this.name, this.type, this.selectedOptions});
+
+  AttributesData.fromJson(Map<String, dynamic> json) {
+    attributeId = json['attribute_id'];
+    name = json['name'];
+    type = json['type'];
+    if (json['selected_options'] != null) {
+      selectedOptions = new List<SelectedOptions>();
+      json['selected_options'].forEach((v) {
+        selectedOptions.add(new SelectedOptions.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['attribute_id'] = this.attributeId;
+    data['name'] = this.name;
+    data['type'] = this.type;
+    if (this.selectedOptions != null) {
+      data['selected_options'] =
+          this.selectedOptions.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class SelectedOptions {
+  int id;
+  String name;
+  int attributeId;
+  int optionId;
+  int adId;
+
+  SelectedOptions(
+      {this.id, this.name, this.attributeId, this.optionId, this.adId});
+
+  SelectedOptions.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    attributeId = json['attribute_id'];
+    optionId = json['option_id'];
+    adId = json['ad_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['attribute_id'] = this.attributeId;
+    data['option_id'] = this.optionId;
+    data['ad_id'] = this.adId;
+    return data;
+  }
+}
+
+class AdType {
+  int id;
+  String name;
+  String image;
+
+  AdType({this.id, this.name, this.image});
+
+  AdType.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
+class User {
+  int id;
+  String name;
+  String phone;
+  var deviceId;
+  String email;
+  var avatar;
+  var emailVerifiedAt;
+  String status;
+  String createdAt;
+  String updatedAt;
+  var countryId;
+  var cityId;
+
+  User(
+      {this.id,
+        this.name,
+        this.phone,
+        this.deviceId,
+        this.email,
+        this.avatar,
+        this.emailVerifiedAt,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.countryId,
+        this.cityId});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    phone = json['phone'];
+    deviceId = json['device_id'];
+    email = json['email'];
+    avatar = json['avatar'];
+    emailVerifiedAt = json['email_verified_at'];
+    status = json['status'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    countryId = json['country_id'];
+    cityId = json['city_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['device_id'] = this.deviceId;
+    data['email'] = this.email;
+    data['avatar'] = this.avatar;
+    data['email_verified_at'] = this.emailVerifiedAt;
+    data['status'] = this.status;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['country_id'] = this.countryId;
+    data['city_id'] = this.cityId;
+    return data;
+  }
+}
+
+class Category {
+  int id;
+  String name;
+  List<Childs> childs;
+
+  Category({this.id, this.name, this.childs});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    if (json['childs'] != null) {
+      childs = new List<Childs>();
+      json['childs'].forEach((v) {
+        childs.add(new Childs.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.childs != null) {
+      data['childs'] = this.childs.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Childs {
+  int id;
+  String name;
+
+  Childs({this.id, this.name});
+
+  Childs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }
@@ -299,16 +451,16 @@ class Images {
 
   Images(
       {this.id,
-      this.name,
-      this.size,
-      this.file,
-      this.path,
-      this.fullFile,
-      this.mimeType,
-      this.fileType,
-      this.relationId,
-      this.createdAt,
-      this.updatedAt});
+        this.name,
+        this.size,
+        this.file,
+        this.path,
+        this.fullFile,
+        this.mimeType,
+        this.fileType,
+        this.relationId,
+        this.createdAt,
+        this.updatedAt});
 
   Images.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -341,118 +493,235 @@ class Images {
   }
 }
 
-class AttributesData {
-  int attributeId;
-  String name;
-  List<SelectedOptions> selectedOptions;
-
-  AttributesData({this.attributeId, this.name, this.selectedOptions});
-
-  AttributesData.fromJson(Map<String, dynamic> json) {
-    attributeId = json['attribute_id'];
-    name = json['name'];
-    if (json['selected_options'] != null) {
-      selectedOptions = new List<SelectedOptions>();
-      json['selected_options'].forEach((v) {
-        selectedOptions.add(new SelectedOptions.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['attribute_id'] = this.attributeId;
-    data['name'] = this.name;
-    if (this.selectedOptions != null) {
-      data['selected_options'] =
-          this.selectedOptions.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class SelectedOptions {
+class Comments {
   int id;
-  int optionId;
-  int attributeId;
-  int adId;
-
-  SelectedOptions({this.id, this.optionId, this.attributeId, this.adId});
-
-  SelectedOptions.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    optionId = json['option_id'];
-    attributeId = json['attribute_id'];
-    adId = json['ad_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['option_id'] = this.optionId;
-    data['attribute_id'] = this.attributeId;
-    data['ad_id'] = this.adId;
-    return data;
-  }
-}
-
-class User {
-  int id;
-  String name;
-  String phone;
-  Null deviceId;
-  String email;
-  Null avatar;
-  Null emailVerifiedAt;
-  String status;
+  String body;
+  User user;
   String createdAt;
   String updatedAt;
-  Null countryId;
-  Null cityId;
 
-  User(
-      {this.id,
-      this.name,
-      this.phone,
-      this.deviceId,
-      this.email,
-      this.avatar,
-      this.emailVerifiedAt,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.countryId,
-      this.cityId});
+  Comments({this.id, this.body, this.user, this.createdAt, this.updatedAt});
 
-  User.fromJson(Map<String, dynamic> json) {
+  Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    phone = json['phone'];
-    deviceId = json['device_id'];
-    email = json['email'];
-    avatar = json['avatar'];
-    emailVerifiedAt = json['email_verified_at'];
-    status = json['status'];
+    body = json['body'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    countryId = json['country_id'];
-    cityId = json['city_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['body'] = this.body;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class UserDe {
+  int id;
+  String name;
+  String email;
+  var averageRating;
+  String phone;
+  String avatar;
+  String deviceId;
+  String role;
+  City city;
+  Country country;
+  int favoritesCount;
+  int adsCount;
+  String status;
+  var phoneVerifiedAt;
+
+  UserDe(
+      {this.id,
+        this.name,
+        this.email,
+        this.averageRating,
+        this.phone,
+        this.avatar,
+        this.deviceId,
+        this.role,
+        this.city,
+        this.country,
+        this.favoritesCount,
+        this.adsCount,
+        this.status,
+        this.phoneVerifiedAt});
+
+  UserDe.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    averageRating = json['averageRating'];
+    phone = json['phone'];
+    avatar = json['avatar'];
+    deviceId = json['device_id'];
+    role = json['role'];
+    city = json['city'] != null ? new City.fromJson(json['city']) : null;
+    country =
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
+    favoritesCount = json['favorites_count'];
+    adsCount = json['ads_count'];
+    status = json['status'];
+    phoneVerifiedAt = json['phone_verified_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['phone'] = this.phone;
-    data['device_id'] = this.deviceId;
     data['email'] = this.email;
+    data['averageRating'] = this.averageRating;
+    data['phone'] = this.phone;
     data['avatar'] = this.avatar;
-    data['email_verified_at'] = this.emailVerifiedAt;
+    data['device_id'] = this.deviceId;
+    data['role'] = this.role;
+    if (this.city != null) {
+      data['city'] = this.city.toJson();
+    }
+    if (this.country != null) {
+      data['country'] = this.country.toJson();
+    }
+    data['favorites_count'] = this.favoritesCount;
+    data['ads_count'] = this.adsCount;
     data['status'] = this.status;
+    data['phone_verified_at'] = this.phoneVerifiedAt;
+    return data;
+  }
+}
+
+class City {
+  int id;
+  String name;
+  int countryId;
+  String createdAt;
+  String updatedAt;
+
+  City({this.id, this.name, this.countryId, this.createdAt, this.updatedAt});
+
+  City.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    countryId = json['country_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['country_id'] = this.countryId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    data['country_id'] = this.countryId;
-    data['city_id'] = this.cityId;
+    return data;
+  }
+}
+
+class Country {
+  int id;
+  String name;
+  List<Cities> cities;
+  String createdAt;
+  String updatedAt;
+
+  Country({this.id, this.name, this.cities, this.createdAt, this.updatedAt});
+
+  Country.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    if (json['cities'] != null) {
+      cities = new List<Cities>();
+      json['cities'].forEach((v) {
+        cities.add(new Cities.fromJson(v));
+      });
+    }
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    if (this.cities != null) {
+      data['cities'] = this.cities.map((v) => v.toJson()).toList();
+    }
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Links {
+  String first;
+  String last;
+  Null prev;
+  Null next;
+
+  Links({this.first, this.last, this.prev, this.next});
+
+  Links.fromJson(Map<String, dynamic> json) {
+    first = json['first'];
+    last = json['last'];
+    prev = json['prev'];
+    next = json['next'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['first'] = this.first;
+    data['last'] = this.last;
+    data['prev'] = this.prev;
+    data['next'] = this.next;
+    return data;
+  }
+}
+
+class Meta {
+  int currentPage;
+  int from;
+  int lastPage;
+  String path;
+  int perPage;
+  int to;
+  int total;
+
+  Meta(
+      {this.currentPage,
+        this.from,
+        this.lastPage,
+        this.path,
+        this.perPage,
+        this.to,
+        this.total});
+
+  Meta.fromJson(Map<String, dynamic> json) {
+    currentPage = json['current_page'];
+    from = json['from'];
+    lastPage = json['last_page'];
+    path = json['path'];
+    perPage = json['per_page'];
+    to = json['to'];
+    total = json['total'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['current_page'] = this.currentPage;
+    data['from'] = this.from;
+    data['last_page'] = this.lastPage;
+    data['path'] = this.path;
+    data['per_page'] = this.perPage;
+    data['to'] = this.to;
+    data['total'] = this.total;
     return data;
   }
 }

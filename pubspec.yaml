@@ -43,6 +43,8 @@ dependencies:
   ## For Uploading Image
   file_picker: ^1.4.3+2
   image_picker: ^0.6.7+14
+  ## TEstDeb
+  multi_select_flutter: ^3.1.8
   ## Localization
   flutter_localizations:
     sdk: flutter

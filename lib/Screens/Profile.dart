@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Screens/myAdds.dart';
 import '../Controllers/UsersController.dart';
 import '../Models/UsersModel.dart';
 import '../Screens/EditProFiel.dart';
@@ -125,8 +125,14 @@ class _ProFileState extends State<ProFile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomTextProfiel(
-                          name: 'Advertisement',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, MyAdds.routeName);
+                          },
+                          child: CustomTextProfiel(
+                            name: 'Advertisement',
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {

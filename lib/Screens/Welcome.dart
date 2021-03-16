@@ -37,13 +37,11 @@ class Welcome extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(woImage),
-                ),
+
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
                     height: getProportionateScreenHeight(30),

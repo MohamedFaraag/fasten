@@ -1,13 +1,11 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
+
 import 'package:fasten/Helpers/images.dart';
 import 'package:fasten/Helpers/size_conifg.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class Requset extends StatefulWidget {
-
   @override
   _RequsetState createState() => _RequsetState();
 }
@@ -21,8 +19,6 @@ class _RequsetState extends State<Requset> {
       _file = file;
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
