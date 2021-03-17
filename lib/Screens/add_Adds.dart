@@ -57,7 +57,7 @@ class _AddAddsState extends State<AddAdds> {
   var tybeindex;
   int contactindex;
   List<dynamic> _selecteditems = [];
-  List<dynamic> _selecteditems2 =[];
+  List<dynamic> _selecteditems2 = [];
   var item;
 
   ///var for create ads

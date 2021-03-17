@@ -16,17 +16,31 @@ class Regeister extends StatefulWidget {
 }
 
 class _RegeisterState extends State<Regeister> {
+  ReGController _reGController = ReGController();
+  RegiesterModel _regiesterModel = RegiesterModel();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AllCountriesModel _allCountriesModel = AllCountriesModel();
   AllCitiesModel _allCitiesModel = AllCitiesModel();
   AllCitiesController _allCitiesController = AllCitiesController();
   AllCountriesController _allCountriesController = AllCountriesController();
   bool _isloading = false;
   bool _loadmore = false;
+  bool _loading = false;
   int countriesId;
   int citiesesId;
+
+  ///Var For ReGister
+  var _name;
+  var _email;
+  var _password;
+  var _phone;
+  var _country_id;
+  var _city_id;
+  var _id;
   void initState() {
     super.initState();
     _getAllCountries();
+    _getAllCities();
   }
 
   List<String> _locations = ['A', 'B', 'C', 'D'];
@@ -47,10 +61,46 @@ class _RegeisterState extends State<Regeister> {
     setState(() {
       _loadmore = true;
     });
-    _allCitiesModel = await _allCitiesController.getAllcities(countriesId);
+    _allCitiesModel = await _allCitiesController.getAllcities(countriesId ?? 1);
     setState(() {
       _loadmore = false;
     });
+  }
+
+  void _submitForm() async {
+    setState(() {
+      _loading = true;
+    });
+    Map<String, dynamic> _result = await _reGController.userReg(
+      phone: _phone,
+      password: _password,
+      name: _name,
+      email: _email,
+      city_id: _country_id,
+      country_id: _city_id,
+      id: _id,
+    );
+    if (_result['success']) {
+      print('Response Done');
+      print(_result);
+    } else {
+      print('Response error');
+      print("Result is ${_result['errPhone']}");
+      print("Result is ${_result['errPassword']}");
+      print(_result['success']);
+    }
+
+    // setState(() {
+    //   errPhone = _result['errPhone'];
+    //   errPassword = _result['errPassword'];
+    //   _loading = false;
+    // });
+
+    if (mounted) {
+      setState(() {
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -83,253 +133,255 @@ class _RegeisterState extends State<Regeister> {
                       image: DecorationImage(
                     image: AssetImage(woImage),
                   )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'New account',
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(5.5),
-                            ),
-                            Text(
-                              'Add your account data',
-                              style: TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.w400),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(31.5),
-                            ),
-                            Text(
-                              'Name *',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.5),
-                                color: Colors.white,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'New account',
+                                style: TextStyle(
+                                    fontSize: 21, fontWeight: FontWeight.bold),
                               ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.text,
-                                cursorColor: Colors.black,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: Colors.black,
-                                  contentPadding: EdgeInsets.all(10),
-                                  hintText: 'name',
-                                  suffixIcon:
-                                      Icon(Icons.account_circle_rounded),
+                              SizedBox(
+                                height: getProportionateScreenHeight(5.5),
+                              ),
+                              Text(
+                                'Add your account data',
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w400),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(31.5),
+                              ),
+                              Text(
+                                'Name *',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.5),
+                                  color: Colors.white,
+                                ),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  cursorColor: Colors.black,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Colors.black,
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: 'name',
+                                    suffixIcon:
+                                        Icon(Icons.account_circle_rounded),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-                            Text(
-                              'E-mail *',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.5),
-                                color: Colors.white,
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
                               ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: Colors.black,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: Colors.black,
-                                  contentPadding: EdgeInsets.all(10),
-                                  hintText: 'ex@email',
-                                  suffixIcon: Icon(Icons.mail),
+                              Text(
+                                'E-mail *',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.5),
+                                  color: Colors.white,
+                                ),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.emailAddress,
+                                  cursorColor: Colors.black,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Colors.black,
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: 'ex@email',
+                                    suffixIcon: Icon(Icons.mail),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-                            Text(
-                              'Country *',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(5.5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.5),
-                                color: Colors.white,
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
                               ),
-                              child: DropdownButton(
-                                // dropdownColor: Colors.transparent,
-                                isExpanded: true,
-                                elevation: 2,
-                                hint: Text('Please choose a Country'),
-
-                                value: _selectedLocation,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    this._selectedLocation = newValue;
-                                  });
-                                },
-                                items: _allCountriesModel.data.map((e) {
-                                  return DropdownMenuItem(
-                                    child: Text(e.name),
-                                    value: e.name,
-                                    onTap: () {
-                                      setState(() {
-                                        countriesId = e.id;
-                                        _getAllCities();
-                                      });
-                                    },
-                                  );
-                                }).toList(),
+                              Text(
+                                'Country *',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
                               ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-                            Text(
-                              'City *',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            _allCitiesModel.data != null
-                                ? Container(
-                                    padding: EdgeInsets.all(5.5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.5),
-                                      color: Colors.white,
-                                    ),
-                                    child: DropdownButton(
-                                      // dropdownColor: Colors.transparent,
-                                      isExpanded: true,
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(5.5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.5),
+                                  color: Colors.white,
+                                ),
+                                child: DropdownButton(
+                                  // dropdownColor: Colors.transparent,
+                                  isExpanded: true,
+                                  elevation: 2,
 
-                                      hint: Text('Please choose a City'),
+                                  hint: Text('Please choose a Country'),
 
-                                      value: _selectCities,
-                                      onChanged: (va) {
+                                  onChanged: (newValue) {
+                                    // newValue = '';
+                                    setState(() {
+                                      this._selectedLocation = newValue;
+                                    });
+                                  },
+                                  items: _allCountriesModel.data.map((e) {
+                                    return DropdownMenuItem(
+                                      child: Text(e.name),
+                                      onTap: () {
                                         setState(() {
-                                          this._selectCities = va;
+                                          countriesId = e.id;
+                                          _getAllCities();
                                         });
                                       },
-                                      items:
-                                          _allCitiesModel.data.cities.map((e) {
-                                        return DropdownMenuItem(
-                                          child: Text(e.name),
-                                          value: e.name,
-                                          onTap: () {
-                                            setState(() {
-                                              citiesesId = e.id;
-                                            });
-                                          },
-                                        );
-                                      }).toList(),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
+                              ),
+                              Text(
+                                'City *',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                              _allCitiesModel.data != null
+                                  ? Container(
+                                      padding: EdgeInsets.all(5.5),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.5),
+                                        color: Colors.white,
+                                      ),
+                                      child: DropdownButton(
+                                        // dropdownColor: Colors.transparent,
+                                        isExpanded: true,
+
+                                        hint: Text('Please choose a City'),
+
+                                        onChanged: (va) {
+                                          setState(() {
+                                            this._selectCities = va;
+                                          });
+                                        },
+                                        items: _allCitiesModel.data.cities
+                                            .map((e) {
+                                          return DropdownMenuItem(
+                                            child: Text(e.name),
+                                            onTap: () {
+                                              setState(() {
+                                                citiesesId = e.id;
+                                              });
+                                            },
+                                          );
+                                        }).toList(),
+                                      ),
+                                    )
+                                  : Center(
+                                      child: Text('NO Data'),
                                     ),
-                                  )
-                                : Center(
-                                    child: Text('NO Data'),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
+                              ),
+                              Text(
+                                'Password *',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.5),
+                                  color: Colors.white,
+                                ),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.phone,
+                                  cursorColor: Colors.black,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Colors.black,
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: '*****',
+                                    suffixIcon: Icon(Icons.visibility),
                                   ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-                            Text(
-                              'Password *',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.5),
-                                color: Colors.white,
-                              ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.phone,
-                                cursorColor: Colors.black,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: Colors.black,
-                                  contentPadding: EdgeInsets.all(10),
-                                  hintText: '*****',
-                                  suffixIcon: Icon(Icons.visibility),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-                            Text(
-                              'Confirm password *',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5.5),
-                                color: Colors.white,
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
                               ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.phone,
-                                cursorColor: Colors.black,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: Colors.black,
-                                  contentPadding: EdgeInsets.all(10),
-                                  hintText: '*****',
-                                  suffixIcon: Icon(Icons.visibility),
+                              Text(
+                                'Confirm password *',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.5),
+                                  color: Colors.white,
+                                ),
+                                child: TextFormField(
+                                  keyboardType: TextInputType.phone,
+                                  cursorColor: Colors.black,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    fillColor: Colors.black,
+                                    contentPadding: EdgeInsets.all(10),
+                                    hintText: '*****',
+                                    suffixIcon: Icon(Icons.visibility),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(20),
-                            ),
-                            Button(
-                              textButton: 'Create an account',
-                              onPressed: () {
-                                print('Selected $_selectedLocation');
-                                print('countriesId $countriesId');
-                                //print(
-                                //'Request For cities is ${_allCitiesModel.data.cities[1].name}');
-                                // Navigator.of(context)
-                                //     .pushReplacementNamed(Finish.routeName);
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                              SizedBox(
+                                height: getProportionateScreenHeight(20),
+                              ),
+                              Button(
+                                textButton: 'Create an account',
+                                onPressed: () {
+                                  print('Selected $_selectedLocation');
+                                  print('countriesId $countriesId');
+                                  //print(
+                                  //'Request For cities is ${_allCitiesModel.data.cities[1].name}');
+                                  // Navigator.of(context)
+                                  //     .pushReplacementNamed(Finish.routeName);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ])

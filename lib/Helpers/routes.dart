@@ -20,8 +20,10 @@ import '../Screens/SingUp.dart';
 import '../Screens/Login.dart';
 import '../Screens/Welcome.dart';
 import '../Screens/EditAds.dart';
+import '../Screens/SplashScreen.dart';
 
 final Map<String, WidgetBuilder> routes = {
+  SplScreen.routeName:(context)=>SplScreen(),
   Welcome.routeName: (context) => Welcome(),
   Login.routeName: (context) => Login(),
   SingUp.routeName: (context) => SingUp(),

@@ -67,6 +67,7 @@ class _MyAddsState extends State<MyAdds> {
   //     });
   //   }
   // }
+
   @override
   void initState() {
     _getmyAds();
@@ -145,11 +146,10 @@ class _MyAddsState extends State<MyAdds> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                      EditAds.routeName,
-                                      arguments: {
-                                        'id': _myAdsModel.data.data[index].id
-                                      });
+                                  Navigator.of(context)
+                                      .pushNamed(EditAds.routeName, arguments: {
+                                    'id': _myAdsModel.data.data[index].id
+                                  });
                                 },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
@@ -172,6 +172,28 @@ class _MyAddsState extends State<MyAdds> {
                                           children: [
                                             Stack(
                                               children: [
+                                                // Container(
+                                                //   height:
+                                                //       getProportionateScreenHeight(
+                                                //           150),
+                                                //   width:
+                                                //       getProportionateScreenWidth(
+                                                //           120),
+                                                //   decoration: BoxDecoration(
+                                                //     borderRadius:
+                                                //         BorderRadius.circular(
+                                                //             10.0),
+                                                //     image: DecorationImage(
+                                                //         image: NetworkImage(
+                                                //             _myAdsModel
+                                                //                 .data
+                                                //                 .data[index]
+                                                //                 .images[0]
+                                                //                 .fullFile),
+                                                //         fit: BoxFit.cover),
+                                                //   ),
+                                                // ),
+
                                                 Container(
                                                   height:
                                                       getProportionateScreenHeight(
@@ -179,20 +201,38 @@ class _MyAddsState extends State<MyAdds> {
                                                   width:
                                                       getProportionateScreenWidth(
                                                           120),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            _myAdsModel
-                                                                .data
-                                                                .data[index]
-                                                                .images[0]
-                                                                .fullFile),
-                                                        fit: BoxFit.cover),
+                                                  child: FadeInImage(
+                                                    placeholder: AssetImage(
+                                                      'assets/images/loadingImage.png',
+                                                    ),
+                                                    image: NetworkImage(
+                                                      _myAdsModel
+                                                          .data
+                                                          .data[index]
+                                                          .lastImage
+                                                          .fullFile,
+                                                    ),
+                                                    imageErrorBuilder:
+                                                        (BuildContext context,
+                                                            Object exception,
+                                                            StackTrace
+                                                                stackTrace) {
+                                                      return Container(
+                                                        color: Colors.amber,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Text(
+                                                          'Whoops!',
+                                                          style: TextStyle(
+                                                              fontSize: 30),
+                                                        ),
+                                                      );
+                                                      ;
+                                                    },
+                                                    fit: BoxFit.cover,
                                                   ),
                                                 ),
+
                                                 Container(
                                                   width:
                                                       getProportionateScreenWidth(

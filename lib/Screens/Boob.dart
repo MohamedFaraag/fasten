@@ -1,30 +1,43 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 import '../Helpers/constant.dart';
 import '../Helpers/size_conifg.dart';
 import '../Models/BoobModels.dart';
-import '../Screens/Login.dart';
-import '../Screens/Home.dart';
+import '../Screens/Welcome.dart';
 
-import 'package:flutter/material.dart';
-
-// ignore: must_be_immutable
-class Boob extends StatefulWidget {
+//
+// // ignore: must_be_immutable
+// class Boob extends StatefulWidget {
+//   static String routeName = '/Boob';
+//
+//   @override
+//   _BoobState createState() => _BoobState();
+// }
+//
+// class _BoobState extends State<Boob> {
+//   String _token;
+//   PageController _pageController = PageController(initialPage: 0);
+//   // @override
+//   // void initState() {
+//   //   _getToke();
+//   // }
+//
+//
+//
+//   // Future _getToke() async {
+//   //   var prefs = await SharedPreferences.getInstance();
+//   //   setState(() {
+//   //     _token = prefs.getString('token');
+//   //     print(_token);
+//   //   });
+//   // }
+// }
+class Boob extends StatelessWidget {
   static String routeName = '/Boob';
-
-  @override
-  _BoobState createState() => _BoobState();
-}
-
-class _BoobState extends State<Boob> {
-  String _token;
-  PageController _pageController = PageController(initialPage: 0);
-  @override
-  void initState() {
-    _getToke();
-  }
   @override
   Widget build(BuildContext context) {
+    PageController _pageController = PageController(initialPage: 0);
     SizeConfig().init(context);
     List<BoobData> myData = [
       BoobData(
@@ -121,10 +134,16 @@ class _BoobState extends State<Boob> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              _token==null ? Navigator.of(context)
-                                  .pushReplacementNamed(Login.routeName):Navigator.of(context)
-                                  .pushReplacementNamed(Home.routeName);
+                            onTap: () async {
+                              // _token == null
+                              //     ?
+                              Navigator.of(context)
+                                  .pushReplacementNamed(Welcome.routeName);
+                              // : Navigator.of(context)
+                              //     .pushReplacementNamed(Home.routeName);
+                              SharedPreferences prefsfor =
+                                  await SharedPreferences.getInstance();
+                              prefsfor.setBool('x', true);
                             },
                             child: Text(
                               myData[index].buttonText,
@@ -140,13 +159,5 @@ class _BoobState extends State<Boob> {
                 );
               })),
     );
-  }
-
-  Future _getToke() async {
-    var prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _token = prefs.getString('token');
-      print(_token);
-    });
   }
 }
