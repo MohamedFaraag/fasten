@@ -127,9 +127,9 @@ class FeaturedAds {
   String body;
   int featured;
   int adViews;
-  Null conversation;
-  Null lat;
-  Null lng;
+  var conversation;
+  var lat;
+  var lng;
   int distance;
   List<AttributesData> attributesData;
   Types adType;
@@ -140,7 +140,7 @@ class FeaturedAds {
   User user;
   Category category;
   List<Images> images;
-  Null video;
+  String video;
   List<Comments> comments;
   String status;
   Images lastImage;
@@ -149,29 +149,29 @@ class FeaturedAds {
 
   FeaturedAds(
       {this.id,
-        this.name,
-        this.body,
-        this.featured,
-        this.adViews,
-        this.conversation,
-        this.lat,
-        this.lng,
-        this.distance,
-        this.attributesData,
-        this.adType,
-        this.contactTypes,
-        this.price,
-        this.averageRating,
-        this.isFav,
-        this.user,
-        this.category,
-        this.images,
-        this.video,
-        this.comments,
-        this.status,
-        this.lastImage,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.body,
+      this.featured,
+      this.adViews,
+      this.conversation,
+      this.lat,
+      this.lng,
+      this.distance,
+      this.attributesData,
+      this.adType,
+      this.contactTypes,
+      this.price,
+      this.averageRating,
+      this.isFav,
+      this.user,
+      this.category,
+      this.images,
+      this.video,
+      this.comments,
+      this.status,
+      this.lastImage,
+      this.createdAt,
+      this.updatedAt});
 
   FeaturedAds.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -190,7 +190,7 @@ class FeaturedAds {
       });
     }
     adType =
-    json['ad_type'] != null ? new Types.fromJson(json['ad_type']) : null;
+        json['ad_type'] != null ? new Types.fromJson(json['ad_type']) : null;
     contactTypes = json['contact_types'].cast<String>();
     price = json['price'];
     averageRating = json['averageRating'];
@@ -344,17 +344,17 @@ class User {
 
   User(
       {this.id,
-        this.name,
-        this.phone,
-        this.deviceId,
-        this.email,
-        this.avatar,
-        this.emailVerifiedAt,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.countryId,
-        this.cityId});
+      this.name,
+      this.phone,
+      this.deviceId,
+      this.email,
+      this.avatar,
+      this.emailVerifiedAt,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.countryId,
+      this.cityId});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -433,16 +433,16 @@ class Images {
 
   Images(
       {this.id,
-        this.name,
-        this.size,
-        this.file,
-        this.path,
-        this.fullFile,
-        this.mimeType,
-        this.fileType,
-        this.relationId,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.size,
+      this.file,
+      this.path,
+      this.fullFile,
+      this.mimeType,
+      this.fileType,
+      this.relationId,
+      this.createdAt,
+      this.updatedAt});
 
   Images.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -523,19 +523,19 @@ class UserData {
 
   UserData(
       {this.id,
-        this.name,
-        this.email,
-        this.averageRating,
-        this.phone,
-        this.avatar,
-        this.deviceId,
-        this.role,
-        this.city,
-        this.country,
-        this.favoritesCount,
-        this.adsCount,
-        this.status,
-        this.phoneVerifiedAt});
+      this.name,
+      this.email,
+      this.averageRating,
+      this.phone,
+      this.avatar,
+      this.deviceId,
+      this.role,
+      this.city,
+      this.country,
+      this.favoritesCount,
+      this.adsCount,
+      this.status,
+      this.phoneVerifiedAt});
 
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -548,7 +548,7 @@ class UserData {
     role = json['role'];
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     country =
-    json['country'] != null ? new Country.fromJson(json['country']) : null;
+        json['country'] != null ? new Country.fromJson(json['country']) : null;
     favoritesCount = json['favorites_count'];
     adsCount = json['ads_count'];
     status = json['status'];
@@ -670,29 +670,29 @@ class LatestAds {
 
   LatestAds(
       {this.id,
-        this.name,
-        this.body,
-        this.featured,
-        this.adViews,
-        this.conversation,
-        this.lat,
-        this.lng,
-        this.distance,
-        this.attributesData,
-        this.adType,
-        this.contactTypes,
-        this.price,
-        this.averageRating,
-        this.isFav,
-        this.user,
-        this.category,
-        this.images,
-        this.video,
-        this.comments,
-        this.status,
-        this.lastImage,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.body,
+      this.featured,
+      this.adViews,
+      this.conversation,
+      this.lat,
+      this.lng,
+      this.distance,
+      this.attributesData,
+      this.adType,
+      this.contactTypes,
+      this.price,
+      this.averageRating,
+      this.isFav,
+      this.user,
+      this.category,
+      this.images,
+      this.video,
+      this.comments,
+      this.status,
+      this.lastImage,
+      this.createdAt,
+      this.updatedAt});
 
   LatestAds.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -713,7 +713,7 @@ class LatestAds {
       });
     }
     adType =
-    json['ad_type'] != null ? new Types.fromJson(json['ad_type']) : null;
+        json['ad_type'] != null ? new Types.fromJson(json['ad_type']) : null;
     contactTypes = json['contact_types'].cast<String>();
     price = json['price'];
     averageRating = json['averageRating'];
@@ -800,11 +800,11 @@ class Conversation {
 
   Conversation(
       {this.id,
-        this.toId,
-        this.adId,
-        this.fromId,
-        this.createdAt,
-        this.updatedAt});
+      this.toId,
+      this.adId,
+      this.fromId,
+      this.createdAt,
+      this.updatedAt});
 
   Conversation.fromJson(Map<String, dynamic> json) {
     id = json['id'];

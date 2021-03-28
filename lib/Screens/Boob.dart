@@ -1,3 +1,5 @@
+import 'package:fasten/Controllers/BoobController.dart';
+import 'package:fasten/Models/BoobModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -6,35 +8,33 @@ import '../Helpers/size_conifg.dart';
 import '../Models/BoobModels.dart';
 import '../Screens/Welcome.dart';
 
-//
-// // ignore: must_be_immutable
-// class Boob extends StatefulWidget {
-//   static String routeName = '/Boob';
-//
-//   @override
-//   _BoobState createState() => _BoobState();
-// }
-//
-// class _BoobState extends State<Boob> {
-//   String _token;
-//   PageController _pageController = PageController(initialPage: 0);
-//   // @override
-//   // void initState() {
-//   //   _getToke();
-//   // }
-//
-//
-//
-//   // Future _getToke() async {
-//   //   var prefs = await SharedPreferences.getInstance();
-//   //   setState(() {
-//   //     _token = prefs.getString('token');
-//   //     print(_token);
-//   //   });
-//   // }
-// }
-class Boob extends StatelessWidget {
+class Boob extends StatefulWidget {
   static String routeName = '/Boob';
+
+  @override
+  _BoobState createState() => _BoobState();
+}
+
+class _BoobState extends State<Boob> {
+  bool _isLoading = false;
+  BoobModel _boobModel = BoobModel();
+  BoobController _boobController = BoobController();
+  @override
+  void initState() {
+    super.initState();
+    _getBoobData();
+  }
+
+  _getBoobData() async {
+    setState(() {
+      _isLoading = true;
+    });
+    _boobModel = await _boobController.getBoobData();
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     PageController _pageController = PageController(initialPage: 0);
@@ -124,6 +124,7 @@ class Boob extends StatelessWidget {
                                 _pageController.nextPage(
                                     duration: Duration(milliseconds: 150),
                                     curve: Curves.bounceInOut);
+
                                 print(index);
                                 print('Done');
                               },

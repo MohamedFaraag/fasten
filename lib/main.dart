@@ -1,3 +1,4 @@
+import 'package:fasten/AuthFuction/TestModels.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import './localization/Demo_localization.dart';
 import './localization/Local_localization.dart';
 import './Helpers/routes.dart';
-import './Screens/Regiester.dart';
+import './Screens/SplashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,7 +77,7 @@ class _MyAppState extends State<MyApp> {
         return supportedLocales.first;
       },
       routes: routes,
-      initialRoute: Regeister.routeName,
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

@@ -21,7 +21,7 @@ class SelectContactWith extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: myAppBar(onTap: () {}, name: "Social"),
+      appBar: myAppBar(onTap: () {}, name: "Social", iset: false),
       bottomNavigationBar: MyHomeBottomNavBar(),
       body: SingleChildScrollView(
         child: Container(

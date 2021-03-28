@@ -1,20 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:fasten/Helpers/Network.dart';
-import 'package:fasten/Models/CreateadsModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CreateadsController {
+import '../Helpers/Network.dart';
+import '../Models/EditProfileModel.dart';
+
+class EditProFileController {
   NetWork _netWork = NetWork();
-  CreateadsModel _createadModel = CreateadsModel();
-  Future<Map<String, dynamic>> createads({
+  EditProfileModel _editProfileModel = EditProfileModel();
+  Future<Map<String, dynamic>> EditProfile({
     String name,
-    String body,
-    var category_Id,
-    var ad_typeId,
-    String price,
-    String contname,
-    List attributes1,
-    var attributes2,
+    String email,
+    String phone,
+    String password,
+    var country,
+    var city,
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     print(prefs.getString('token'));
@@ -25,23 +24,19 @@ class CreateadsController {
       // }
       {'Authorization': prefs.getString('token')}
     ];
-    FormData formData = FormData.fromMap(
-      {
-        'name': name,
-        'body': body,
-        'contact_types[1]': "whatsapp",
-        'contact_types[2]': "chat",
-        'contact_types[3]': "phone",
-        'category_id': category_Id,
-        'ad_type': ad_typeId,
-        'price': price,
-        'attributes[1][${attributes1.map((e) => e.toString()).toList()}]':
-            attributes1.map((e) => e.toString()).toList(),
-        'attributes[2][$attributes2]': attributes2,
-      },
-    );
+    FormData formData = FormData.fromMap({
+      'name': name,
+      'email': email,
+      'password': password,
+      'phone': phone,
+      'country': country,
+      'city': city
+    });
     var response = await _netWork.postData(
-        url: 'ads', formData: formData, headers: _headers[0]);
+      url: 'user/update',
+      formData: formData,
+      headers: _headers[0],
+    );
     print(response);
     if (response == 'not found') {
       return {
@@ -55,17 +50,17 @@ class CreateadsController {
         "err": 'Failed',
         "success": false,
       };
-    } else if (response['success'] == true) {
-      _createadModel = CreateadsModel.fromJson(response);
+    } else if (response['success']) {
+      _editProfileModel = EditProfileModel.fromJson(response);
       return {
-        "result": _createadModel.message,
-        "id": _createadModel.data.id,
+        "result": _editProfileModel.message,
+        "err": _editProfileModel.message,
         "success": true,
       };
     }
     return {
-      "result": _createadModel.message,
-      "err": _createadModel.message,
+      "result": _editProfileModel.message,
+      "err": _editProfileModel.message,
       "success": false,
     };
   }

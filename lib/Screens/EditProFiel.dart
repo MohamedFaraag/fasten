@@ -1,21 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:fasten/Helpers/images.dart';
-import 'package:fasten/Helpers/size_conifg.dart';
-import 'package:fasten/Screens/Home.dart';
-import 'package:fasten/Screens/Profile.dart';
-import 'package:fasten/Widget/Buttons.dart';
-import 'package:fasten/Widget/myAppBar.dart';
 
-class EditProFile extends StatelessWidget {
+import '../Models/EditProfileModel.dart';
+
+import '../Controllers/EditProfileController.dart';
+
+import '../Helpers/images.dart';
+import '../Helpers/size_conifg.dart';
+import '../Helpers/Loading.dart';
+
+import '../Screens/Home.dart';
+
+import '../Widget/Buttons.dart';
+import '../Widget/myAppBar.dart';
+
+class EditProFile extends StatefulWidget {
   static String routeName = '/EditProfile';
+
+  @override
+  _EditProFileState createState() => _EditProFileState();
+}
+
+class _EditProFileState extends State<EditProFile> {
+  String name;
+  String email;
+  String phone;
+  String password;
+  var country;
+  var city;
+  String nameafter;
+  String emailafter;
+  String phoneafter;
+  String passwordafter;
+  var countryafter;
+  var cityafter;
+  bool _loading = false;
+  EditProFileController _editProFileController = EditProFileController();
+  EditProfileModel _editProfileModel = EditProfileModel();
+  void _submitForm() async {
+    setState(() {
+      _loading = true;
+    });
+    Map<String, dynamic> _result = await _editProFileController.EditProfile(
+      name: nameafter == null ? name : nameafter,
+      email: emailafter == null ? email : emailafter,
+      city: cityafter == null ? city : cityafter,
+      phone: phoneafter == null ? phone : phoneafter,
+      country: countryafter == null ? country : countryafter,
+      password: password,
+    );
+    if (_result['success'] == true) {
+      print('Response Done');
+      print(_result);
+      Navigator.of(context).pushReplacementNamed(Home.routeName);
+    } else {
+      print('Response error');
+    }
+
+    setState(() {
+      _loading = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final routeArg =
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
+    setState(() {
+      name = routeArg['name'];
+      email = routeArg['email'];
+      password = routeArg['password'];
+      phone = routeArg['phone'];
+      country = routeArg['country'];
+      city = routeArg['city'];
+    });
+    print(name);
     return Scaffold(
         appBar: myAppBar(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed(ProFile.routeName);
+              Navigator.of(context).pop();
             },
-            name: ''),
+            name: '',
+            iset: true),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Container(
@@ -57,8 +122,8 @@ class EditProFile extends StatelessWidget {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          Text('Ahmed Hassan'),
-                          Text('anwarahmed@gmail.com'),
+                          Text(name),
+                          Text(email),
                         ],
                       ),
                     ),
@@ -83,14 +148,16 @@ class EditProFile extends StatelessWidget {
                             child: TextFormField(
                               keyboardType: TextInputType.text,
                               cursorColor: Colors.black,
-                              obscureText: true,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 fillColor: Colors.black,
                                 contentPadding: EdgeInsets.all(10),
-                                hintText: 'name',
+                                hintText: name,
                                 suffixIcon: Icon(Icons.account_circle_rounded),
                               ),
+                              onChanged: (val) {
+                                nameafter = val;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -112,14 +179,16 @@ class EditProFile extends StatelessWidget {
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               cursorColor: Colors.black,
-                              obscureText: true,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 fillColor: Colors.black,
                                 contentPadding: EdgeInsets.all(10),
-                                hintText: 'ex@email',
+                                hintText: email,
                                 suffixIcon: Icon(Icons.mail),
                               ),
+                              onChanged: (val2) {
+                                emailafter = val2;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -141,14 +210,16 @@ class EditProFile extends StatelessWidget {
                             child: TextFormField(
                               keyboardType: TextInputType.phone,
                               cursorColor: Colors.black,
-                              obscureText: true,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 fillColor: Colors.black,
                                 contentPadding: EdgeInsets.all(10),
-                                hintText: 'Saudi',
+                                hintText: country,
                                 suffixIcon: Icon(Icons.location_city),
                               ),
+                              onChanged: (val3) {
+                                countryafter = val3;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -170,14 +241,16 @@ class EditProFile extends StatelessWidget {
                             child: TextFormField(
                               keyboardType: TextInputType.text,
                               cursorColor: Colors.black,
-                              obscureText: true,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 fillColor: Colors.black,
                                 contentPadding: EdgeInsets.all(10),
-                                hintText: 'Riyadh',
+                                hintText: city,
                                 suffixIcon: Icon(Icons.flag),
                               ),
+                              onChanged: (val4) {
+                                cityafter = val4;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -212,42 +285,47 @@ class EditProFile extends StatelessWidget {
                           SizedBox(
                             height: getProportionateScreenHeight(15),
                           ),
-                          Text(
-                            'Confirm password *',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(10),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.5),
-                              color: Colors.white,
-                            ),
-                            child: TextFormField(
-                              keyboardType: TextInputType.phone,
-                              cursorColor: Colors.black,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                fillColor: Colors.black,
-                                contentPadding: EdgeInsets.all(10),
-                                hintText: '*****',
-                                suffixIcon: Icon(Icons.visibility),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(20),
-                          ),
-                          Button(
-                            textButton: 'Save',
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed(Home.routeName);
-                            },
-                          )
+                          // Text(
+                          //   'Confirm password *',
+                          //   style: TextStyle(
+                          //       fontWeight: FontWeight.bold, fontSize: 12),
+                          // ),
+                          // SizedBox(
+                          //   height: getProportionateScreenHeight(10),
+                          // ),
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(5.5),
+                          //     color: Colors.white,
+                          //   ),
+                          //   child: TextFormField(
+                          //     keyboardType: TextInputType.phone,
+                          //     cursorColor: Colors.black,
+                          //     obscureText: true,
+                          //     decoration: InputDecoration(
+                          //       border: InputBorder.none,
+                          //       fillColor: Colors.black,
+                          //       contentPadding: EdgeInsets.all(10),
+                          //       hintText: '*****',
+                          //       suffixIcon: Icon(Icons.visibility),
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: getProportionateScreenHeight(20),
+                          // ),
+                          _loading
+                              ? Reusable.showLoader(_loading,
+                                  width: getProportionateScreenHeight(50),
+                                  height: getProportionateScreenHeight(50))
+                              : Button(
+                                  textButton: 'Save',
+                                  onPressed: () {
+                                    _submitForm();
+                                    // Navigator.of(context)
+                                    //     .pushReplacementNamed(Home.routeName);
+                                  },
+                                )
                         ],
                       ),
                     )

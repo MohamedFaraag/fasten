@@ -1,13 +1,11 @@
-import '../Models/AllCitiesModel.dart';
-
-class RegiesterModel {
+class EditProfileModel {
   bool success;
   Data data;
   String message;
 
-  RegiesterModel({this.success, this.data, this.message});
+  EditProfileModel({this.success, this.data, this.message});
 
-  RegiesterModel.fromJson(Map<String, dynamic> json) {
+  EditProfileModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message = json['message'];
@@ -25,31 +23,10 @@ class RegiesterModel {
 }
 
 class Data {
-  User user;
-  String token;
-
-  Data({this.user, this.token});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    token = json['token'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
-    data['token'] = this.token;
-    return data;
-  }
-}
-
-class User {
   int id;
   String name;
   String email;
-  var averageRating;
+  String averageRating;
   String phone;
   String avatar;
   String deviceId;
@@ -59,25 +36,25 @@ class User {
   int favoritesCount;
   int adsCount;
   String status;
-  var phoneVerifiedAt;
+  Null phoneVerifiedAt;
 
-  User(
+  Data(
       {this.id,
-      this.name,
-      this.email,
-      this.averageRating,
-      this.phone,
-      this.avatar,
-      this.deviceId,
-      this.role,
-      this.city,
-      this.country,
-      this.favoritesCount,
-      this.adsCount,
-      this.status,
-      this.phoneVerifiedAt});
+        this.name,
+        this.email,
+        this.averageRating,
+        this.phone,
+        this.avatar,
+        this.deviceId,
+        this.role,
+        this.city,
+        this.country,
+        this.favoritesCount,
+        this.adsCount,
+        this.status,
+        this.phoneVerifiedAt});
 
-  User.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
@@ -88,7 +65,7 @@ class User {
     role = json['role'];
     city = json['city'] != null ? new City.fromJson(json['city']) : null;
     country =
-        json['country'] != null ? new Country.fromJson(json['country']) : null;
+    json['country'] != null ? new Country.fromJson(json['country']) : null;
     favoritesCount = json['favorites_count'];
     adsCount = json['ads_count'];
     status = json['status'];
@@ -176,6 +153,33 @@ class Country {
     if (this.cities != null) {
       data['cities'] = this.cities.map((v) => v.toJson()).toList();
     }
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+class Cities {
+  int id;
+  String name;
+  int countryId;
+  String createdAt;
+  String updatedAt;
+
+  Cities({this.id, this.name, this.countryId, this.createdAt, this.updatedAt});
+
+  Cities.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    countryId = json['country_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['country_id'] = this.countryId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

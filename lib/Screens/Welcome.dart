@@ -36,9 +36,7 @@ class Welcome extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
-
-              ),
+              decoration: BoxDecoration(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -84,7 +82,7 @@ class Welcome extends StatelessWidget {
                         Button(
                           textButton: 'Login',
                           onPressed: () {
-                            print('Loing');
+                            print('Login');
                             Navigator.of(context)
                                 .pushReplacementNamed(Login.routeName);
                           },

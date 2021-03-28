@@ -1,5 +1,7 @@
 import 'package:fasten/Controllers/myFavadsController.dart';
 import 'package:fasten/Models/myFavadsModel.dart';
+import 'package:fasten/Screens/Login.dart';
+import 'package:fasten/Widget/HomeNavigationBar.dart';
 import 'package:flutter/material.dart';
 
 import '../Helpers/images.dart';
@@ -19,6 +21,7 @@ class Favorite extends StatefulWidget {
 
 class _FavoriteState extends State<Favorite> {
   bool sel = false;
+  String _token;
   bool _isLoading = false;
   MyFavadsController _myFavadsController = MyFavadsController();
   MyFavAdsModel _myFavAdsModel = MyFavAdsModel();
@@ -46,11 +49,13 @@ class _FavoriteState extends State<Favorite> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      bottomNavigationBar: MyHomeBottomNavBar(),
       appBar: myAppBar(
           onTap: () {
             Navigator.of(context).pushReplacementNamed(Home.routeName);
           },
-          name: 'Wish list'),
+          name: 'Wish list',
+          iset: false),
       body: !_isLoading
           ? RefreshIndicator(
               onRefresh: () => _getmyFavads(),
@@ -181,21 +186,21 @@ class _FavoriteState extends State<Favorite> {
                                                 ],
                                               ),
                                             ),
-                                            Row(
-                                                children: List.generate(
-                                              _myFavAdsModel
-                                                  .data
-                                                  .favorites[index]
-                                                  .attributesData[1]
-                                                  .selectedOptions
-                                                  .length,
-                                              (index) => CustomButton(
-                                                name: _attributeForAddModel
-                                                    .data[1]
-                                                    .options[option_idforsize]
-                                                    .name,
-                                              ),
-                                            ))
+                                            // Row(
+                                            //     children: List.generate(
+                                            //   _myFavAdsModel
+                                            //       .data
+                                            //       .favorites[index]
+                                            //       .attributesData[1]
+                                            //       .selectedOptions
+                                            //       .length,
+                                            //   (index) => CustomButton(
+                                            //     name: _attributeForAddModel
+                                            //         .data[1]
+                                            //         .options[option_idforsize]
+                                            //         .name,
+                                            //   ),
+                                            // ))
                                             // Row(
                                             //   mainAxisAlignment:
                                             //       MainAxisAlignment
@@ -254,8 +259,23 @@ class _FavoriteState extends State<Favorite> {
                           );
                         },
                       ),
-                    ),
-            )
+                    )
+              // : Center(
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         Navigator.of(context)
+              //             .pushReplacementNamed(Login.routeName);
+              //       },
+              //       child: Text(
+              //         'PLEASE LOGIN ! ',
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.bold,
+              //           fontSize: 16,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              )
           : Center(
               child: CircularProgressIndicator(
                 backgroundColor: Colors.blue,

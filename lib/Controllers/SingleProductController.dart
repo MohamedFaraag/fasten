@@ -16,7 +16,7 @@ class SingleProductContoller {
       // }
       {'Authorization': prefs.getString('token')}
     ];
-    var data = await _netWork.getData(url: 'ads/$i', headers: _headers);
+    var data = await _netWork.getData(url: 'ads/$i');
     _singleProductModel = SingleProductModel.fromJson(data);
     return _singleProductModel;
   }

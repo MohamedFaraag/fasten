@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+//To fix bug in getProportionateScreenHeight Function
+// SizeConfig().init(context);
 class SizeConfig {
   static MediaQueryData _mediaQueryData;
   static double screenWidth;

@@ -33,7 +33,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   ## Networking
   dio: ^3.0.10
-#  http: ^0.12.2
+  # http: ^0.12.2
   ##FireBase
   firebase_auth: ^0.18.4+1
   firebase_core: ^0.5.2

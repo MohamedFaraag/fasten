@@ -52,12 +52,12 @@ class User {
   String avatar;
   String deviceId;
   String role;
-  Null city;
-  Null country;
+  var city;
+  var country;
   int favoritesCount;
   int adsCount;
   String status;
-  Null phoneVerifiedAt;
+  var phoneVerifiedAt;
 
   User(
       {this.id,

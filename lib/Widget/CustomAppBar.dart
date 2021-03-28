@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../Screens/add_Adds.dart';
 import '../Helpers/images.dart';
 import '../Helpers/size_conifg.dart';
 
-buildAppBAr(BuildContext context) {
+buildAppBAr(BuildContext context, Function onPressed) {
   return PreferredSize(
     preferredSize: Size.fromHeight(90.0),
     child: AppBar(
@@ -32,9 +31,7 @@ buildAppBAr(BuildContext context) {
                 ),
               ),
               child: FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(AddAdds.routeName);
-                },
+                onPressed: onPressed,
                 child: Text(
                   'Add adds',
                   style: TextStyle(color: Colors.white),

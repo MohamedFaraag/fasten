@@ -1,16 +1,17 @@
+import 'package:fasten/Helpers/constant.dart';
 import 'package:flutter/material.dart';
 
-class TestCat extends StatelessWidget {
+class SelectCategory extends StatelessWidget {
   final String image;
 
-  const TestCat({this.image});
+  const SelectCategory({this.image});
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
         radius: 55,
         foregroundColor: Colors.white,
-        backgroundColor: Colors.transparent,
-        child: Image.asset(
+        backgroundColor: s,
+        child: Image.network(
           image,
           fit: BoxFit.fill,
         ));

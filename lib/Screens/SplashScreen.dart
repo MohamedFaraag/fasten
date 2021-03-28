@@ -5,15 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Helpers/images.dart';
 import '../Screens/Boob.dart';
 import '../Screens/Home.dart';
+import '../Screens/Welcome.dart';
 
-class SplScreen extends StatefulWidget {
-  static String routeName = "/splscreen";
+class SplashScreen extends StatefulWidget {
+  static String routeName = "/SplashScreen";
 
   @override
-  _SplScreenState createState() => _SplScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplScreenState extends State<SplScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   String _token;
   String massage = '';
   bool direction;
@@ -32,7 +33,9 @@ class _SplScreenState extends State<SplScreen> {
       () {
         (direction == false || direction == null)
             ? Navigator.pushReplacementNamed(context, Boob.routeName)
-            : Navigator.pushReplacementNamed(context, Home.routeName);
+            : _token == null
+                ? Navigator.pushReplacementNamed(context, Welcome.routeName)
+                : Navigator.pushReplacementNamed(context, Home.routeName);
       },
     );
     super.initState();

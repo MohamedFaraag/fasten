@@ -18,7 +18,8 @@ class Settings extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pushReplacementNamed(ProFile.routeName);
           },
-          name: 'Settings'),
+          name: 'Settings',
+          iset: true),
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controllers/AttributeForAddController.dart';
 import '../Helpers/FormatColor.dart';
@@ -43,7 +46,9 @@ class _AddAddsState extends State<AddAdds> {
   bool isSelectionMode = false;
   bool _isLoading = false;
   bool _isLoad = false;
-  bool _isVisible = false;
+  bool _isVisible = true;
+  String _token;
+  Color color = Colors.black;
   void showToast() {
     setState(() {
       _isVisible = !_isVisible;
@@ -58,6 +63,8 @@ class _AddAddsState extends State<AddAdds> {
   int contactindex;
   List<dynamic> _selecteditems = [];
   List<dynamic> _selecteditems2 = [];
+  List _sellect = [];
+  int id;
   var item;
 
   ///var for create ads
@@ -75,9 +82,10 @@ class _AddAddsState extends State<AddAdds> {
   }
 
   void _uploadFile(filePath, BuildContext context) async {
-    setState(() {
-      _isLoad = true;
-    });
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // setState(() {
+    //   _isLoad = true;
+    // });
     String fileName = basename(filePath.path);
     print("file base name: $fileName");
     try {
@@ -85,13 +93,11 @@ class _AddAddsState extends State<AddAdds> {
         "images":
             await dio.MultipartFile.fromFile(filePath.path, filename: fileName),
       });
-      dio.Response response = await dio.Dio()
-          .post("https://fostan.demo.asol-tec.com/api/v1/ads/files/2",
-              data: formData,
-              options: dio.Options(headers: {
-                "Authorization":
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZm9zdGFuLmRlbW8uYXNvbC10ZWMuY29tXC9hcGlcL3YxXC9sb2dpbiIsImlhdCI6MTYxNDUyNjU2MCwibmJmIjoxNjE0NTI2NTYwLCJqdGkiOiJwc2lmUWhOeVpZT0VpYUdtIiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.g3MP_yzPjwK2NW36KX014EAWJJf5eBqJ3wBgJgCwYKM"
-              }));
+      dio.Response response = await dio.Dio().post(
+          "https://fostan.demo.asol-tec.com/api/v1/ads/files/$id",
+          data: formData,
+          options: dio.Options(
+              headers: {'Authorization': prefs.getString('token')}));
       print("File Upload response:$response");
       print(response.data);
     } catch (e) {
@@ -100,9 +106,9 @@ class _AddAddsState extends State<AddAdds> {
         _isLoad = false;
       });
     }
-    setState(() {
-      _isLoad = false;
-    });
+    // setState(() {
+    //   _isLoad = false;
+    // });
   }
 
   _getData() async {
@@ -118,7 +124,7 @@ class _AddAddsState extends State<AddAdds> {
     });
   }
 
-  _createads() async {
+  _createads(context) async {
     setState(() {
       _isLoad = true;
     });
@@ -128,16 +134,17 @@ class _AddAddsState extends State<AddAdds> {
       price: price,
       body: body,
       ad_typeId: tybeindex,
-      attributes1: _selecteditems2,
+      attributes1: _selecteditems2.map((e) => e).toList(),
       attributes2: colorindex,
       contname: contactname,
     );
 
-    if (_result['success']) {
+    if (_result['success'] == true) {
       print(_result);
       print('Response Done');
       setState(() {
         _isLoad = false;
+        id = _result['id'];
       });
     } else {
       print('error');
@@ -145,6 +152,7 @@ class _AddAddsState extends State<AddAdds> {
         _isLoad = false;
       });
     }
+    _uploadFile(_file, context);
   }
 
   @override
@@ -163,6 +171,14 @@ class _AddAddsState extends State<AddAdds> {
     Colors.white,
     Colors.white,
   ];
+  Future _getToke() async {
+    var prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = prefs.getString('token');
+      print(_token);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -189,7 +205,7 @@ class _AddAddsState extends State<AddAdds> {
               print('SignOut');
               print(_allCategoryModel.message);
               print(_adTypesForAddModel.message);
-              // Navigator.of(context).pushReplacementNamed(Home.routeName);
+              Navigator.of(context).pop();
             },
             child: Image.asset(signout)),
       ),
@@ -307,10 +323,10 @@ class _AddAddsState extends State<AddAdds> {
                                       setState(() {
                                         categoryindex =
                                             _allCategoryModel.data[index].id;
+
                                         print(
                                             'categoryindex is $categoryindex');
                                       });
-                                      showToast();
                                     },
                                     name: _allCategoryModel.data[index].name,
                                     sele: categoryindex !=
@@ -323,52 +339,49 @@ class _AddAddsState extends State<AddAdds> {
                             ),
                           ),
                           categoryindex != 0 && categoryindex != null
-                              ? AnimatedOpacity(
-                                  opacity: _isVisible ? 1.0 : 0.0,
-                                  duration: Duration(milliseconds: 500),
-                                  child: MultiSelectChipField(
-                                    height: 40,
-                                    items: _allCategoryModel
-                                        .data[categoryindex - 1].childs
-                                        .map((e) =>
-                                            MultiSelectItem(e.id, e.name))
-                                        .toList(),
-                                    // initialValue: [
-                                    //   _animals[4],
-                                    //   _animals[7],
-                                    //   _animals[9]
-                                    // ],
-                                    title: Text(
-                                      "Choose the Childs",
-                                      style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          fontSize: 12),
-                                    ),
-                                    headerColor: Colors.transparent,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.white, width: 1.8),
-                                    ),
-                                    selectedChipColor: s,
-                                    selectedTextStyle:
-                                        TextStyle(color: Colors.white),
-                                    onTap: (values) {
-                                      setState(() {
-                                        _selecteditems = values;
-                                      });
-                                    },
-                                  ))
+                              ? Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: List.generate(
+                                      _allCategoryModel.data[categoryindex - 1]
+                                          .childs.length, (i) {
+                                    return AnimatedOpacity(
+                                        opacity: _isVisible ? 1.0 : 0.0,
+                                        duration: Duration(milliseconds: 500),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _sellect.add(_allCategoryModel
+                                                  .data[categoryindex - 1]
+                                                  .childs[i]
+                                                  .id);
+                                            });
+                                          },
+                                          child: Container(
+                                            child: Text(
+                                              '${_allCategoryModel.data[categoryindex - 1].childs[i].name}',
+                                              style: TextStyle(color: color),
+                                            ),
+                                          ),
+                                        ));
+                                  }),
+                                )
                               : Container(),
 
                           SizedBox(
                             height: getProportionateScreenHeight(30),
                           ),
-                          Text(
-                            'Ad details',
-                            style: TextStyle(
-                                fontSize: getProportionateScreenWidth(14),
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline),
+                          GestureDetector(
+                            onTap: () {
+                              print(_sellect.length);
+                            },
+                            child: Text(
+                              'Ad details',
+                              style: TextStyle(
+                                  fontSize: getProportionateScreenWidth(14),
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline),
+                            ),
                           ),
                           SizedBox(
                             height: getProportionateScreenHeight(5),
@@ -487,7 +500,7 @@ class _AddAddsState extends State<AddAdds> {
                             height: getProportionateScreenHeight(20),
                           ),
                           MultiSelectChipField(
-                            height: 40,
+                            height: getProportionateScreenHeight(40),
                             items: _attributeForAddModel.data[1].options
                                 .map((e) => MultiSelectItem(e.id, e.name))
                                 .toList(),
@@ -497,7 +510,7 @@ class _AddAddsState extends State<AddAdds> {
                             //   _animals[9]
                             // ],
                             title: Text(
-                              "Choose the Options",
+                              "",
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
                                   fontSize: 12),
@@ -659,18 +672,20 @@ class _AddAddsState extends State<AddAdds> {
                                     ),
                                     child: FlatButton(
                                       onPressed: () {
-                                        print(_selecteditems);
+                                        // print(_selecteditems);
                                         // print(_allCategoryModel
                                         //         .data[1].childs??[0].name ??
                                         //     0);
-                                        print(categoryindex);
+                                        // print(categoryindex);
                                         // print(_allCategoryModel
                                         //     .data[categoryindex]
                                         //     .childs[categoryindex]
                                         //     .id
                                         //     .toString());
-                                        _createads();
-                                        // _uploadFile(_file, context);
+                                        _createads(context);
+                                        // print(id);
+                                        print(_selecteditems2.map((e) => e));
+
                                         // Navigator.of(context)
                                         //     .pushReplacementNamed(MyAdds.routeName);
                                       },

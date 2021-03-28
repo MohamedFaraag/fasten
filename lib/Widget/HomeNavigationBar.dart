@@ -163,32 +163,32 @@ class _MyHomeBottomNavBarState extends State<MyHomeBottomNavBar> {
     );
   }
 
-  // Container buildContainerBottomNav(IconData icon, name, {isSelected = false}) {
-  //   return Container(
-  //     decoration: BoxDecoration(
-  //       gradient: LinearGradient(
-  //           begin: Alignment.topRight,
-  //           end: Alignment.bottomLeft,
-  //           colors: isSelected ? co1 : co2),
-  //       // color: isSelected ? Color(0xFFEB5982) : Colors.white,
-  //       shape: BoxShape.circle,
-  //       boxShadow: isSelected
-  //           ? [BoxShadow(color: Colors.grey, blurRadius: 10, spreadRadius: 1)]
-  //           : [],
-  //     ),
-  //     height: getProportionateScreenHeight(56),
-  //     width: getProportionateScreenWidth(70),
-  //     child: Column(
-  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //       children: [
-  //         Icon(icon, color: isSelected ? Colors.white : Colors.grey),
-  //         Text(
-  //           name,
-  //           style: TextStyle(
-  //               color: Colors.black, fontSize: getProportionateScreenWidth(12)),
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+// Container buildContainerBottomNav(IconData icon, name, {isSelected = false}) {
+//   return Container(
+//     decoration: BoxDecoration(
+//       gradient: LinearGradient(
+//           begin: Alignment.topRight,
+//           end: Alignment.bottomLeft,
+//           colors: isSelected ? co1 : co2),
+//       // color: isSelected ? Color(0xFFEB5982) : Colors.white,
+//       shape: BoxShape.circle,
+//       boxShadow: isSelected
+//           ? [BoxShadow(color: Colors.grey, blurRadius: 10, spreadRadius: 1)]
+//           : [],
+//     ),
+//     height: getProportionateScreenHeight(56),
+//     width: getProportionateScreenWidth(70),
+//     child: Column(
+//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//       children: [
+//         Icon(icon, color: isSelected ? Colors.white : Colors.grey),
+//         Text(
+//           name,
+//           style: TextStyle(
+//               color: Colors.black, fontSize: getProportionateScreenWidth(12)),
+//         )
+//       ],
+//     ),
+//   );
+// }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Controllers/RegesterController.dart';
+import '../Models/RegesterModel.dart';
 import '../Controllers/AllCitiesCountroller.dart';
 import '../Controllers/AllCountriesController.dart';
 import '../Models/AllCountriesModel.dart';
@@ -27,20 +29,18 @@ class _RegeisterState extends State<Regeister> {
   bool _loadmore = false;
   bool _loading = false;
   int countriesId;
-  int citiesesId;
 
   ///Var For ReGister
-  var _name;
-  var _email;
-  var _password;
-  var _phone;
+  String _name;
+  String _email;
+  String _password;
+  String _phone;
   var _country_id;
   var _city_id;
-  var _id;
+  String _id;
   void initState() {
     super.initState();
     _getAllCountries();
-    _getAllCities();
   }
 
   List<String> _locations = ['A', 'B', 'C', 'D'];
@@ -57,11 +57,11 @@ class _RegeisterState extends State<Regeister> {
     });
   }
 
-  _getAllCities() async {
+  _getAllCities(int countriesId) async {
     setState(() {
       _loadmore = true;
     });
-    _allCitiesModel = await _allCitiesController.getAllcities(countriesId ?? 1);
+    _allCitiesModel = await _allCitiesController.getAllcities(countriesId);
     setState(() {
       _loadmore = false;
     });
@@ -72,13 +72,14 @@ class _RegeisterState extends State<Regeister> {
       _loading = true;
     });
     Map<String, dynamic> _result = await _reGController.userReg(
-      phone: _phone,
-      password: _password,
       name: _name,
       email: _email,
-      city_id: _country_id,
+      password: _password,
+      phone: _phone,
       country_id: _city_id,
-      id: _id,
+      city_id: _country_id,
+
+      // id: _id,
     );
     if (_result['success']) {
       print('Response Done');
@@ -102,6 +103,15 @@ class _RegeisterState extends State<Regeister> {
       });
     }
   }
+
+  // Future<void> _getID() async {
+  //   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  //   print('Running on ${androidInfo.model}'); // e.g. "Moto G (4)"
+  //
+  //   IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+  //   print('Running on ${iosInfo.utsname.machine}');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +184,13 @@ class _RegeisterState extends State<Regeister> {
                                   color: Colors.white,
                                 ),
                                 child: TextFormField(
+                                  onChanged: (valeu) {
+                                    setState(() {
+                                      _name = valeu;
+                                    });
+                                  },
                                   keyboardType: TextInputType.text,
                                   cursorColor: Colors.black,
-                                  obscureText: true,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     fillColor: Colors.black,
@@ -206,7 +220,6 @@ class _RegeisterState extends State<Regeister> {
                                 child: TextFormField(
                                   keyboardType: TextInputType.emailAddress,
                                   cursorColor: Colors.black,
-                                  obscureText: true,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     fillColor: Colors.black,
@@ -214,6 +227,11 @@ class _RegeisterState extends State<Regeister> {
                                     hintText: 'ex@email',
                                     suffixIcon: Icon(Icons.mail),
                                   ),
+                                  onChanged: (valeu) {
+                                    setState(() {
+                                      _email = valeu;
+                                    });
+                                  },
                                 ),
                               ),
                               SizedBox(
@@ -234,31 +252,63 @@ class _RegeisterState extends State<Regeister> {
                                   color: Colors.white,
                                 ),
                                 child: DropdownButton(
-                                  // dropdownColor: Colors.transparent,
                                   isExpanded: true,
-                                  elevation: 2,
-
-                                  hint: Text('Please choose a Country'),
-
-                                  onChanged: (newValue) {
-                                    // newValue = '';
+                                  hint: Text("Select item"),
+                                  value: _selectedLocation == null
+                                      ? _locations
+                                      : _selectedLocation,
+                                  onChanged: (Value) {
                                     setState(() {
-                                      this._selectedLocation = newValue;
+                                      this._selectedLocation = Value;
                                     });
                                   },
                                   items: _allCountriesModel.data.map((e) {
                                     return DropdownMenuItem(
-                                      child: Text(e.name),
                                       onTap: () {
-                                        setState(() {
-                                          countriesId = e.id;
-                                          _getAllCities();
-                                        });
+                                        this._country_id = e.id;
+                                        _getAllCities(e.id);
                                       },
+                                      value: e.name,
+                                      child: Text(
+                                        e.name,
+                                      ),
                                     );
                                   }).toList(),
                                 ),
                               ),
+
+                              // Container(
+                              //   padding: EdgeInsets.all(5.5),
+                              //   decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(5.5),
+                              //     color: Colors.white,
+                              //   ),
+                              //   child: DropdownButton(
+                              //     // dropdownColor: Colors.transparent,
+                              //     isExpanded: true,
+                              //     elevation: 2,
+                              //     value: _selectedLocation,
+                              //     hint: Text('Please choose a Country'),
+                              //
+                              //     onChanged: (newValue) {
+                              //       // newValue = '';
+                              //       setState(() {
+                              //         this._selectedLocation = newValue;
+                              //       });
+                              //     },
+                              //     items: _allCountriesModel.data.map((e) {
+                              //       return DropdownMenuItem(
+                              //         child: Text(e.name),
+                              //         onTap: () {
+                              //           setState(() {
+                              //             countriesId = e.id;
+                              //             _getAllCities();
+                              //           });
+                              //         },
+                              //       );
+                              //     }).toList(),
+                              //   ),
+                              // ),
                               SizedBox(
                                 height: getProportionateScreenHeight(15),
                               ),
@@ -276,25 +326,26 @@ class _RegeisterState extends State<Regeister> {
                                         color: Colors.white,
                                       ),
                                       child: DropdownButton(
-                                        // dropdownColor: Colors.transparent,
                                         isExpanded: true,
-
-                                        hint: Text('Please choose a City'),
-
-                                        onChanged: (va) {
+                                        value: _selectCities == null
+                                            ? _locations
+                                            : _selectCities,
+                                        hint: Text("Select itemss"),
+                                        onChanged: (Value) {
                                           setState(() {
-                                            this._selectCities = va;
+                                            this._selectCities = Value;
                                           });
                                         },
                                         items: _allCitiesModel.data.cities
                                             .map((e) {
                                           return DropdownMenuItem(
-                                            child: Text(e.name),
                                             onTap: () {
-                                              setState(() {
-                                                citiesesId = e.id;
-                                              });
+                                              this._city_id = e.id;
                                             },
+                                            value: e.name,
+                                            child: Text(
+                                              e.name,
+                                            ),
                                           );
                                         }).toList(),
                                       ),
@@ -322,9 +373,13 @@ class _RegeisterState extends State<Regeister> {
                                   color: Colors.white,
                                 ),
                                 child: TextFormField(
+                                  onChanged: (valeu) {
+                                    setState(() {
+                                      _password = valeu;
+                                    });
+                                  },
                                   keyboardType: TextInputType.phone,
                                   cursorColor: Colors.black,
-                                  obscureText: true,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     fillColor: Colors.black,
@@ -351,9 +406,13 @@ class _RegeisterState extends State<Regeister> {
                                   color: Colors.white,
                                 ),
                                 child: TextFormField(
+                                  onChanged: (valeu) {
+                                    setState(() {
+                                      _id = valeu;
+                                    });
+                                  },
                                   keyboardType: TextInputType.phone,
                                   cursorColor: Colors.black,
-                                  obscureText: true,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     fillColor: Colors.black,
@@ -369,14 +428,21 @@ class _RegeisterState extends State<Regeister> {
                               Button(
                                 textButton: 'Create an account',
                                 onPressed: () {
-                                  print('Selected $_selectedLocation');
-                                  print('countriesId $countriesId');
-                                  //print(
-                                  //'Request For cities is ${_allCitiesModel.data.cities[1].name}');
+                                  // _submitForm();
+
+                                  // print(_name);
+                                  //
+                                  // print(_password);
+                                  print(_selectedLocation);
+                                  // print(_city_id);
+                                  print(_country_id);
+                                  // print(_id);
+                                  // print(_email);
+
                                   // Navigator.of(context)
                                   //     .pushReplacementNamed(Finish.routeName);
                                 },
-                              ),
+                              )
                             ],
                           ),
                         )

@@ -74,6 +74,7 @@ class _LoginState extends State<Login> {
         setState(() {
           _loading = false;
         });
+        Navigator.of(context).pushReplacementNamed(Home.routeName);
       }
     } else {
       print('Response error');

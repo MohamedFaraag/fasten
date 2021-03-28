@@ -22,7 +22,8 @@ class AddFavAdsController {
       // }
       {'Authorization': prefs.getString('token')}
     ];
-    var response = await netWork.postData(url: 'favorites', formData: formData,headers: _headers[0]);
+    var response = await netWork.postData(
+        url: 'favorites', formData: formData, headers: _headers[0]);
     print(response);
     if (response == 'not found') {
       return {
@@ -41,7 +42,7 @@ class AddFavAdsController {
         "result": null,
         "success": false,
       };
-    } else if (response['success']) {
+    } else if (response['success'] == true) {
       _addFavAdsModel = AddFavAdsModel.fromJson(response);
 
       return {
