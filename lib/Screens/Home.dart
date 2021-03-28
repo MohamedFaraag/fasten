@@ -256,8 +256,8 @@ class _HomeState extends State<Home> {
                                         GestureDetector(
                                           onTap: () {
                                             Navigator.of(context).pushNamed(
-                                                SHowMoreForFeatureAds.routeName,
-                                                arguments: {});
+                                                SHowMoreForFeatureAds
+                                                    .routeName);
                                           },
                                           child: Text(
                                             'Show more',
@@ -276,8 +276,8 @@ class _HomeState extends State<Home> {
                                   ),
                                   _homeModel.data.featuredAds.isNotEmpty
                                       ? Container(
-                                          height:
-                                              getProportionateScreenHeight(285),
+                                          // height:
+                                          //     getProportionateScreenHeight(300),
                                           width: double.infinity,
                                           child: GridView.builder(
                                             shrinkWrap: true,
@@ -289,7 +289,7 @@ class _HomeState extends State<Home> {
                                                     maxCrossAxisExtent:
                                                         getProportionateScreenHeight(
                                                             285),
-                                                    childAspectRatio: 2 / 3,
+                                                    childAspectRatio: 1.5 / 2.5,
                                                     crossAxisSpacing: 30,
                                                     mainAxisSpacing: 8),
                                             itemBuilder: (context, i) {
@@ -425,11 +425,7 @@ class _HomeState extends State<Home> {
                                                                   CustomButton(
                                                                       name:
                                                                           'L'),
-                                                                  SizedBox(
-                                                                    width:
-                                                                        getProportionateScreenWidth(
-                                                                            35),
-                                                                  ),
+
                                                                   Container(
                                                                     height:
                                                                         getProportionateScreenHeight(

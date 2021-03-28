@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+
 import '../Models/RegesterModel.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Helpers/Network.dart';
@@ -25,9 +27,8 @@ class ReGController {
       "phone": phone,
       "country_id": country_id,
       "city_id": city_id,
-      // "device_id": id
     });
-    var response = await netWork.postData(url: '/register', formData: formData);
+    var response = await netWork.postData(url: 'register', formData: formData);
     print(response);
     if (response == 'not found') {
       return {

@@ -47,8 +47,9 @@ class User {
   int id;
   String name;
   String email;
-  var averageRating;
+  String averageRating;
   String phone;
+  String avatar;
   String deviceId;
   String role;
   var city;
@@ -64,6 +65,7 @@ class User {
       this.email,
       this.averageRating,
       this.phone,
+      this.avatar,
       this.deviceId,
       this.role,
       this.city,
@@ -79,6 +81,7 @@ class User {
     email = json['email'];
     averageRating = json['averageRating'];
     phone = json['phone'];
+    avatar = json['avatar'];
     deviceId = json['device_id'];
     role = json['role'];
     city = json['city'];
@@ -96,6 +99,7 @@ class User {
     data['email'] = this.email;
     data['averageRating'] = this.averageRating;
     data['phone'] = this.phone;
+    data['avatar'] = this.avatar;
     data['device_id'] = this.deviceId;
     data['role'] = this.role;
     data['city'] = this.city;

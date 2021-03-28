@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Models/EditProfileModel.dart';
 
@@ -25,18 +30,20 @@ class _EditProFileState extends State<EditProFile> {
   String email;
   String phone;
   String password;
-  var country;
-  var city;
+  String country;
+  String city;
   String nameafter;
   String emailafter;
   String phoneafter;
   String passwordafter;
-  var countryafter;
-  var cityafter;
+  String countryafter;
+  String cityafter;
+  String image;
   bool _loading = false;
+  bool _isLoad = false;
   EditProFileController _editProFileController = EditProFileController();
   EditProfileModel _editProfileModel = EditProfileModel();
-  void _submitForm() async {
+  void _submitForm(context) async {
     setState(() {
       _loading = true;
     });
@@ -46,7 +53,7 @@ class _EditProFileState extends State<EditProFile> {
       city: cityafter == null ? city : cityafter,
       phone: phoneafter == null ? phone : phoneafter,
       country: countryafter == null ? country : countryafter,
-      password: password,
+      password: passwordafter == null ? password : passwordafter,
     );
     if (_result['success'] == true) {
       print('Response Done');
@@ -61,6 +68,49 @@ class _EditProFileState extends State<EditProFile> {
     });
   }
 
+  File _file;
+  Future getFile() async {
+    File file = await FilePicker.getFile();
+    setState(() {
+      _file = file;
+    });
+  }
+
+  void _uploadFile(filePath, BuildContext ctx) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isLoad = true;
+    });
+    String fileName = basename(filePath.path);
+    print("file base name: $fileName");
+    try {
+      dio.FormData formData = new dio.FormData.fromMap({
+        "images": await dio.MultipartFile.fromFile(filePath.path,
+                filename: fileName) ??
+            image,
+      });
+      dio.Response response = await dio.Dio().post(
+        "https://fostan.demo.asol-tec.com/api/v1/user/update/avatar",
+        data: formData,
+        options: dio.Options(
+          headers: {
+            'Authorization': prefs.getString('token'),
+          },
+        ),
+      );
+      print("File Upload response:$response");
+      print(response.data);
+    } catch (e) {
+      print("Exiption is :$e");
+      setState(() {
+        _isLoad = false;
+      });
+    }
+    setState(() {
+      _isLoad = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArg =
@@ -72,6 +122,7 @@ class _EditProFileState extends State<EditProFile> {
       phone = routeArg['phone'];
       country = routeArg['country'];
       city = routeArg['city'];
+      image = routeArg['image']??'';
     });
     print(name);
     return Scaffold(
@@ -113,14 +164,21 @@ class _EditProFileState extends State<EditProFile> {
                     Center(
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: getProportionateScreenWidth(30),
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.transparent,
-                            child: Image.asset(
-                              profileImage,
-                              fit: BoxFit.cover,
-                            ),
+                          Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: getProportionateScreenWidth(30),
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.transparent,
+                                child: _file == null
+                                    ? FadeInImage(placeholder: AssetImage(profileImage),image: NetworkImage(image),)
+                                    : Image.file(_file),
+                              ),
+                              GestureDetector(
+                                onTap: getFile,
+                                child: Icon(Icons.add),
+                              ),
+                            ],
                           ),
                           Text(name),
                           Text(email),
@@ -280,6 +338,9 @@ class _EditProFileState extends State<EditProFile> {
                                 hintText: '*****',
                                 suffixIcon: Icon(Icons.visibility),
                               ),
+                              onChanged: (valpas) {
+                                passwordafter = valpas;
+                              },
                             ),
                           ),
                           SizedBox(
@@ -321,7 +382,8 @@ class _EditProFileState extends State<EditProFile> {
                               : Button(
                                   textButton: 'Save',
                                   onPressed: () {
-                                    _submitForm();
+                                    _submitForm(context);
+                                    _uploadFile(_file, context);
                                     // Navigator.of(context)
                                     //     .pushReplacementNamed(Home.routeName);
                                   },

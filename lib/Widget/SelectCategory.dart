@@ -1,4 +1,5 @@
-import 'package:fasten/Helpers/constant.dart';
+import '../Helpers/constant.dart';
+import '../Helpers/size_conifg.dart';
 import 'package:flutter/material.dart';
 
 class SelectCategory extends StatelessWidget {
@@ -8,7 +9,7 @@ class SelectCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-        radius: 55,
+        radius: getProportionateScreenWidth(40),
         foregroundColor: Colors.white,
         backgroundColor: s,
         child: Image.network(

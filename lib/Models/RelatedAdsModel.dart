@@ -1,11 +1,11 @@
-class MyAdsModel {
+class RelatedAdsModel {
   bool success;
   Data data;
   String message;
 
-  MyAdsModel({this.success, this.data, this.message});
+  RelatedAdsModel({this.success, this.data, this.message});
 
-  MyAdsModel.fromJson(Map<String, dynamic> json) {
+  RelatedAdsModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message = json['message'];
@@ -23,7 +23,7 @@ class MyAdsModel {
 }
 
 class Data {
-  List<DataUser> data;
+  List<DataTYY> data;
   Links links;
   Meta meta;
 
@@ -31,9 +31,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<DataUser>();
+      data = new List<DataTYY>();
       json['data'].forEach((v) {
-        data.add(new DataUser.fromJson(v));
+        data.add(new DataTYY.fromJson(v));
       });
     }
     links = json['links'] != null ? new Links.fromJson(json['links']) : null;
@@ -55,13 +55,13 @@ class Data {
   }
 }
 
-class DataUser {
+class DataTYY {
   int id;
   String name;
   String body;
   int featured;
   int adViews;
-  Conversation conversation;
+  var conversation;
   String lat;
   String lng;
   int distance;
@@ -81,7 +81,7 @@ class DataUser {
   String createdAt;
   String updatedAt;
 
-  DataUser(
+  DataTYY(
       {this.id,
       this.name,
       this.body,
@@ -107,15 +107,13 @@ class DataUser {
       this.createdAt,
       this.updatedAt});
 
-  DataUser.fromJson(Map<String, dynamic> json) {
+  DataTYY.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     body = json['body'];
     featured = json['featured'];
     adViews = json['ad_views'];
-    conversation = json['conversation'] != null
-        ? new Conversation.fromJson(json['conversation'])
-        : null;
+    conversation = json['conversation'];
     lat = json['lat'];
     lng = json['lng'];
     distance = json['distance'];
@@ -127,7 +125,7 @@ class DataUser {
     }
     adType =
         json['ad_type'] != null ? new AdType.fromJson(json['ad_type']) : null;
-    // contactTypes = json['contact_types'];
+    contactTypes = json['contact_types'].cast<String>();
     price = json['price'];
     averageRating = json['averageRating'];
     isFav = json['isFav'];
@@ -163,9 +161,7 @@ class DataUser {
     data['body'] = this.body;
     data['featured'] = this.featured;
     data['ad_views'] = this.adViews;
-    if (this.conversation != null) {
-      data['conversation'] = this.conversation.toJson();
-    }
+    data['conversation'] = this.conversation;
     data['lat'] = this.lat;
     data['lng'] = this.lng;
     data['distance'] = this.distance;
@@ -203,73 +199,6 @@ class DataUser {
   }
 }
 
-class Conversation {
-  int id;
-  int toId;
-  int adId;
-  int fromId;
-  String createdAt;
-  String updatedAt;
-
-  Conversation(
-      {this.id,
-      this.toId,
-      this.adId,
-      this.fromId,
-      this.createdAt,
-      this.updatedAt});
-
-  Conversation.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    toId = json['to_id'];
-    adId = json['ad_id'];
-    fromId = json['from_id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['to_id'] = this.toId;
-    data['ad_id'] = this.adId;
-    data['from_id'] = this.fromId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
-class Comments {
-  int id;
-  String body;
-  User user;
-  String createdAt;
-  String updatedAt;
-
-  Comments({this.id, this.body, this.user, this.createdAt, this.updatedAt});
-
-  Comments.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    body = json['body'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['body'] = this.body;
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
 class AttributesData {
   int attributeId;
   String name;
@@ -300,6 +229,36 @@ class AttributesData {
       data['selected_options'] =
           this.selectedOptions.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Comments {
+  int id;
+  String body;
+  User user;
+  String createdAt;
+  String updatedAt;
+
+  Comments({this.id, this.body, this.user, this.createdAt, this.updatedAt});
+
+  Comments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    body = json['body'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['body'] = this.body;
+    if (this.user != null) {
+      data['user'] = this.user.toJson();
+    }
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }
@@ -361,7 +320,7 @@ class User {
   String phone;
   Null deviceId;
   String email;
-  Null avatar;
+  String avatar;
   Null emailVerifiedAt;
   String status;
   String createdAt;

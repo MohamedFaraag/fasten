@@ -41,6 +41,12 @@ class LoginController {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', "Bearer " + _loginModel.data.token);
       prefs.setString('role', _loginModel.data.user.role);
+      prefs.setString('name', _loginModel.data.user.name);
+      prefs.setString('avatar', _loginModel.data.user.avatar);
+      prefs.setString('email', _loginModel.data.user.email);
+      prefs.setString('phone', _loginModel.data.user.phone);
+      prefs.setString('city', _loginModel.data.user.city ?? '');
+      prefs.setString('country', _loginModel.data.user.country);
 
       return {
         "result": _loginModel.data.user.role,

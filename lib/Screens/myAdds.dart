@@ -118,7 +118,7 @@ class _MyAddsState extends State<MyAdds> {
             ),
             leading: GestureDetector(
                 onTap: () {
-                  // Navigator.of(context).pushReplacementNamed(EditAds.routeName);
+                   Navigator.of(context).pop();
                 },
                 child: Image.asset(signout))),
         body: !_loading

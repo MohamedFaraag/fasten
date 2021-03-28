@@ -9,8 +9,8 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        height: 14,
-        width: 17,
+        height: 12,
+        width: 18,
         // color: Colors.,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(3),

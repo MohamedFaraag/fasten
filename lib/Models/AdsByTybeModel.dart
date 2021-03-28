@@ -1,11 +1,11 @@
-class MyAdsModel {
+class AdsByTybeModel {
   bool success;
   Data data;
   String message;
 
-  MyAdsModel({this.success, this.data, this.message});
+  AdsByTybeModel({this.success, this.data, this.message});
 
-  MyAdsModel.fromJson(Map<String, dynamic> json) {
+  AdsByTybeModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message = json['message'];
@@ -23,7 +23,7 @@ class MyAdsModel {
 }
 
 class Data {
-  List<DataUser> data;
+  List<DataU> data;
   Links links;
   Meta meta;
 
@@ -31,9 +31,9 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<DataUser>();
+      data = new List<DataU>();
       json['data'].forEach((v) {
-        data.add(new DataUser.fromJson(v));
+        data.add(new DataU.fromJson(v));
       });
     }
     links = json['links'] != null ? new Links.fromJson(json['links']) : null;
@@ -55,7 +55,7 @@ class Data {
   }
 }
 
-class DataUser {
+class DataU {
   int id;
   String name;
   String body;
@@ -74,14 +74,14 @@ class DataUser {
   User user;
   Category category;
   List<Images> images;
-  String video;
+  Null video;
   List<Comments> comments;
   String status;
   Images lastImage;
   String createdAt;
   String updatedAt;
 
-  DataUser(
+  DataU(
       {this.id,
       this.name,
       this.body,
@@ -107,7 +107,7 @@ class DataUser {
       this.createdAt,
       this.updatedAt});
 
-  DataUser.fromJson(Map<String, dynamic> json) {
+  DataU.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     body = json['body'];
@@ -127,7 +127,7 @@ class DataUser {
     }
     adType =
         json['ad_type'] != null ? new AdType.fromJson(json['ad_type']) : null;
-    // contactTypes = json['contact_types'];
+    contactTypes = json['contact_types'].cast<String>();
     price = json['price'];
     averageRating = json['averageRating'];
     isFav = json['isFav'];

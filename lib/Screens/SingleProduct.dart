@@ -10,8 +10,14 @@ import '../Widget/CustomButton.dart';
 import '../Widget/SelectedColorSmallVer.dart';
 
 import '../Models/SingleProductModel.dart';
+import '../Models/RelatedAdsModel.dart';
 
 import '../Controllers/SingleProductController.dart';
+import '../Controllers/RelatedAdsController.dart';
+import '../Controllers/AddFavController.dart';
+import '../Controllers/UnFavController.dart';
+
+import '../Screens/Login.dart';
 
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -26,6 +32,10 @@ class SingleProduct extends StatefulWidget {
 class _SingleProductState extends State<SingleProduct> {
   SingleProductContoller _singleProductContoller = SingleProductContoller();
   SingleProductModel _singleProductModel = SingleProductModel();
+  RelatedAdsController _relatedAdsController = RelatedAdsController();
+  RelatedAdsModel _relatedAdsModel = RelatedAdsModel();
+  AddFavAdsController _addFavAdsController = AddFavAdsController();
+  UnFavAdsController _unFavAdsController = UnFavAdsController();
   var rating = 3.0;
   bool isSet = false;
   int id = 0;
@@ -47,6 +57,59 @@ class _SingleProductState extends State<SingleProduct> {
     });
   }
 
+  _getRelatedAds() async {
+    setState(() {
+      _isLoading = true;
+    });
+    _relatedAdsModel = await _relatedAdsController.getRelatedAds(id);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void _addFavAdd(int curentid) async {
+    if (_token != null) {
+      showLoaderDialog.call(context);
+
+      Map<String, dynamic> _result =
+          await _addFavAdsController.addFavAds(adid: curentid);
+
+      if (_result['success'] == true) {
+        print('Response Done For addFav Done');
+        print(_result);
+        print(curentid);
+        Navigator.pop(context);
+        _getRelatedAds();
+      } else {
+        print('Failed For addFav');
+        Navigator.of(context).pop();
+      }
+    } else {
+      showMyDialog(context);
+    }
+  }
+
+  void _unFavAdss(int setid) async {
+    if (_token != null) {
+      showLoaderDialog(context);
+
+      Map<String, dynamic> _resultt =
+          await _unFavAdsController.unFavads(adid: setid);
+      if (_resultt['success'] == true) {
+        print('Response For UnFav Done');
+        print(_resultt);
+        print(setid);
+        Navigator.pop(context);
+        _getRelatedAds();
+      } else {
+        print('Fialed For UnFav');
+        Navigator.of(context).pop();
+      }
+    } else {
+      showMyDialog(context);
+    }
+  }
+
   _getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -54,6 +117,7 @@ class _SingleProductState extends State<SingleProduct> {
     });
 
     _getData();
+    _getRelatedAds();
   }
 
   @override
@@ -414,7 +478,7 @@ class _SingleProductState extends State<SingleProduct> {
                           height: getProportionateScreenHeight(225),
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: ban.length,
+                              itemCount: _relatedAdsModel.data.data.length,
                               itemBuilder: (context, index) {
                                 return Stack(
                                   children: [
@@ -442,27 +506,34 @@ class _SingleProductState extends State<SingleProduct> {
                                                   getProportionateScreenHeight(
                                                       150),
                                               decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                          ProImage[0]),
-                                                      fit: BoxFit.cover)),
+                                                image: DecorationImage(
+                                                    image:
+                                                        AssetImage(ProImage[0]),
+                                                    fit: BoxFit.cover),
+                                              ),
                                             ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Text(
-                                                  'Women shoes',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          getProportionateScreenWidth(
-                                                              12),
-                                                      fontWeight:
-                                                          FontWeight.w400),
+                                                Container(
+                                                  width:
+                                                      getProportionateScreenWidth(
+                                                          200),
+                                                  child: Text(
+                                                    _relatedAdsModel
+                                                        .data.data[index].name,
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            getProportionateScreenWidth(
+                                                                12),
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
                                                 ),
                                                 Text(
-                                                  '300 \$',
+                                                  '${_relatedAdsModel.data.data[index].price} \$',
                                                   style: TextStyle(
                                                       fontSize:
                                                           getProportionateScreenWidth(
@@ -472,7 +543,8 @@ class _SingleProductState extends State<SingleProduct> {
                                                 ),
                                               ],
                                             ),
-                                            Text('Guess tan'),
+                                            Text(_relatedAdsModel
+                                                .data.data[index].body),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceAround,
@@ -570,20 +642,19 @@ class _SingleProductState extends State<SingleProduct> {
                                           Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  isSet = !isSet;
-                                                  print(isSet);
-                                                });
-                                              },
+                                              onTap: () => _relatedAdsModel
+                                                      .data.data[index].isFav
+                                                  ? _unFavAdss(_relatedAdsModel
+                                                      .data.data[index].id)
+                                                  : _addFavAdd(_relatedAdsModel
+                                                      .data.data[index].id),
                                               child: Icon(
                                                 Icons.favorite,
-                                                size:
-                                                    getProportionateScreenWidth(
-                                                        20),
-                                                color: isSet
-                                                    ? Colors.grey
-                                                    : Colors.red,
+                                                size: 20,
+                                                color: _relatedAdsModel
+                                                        .data.data[index].isFav
+                                                    ? Colors.red
+                                                    : Colors.grey,
                                               ),
                                             ),
                                           )
@@ -606,5 +677,54 @@ class _SingleProductState extends State<SingleProduct> {
               ),
       ),
     );
+  }
+
+  showLoaderDialog(BuildContext context) {
+    Widget circel = Center(child: CircularProgressIndicator());
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return circel;
+      },
+    );
+  }
+
+  Future<void> showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        // user must tap button!
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              'Please Login !',
+              style: TextStyle(
+                fontFamily: 'Cairo',
+                fontWeight: FontWeight.w400,
+                fontSize: getProportionateScreenWidth(18),
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: Color(0xFFFE7680)),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacementNamed(Login.routeName);
+                },
+              ),
+              TextButton(
+                child: Text(
+                  'Exit',
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 }

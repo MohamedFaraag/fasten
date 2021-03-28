@@ -27,22 +27,29 @@ class _ProFileState extends State<ProFile> {
   UsersController _usersController = UsersController();
   bool _isLoading = false;
   String _token;
+  String name;
+  String email;
+  String avatar;
+  String phone;
+  String country;
+  String city;
+
   @override
   void initState() {
     _getToken();
-    _getUsers();
+    // _getUsers();
     super.initState();
   }
 
-  _getUsers() async {
-    setState(() {
-      _isLoading = true;
-    });
-    _usersModel = await _usersController.getUsers();
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  // _getUsers() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   _usersModel = await _usersController.getUsers();
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +60,7 @@ class _ProFileState extends State<ProFile> {
       appBar: myAppBar(iset: false, name: 'My Account', onTap: () {}),
       body: _isLoading != null
           ? Container(
-              child: _token != null && _usersModel.data != null
+              child: _token != null
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,16 +88,12 @@ class _ProFileState extends State<ProFile> {
                                       Navigator.of(context).pushNamed(
                                           EditProFile.routeName,
                                           arguments: {
-                                            'name': _usersModel.data.user.name,
-                                            'email':
-                                                _usersModel.data.user.email,
-                                            'phone':
-                                                _usersModel.data.user.phone,
-                                            'country':
-                                                _usersModel.data.user.country ??
-                                                    '',
-                                            'city':
-                                                _usersModel.data.user.city ?? ''
+                                            'name': name??'',
+                                            'email': email??'',
+                                            'phone': phone??'',
+                                            'country': country ?? '',
+                                            'city': city ?? '',
+                                            'image': avatar ?? ''
                                           });
                                     },
                                     child: Text('Edit')),
@@ -99,19 +102,19 @@ class _ProFileState extends State<ProFile> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(_usersModel.data.user.name),
-                                  Text(_usersModel.data.user.email),
+                                  Text(name.toString()),
+                                  Text(email.toString()),
                                 ],
                               ),
                               CircleAvatar(
-                                radius: getProportionateScreenWidth(30),
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.transparent,
-                                child: Image.asset(
-                                  profileImage,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                                  radius: getProportionateScreenWidth(30),
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.transparent,
+                                  child: FadeInImage(
+                                    // here `bytes` is a Uint8List containing the bytes for the in-memory image
+                                    placeholder: AssetImage(profileImage),
+                                    image: NetworkImage(avatar),
+                                  ))
                             ],
                           ),
                         ),
@@ -124,7 +127,7 @@ class _ProFileState extends State<ProFile> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, MyAdds.routeName);
                                 },
                                 child: CustomTextProfiel(
@@ -133,7 +136,7 @@ class _ProFileState extends State<ProFile> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pushReplacementNamed(
+                                  Navigator.pushNamed(
                                       context, Settings.routeName);
                                 },
                                 child: CustomTextProfiel(
@@ -156,9 +159,10 @@ class _ProFileState extends State<ProFile> {
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: getProportionateScreenHeight(100),
-                        ),
+
+                        // SizedBox(
+                        //   height: getProportionateScreenHeight(100),
+                        // ),
                         Center(
                           child: Column(
                             children: [
@@ -209,6 +213,12 @@ class _ProFileState extends State<ProFile> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _token = prefs.getString('token');
+      name = prefs.getString('name');
+      avatar = prefs.getString('avatar');
+      email = prefs.getString('email');
+      phone = prefs.getString('phone');
+      country = prefs.getString('country');
+      city = prefs.getString('city');
     });
   }
 }

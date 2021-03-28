@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:905984132107:android:2cfb2d9b3b6748c543330e",
+        "mobilesdk_app_id": "1:905984132107:android:793980270f6fed2b43330e",
         "android_client_info": {
           "package_name": "com.farag.fasten"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "905984132107-q7v906tisqo7lol80pnbflp506lc6vii.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.farag.fasten",
-            "certificate_hash": "8af1b0372f0f94b145dfd1136b97c018e08bfdf3"
-          }
-        },
         {
           "client_id": "905984132107-qdbgoc43cne8hcut62g4ne0utpco3ckb.apps.googleusercontent.com",
           "client_type": 3
@@ -37,6 +29,13 @@
             {
               "client_id": "905984132107-qdbgoc43cne8hcut62g4ne0utpco3ckb.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "905984132107-u021tbr1qvevrhreei1ltu5ptq599l12.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.farag.fasten"
+              }
             }
           ]
         }
