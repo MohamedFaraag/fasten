@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:fasten/Helpers/Network.dart';
-import 'package:fasten/Models/CreateadsModel.dart';
+import '../Helpers/Network.dart';
+import '../Models/CreateadsModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateadsController {
@@ -30,12 +30,10 @@ class CreateadsController {
         'name': name,
         'body': body,
         'contact_types[1]': "whatsapp",
-        'contact_types[2]': "chat",
-        'contact_types[3]': "phone",
         'category_id': category_Id,
         'ad_type': ad_typeId,
         'price': price,
-        'attributes[1][${attributes1.map((e) => e.toString()).toList()}]':
+        'attributes[1][]':
             attributes1.map((e) => e.toString()).toList(),
         'attributes[2][$attributes2]': attributes2,
       },

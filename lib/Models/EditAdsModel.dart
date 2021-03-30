@@ -41,7 +41,7 @@ class Data {
   User user;
   Category category;
   List<Images> images;
-  var video;
+  String video;
   List<Comments> comments;
   String status;
   Images lastImage;

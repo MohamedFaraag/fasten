@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:smart_select/smart_select.dart';
 import '../Controllers/AttributeForAddController.dart';
 import '../Helpers/FormatColor.dart';
 import '../Models/AttributeForAddModel.dart';
@@ -21,6 +21,7 @@ import '../Controllers/CreateadsController.dart';
 import '../Models/CreateadsModel.dart';
 import '../Helpers/Loading.dart';
 import '../Helpers/contactData.dart';
+import '../Screens/myAdds.dart';
 
 class AddAdds extends StatefulWidget {
   static String routeName = '/AddAdds';
@@ -50,11 +51,20 @@ class _AddAddsState extends State<AddAdds> {
   void showToast() {
     setState(() {
       _isVisible = !_isVisible;
+      MultiSelectItem('', '');
     });
   }
 
+  List colorList = [];
+  List<dynamic> value = [];
+  List<S2Choice<String>> options = [
+    S2Choice<String>(value: 'ion', title: 'Ionic'),
+    S2Choice<String>(value: 'flu', title: 'Flutter'),
+    S2Choice<String>(value: 'rea', title: 'React Native'),
+  ];
+
   ///var for index
-  var colorindex;
+  List<dynamic> colorindex;
   var sizeindex;
   var categoryindex;
   var tybeindex;
@@ -140,6 +150,7 @@ class _AddAddsState extends State<AddAdds> {
     if (_result['success'] == true) {
       print(_result);
       print('Response Done');
+      Navigator.of(context).pushReplacementNamed(MyAdds.routeName);
       setState(() {
         _isLoad = false;
         id = _result['id'];
@@ -337,33 +348,72 @@ class _AddAddsState extends State<AddAdds> {
                             ),
                           ),
                           categoryindex != 0 && categoryindex != null
-                              ? Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: List.generate(
-                                      _allCategoryModel.data[categoryindex - 1]
-                                          .childs.length, (i) {
-                                    return AnimatedOpacity(
-                                        opacity: _isVisible ? 1.0 : 0.0,
-                                        duration: Duration(milliseconds: 500),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              _sellect.add(_allCategoryModel
-                                                  .data[categoryindex - 1]
-                                                  .childs[i]
-                                                  .id);
-                                            });
-                                          },
-                                          child: Container(
-                                            child: Text(
-                                              '${_allCategoryModel.data[categoryindex - 1].childs[i].name}',
-                                              style: TextStyle(color: color),
-                                            ),
-                                          ),
-                                        ));
-                                  }),
+                              ? AnimatedOpacity(
+                                  duration: Duration(milliseconds: 500),
+                                  opacity: _isVisible ? 1.0 : 0.5,
+                                  child: MultiSelectChipField(
+                                    height: getProportionateScreenHeight(40),
+                                    items: _allCategoryModel
+                                        .data[categoryindex - 1].childs
+                                        //
+                                        .map((e) =>
+                                            MultiSelectItem(e.id, e.name))
+                                        .toList(),
+                                    // initialValue: [
+                                    //   _animals[4],
+                                    //   _animals[7],
+                                    //   _animals[9]
+                                    // ],
+                                    title: Text(
+                                      "",
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 12),
+                                    ),
+                                    // chipWidth: 30,
+                                    headerColor: Colors.transparent,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 0.5),
+                                    ),
+                                    selectedChipColor: s,
+
+                                    selectedTextStyle:
+                                        TextStyle(color: Colors.white),
+                                    onTap: (values) {
+                                      setState(() {
+                                        _selecteditems2 = values;
+                                      });
+                                    },
+                                  ),
                                 )
+                              // Row(
+                              //         mainAxisAlignment:
+                              //             MainAxisAlignment.spaceEvenly,
+                              //         children: List.generate(
+                              //             _allCategoryModel.data[categoryindex - 1]
+                              //                 .childs.length, (i) {
+                              //           return AnimatedOpacity(
+                              //               opacity: _isVisible ? 1.0 : 0.0,
+                              //               duration: Duration(milliseconds: 500),
+                              //               child: GestureDetector(
+                              //                 onTap: () {
+                              //                   setState(() {
+                              //                     _sellect.add(_allCategoryModel
+                              //                         .data[categoryindex - 1]
+                              //                         .childs[i]
+                              //                         .id);
+                              //                   });
+                              //                 },
+                              //                 child: Container(
+                              //                   child: Text(
+                              //                     '${_allCategoryModel.data[categoryindex - 1].childs[i].name}',
+                              //                     style: TextStyle(color: color),
+                              //                   ),
+                              //                 ),
+                              //               ));
+                              //         }),
+                              //       )
                               : Container(),
 
                           SizedBox(
@@ -467,6 +517,13 @@ class _AddAddsState extends State<AddAdds> {
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
+                          // SmartSelect.multiple(
+                          //     title: 'Selct',
+                          //     value: value,
+                          //     choiceItems: options,
+                          //     onChange: (state) =>
+                          //         setState(() => value = state.value)),
+
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: List.generate(
@@ -622,27 +679,30 @@ class _AddAddsState extends State<AddAdds> {
                                 children: List.generate(
                                     _attributeForAddModel
                                         .data[0].options.length, (index) {
+                                  int id = _attributeForAddModel
+                                      .data[0].options[index].id;
                                   return SelectedColor(
-                                    onTap: () {
-                                      setState(() {
-                                        colorindex = _attributeForAddModel
-                                            .data[0].options[index].id;
-                                      });
-                                      print('Color index is $colorindex');
-                                    },
-                                    s: HexColor(
-                                      _attributeForAddModel
-                                          .data[0].options[index].name,
-                                    ),
-                                    set: colorindex !=
-                                            _attributeForAddModel
-                                                .data[0].options[index].id
-                                        ? Colors.white
-                                        : HexColor(
-                                            _attributeForAddModel
-                                                .data[0].options[index].name,
-                                          ),
-                                  );
+                                      onTap: () {
+                                        setState(() {
+                                          colorindex.add(id);
+                                        });
+                                        print('Color index is $colorindex');
+                                      },
+                                      s: HexColor(
+                                        _attributeForAddModel
+                                            .data[0].options[index].name,
+                                      ),
+                                      set:
+                                          // colorindex.map((e) => e ) !=
+                                          //         _attributeForAddModel
+                                          //             .data[0].options[index].id
+                                          //    ?
+                                          Colors.white
+                                      // : HexColor(
+                                      //     _attributeForAddModel
+                                      //         .data[0].options[index].name,
+                                      //   ),
+                                      );
                                 })),
                           ),
                           SizedBox(
@@ -670,6 +730,8 @@ class _AddAddsState extends State<AddAdds> {
                                     ),
                                     child: FlatButton(
                                       onPressed: () {
+                                        colorList.add(_attributeForAddModel
+                                            .data[0].options[0].id);
                                         // print(_selecteditems);
                                         // print(_allCategoryModel
                                         //         .data[1].childs??[0].name ??
@@ -680,9 +742,10 @@ class _AddAddsState extends State<AddAdds> {
                                         //     .childs[categoryindex]
                                         //     .id
                                         //     .toString());
-                                        _createads(context);
+                                        // _createads(context);
                                         // print(id);
-                                        print(_selecteditems2.map((e) => e));
+                                        // print(_selecteditems2.map((e) => e));
+                                        print(value);
 
                                         // Navigator.of(context)
                                         //     .pushReplacementNamed(MyAdds.routeName);

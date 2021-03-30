@@ -359,15 +359,15 @@ class User {
   int id;
   String name;
   String phone;
-  Null deviceId;
+  var deviceId;
   String email;
-  Null avatar;
-  Null emailVerifiedAt;
+  var avatar;
+  var emailVerifiedAt;
   String status;
   String createdAt;
   String updatedAt;
-  Null countryId;
-  Null cityId;
+  var countryId;
+  var cityId;
 
   User(
       {this.id,

@@ -45,8 +45,8 @@ class LoginController {
       prefs.setString('avatar', _loginModel.data.user.avatar);
       prefs.setString('email', _loginModel.data.user.email);
       prefs.setString('phone', _loginModel.data.user.phone);
-      prefs.setString('city', _loginModel.data.user.city ?? '');
-      prefs.setString('country', _loginModel.data.user.country);
+      // prefs.setString('city', _loginModel.data.user.city ?? '');
+      // prefs.setString('country', _loginModel.data.user.country);
 
       return {
         "result": _loginModel.data.user.role,

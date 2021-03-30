@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fasten/Screens/Home.dart';
-import 'package:fasten/Screens/SingUp.dart';
 
+import '../Screens/Home.dart';
+import '../Screens/Regiester.dart';
 import '../Screens/Login.dart';
+
 import '../Helpers/images.dart';
 import '../Helpers/size_conifg.dart';
+
 import '../Widget/Buttons.dart';
 
 class Welcome extends StatelessWidget {
@@ -107,7 +109,7 @@ class Welcome extends StatelessWidget {
                             onPressed: () {
                               print('SingUp');
                               Navigator.of(context)
-                                  .pushReplacementNamed(SingUp.routeName);
+                                  .pushReplacementNamed(Regeister.routeName);
                             },
                             child: Text(
                               'SingUp',

@@ -54,6 +54,14 @@ class ReGController {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', "Bearer " + _regiesterModel.data.token);
       prefs.setString('role', _regiesterModel.data.user.role);
+      prefs.setString('name', _regiesterModel.data.user.name);
+      prefs.setString('avatar', _regiesterModel.data.user.avatar);
+      prefs.setString('email', _regiesterModel.data.user.email);
+      prefs.setString('phone', _regiesterModel.data.user.phone);
+      prefs.setString('city', _regiesterModel.data.user.city ?? '');
+      // prefs.setString('country', _regiesterModel.data.user.country);
+
+
 
       return {
         "result": _regiesterModel.data.user.role,
@@ -62,8 +70,8 @@ class ReGController {
       };
     } else {
       return {
-        "result": _regiesterModel.data.user.role,
-        "err": _regiesterModel.data.user.role,
+        "result": _regiesterModel.message,
+        "err": _regiesterModel.success,
         "success": false,
       };
     }

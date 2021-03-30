@@ -59,7 +59,7 @@ class EditAdsController {
         "err": 'Failed',
         "success": false,
       };
-    } else if (response['success']) {
+    } else if (response['success']==true) {
       _editAdsModel = EditAdsModel.fromJson(response);
       return {
         "result": _editAdsModel.message,

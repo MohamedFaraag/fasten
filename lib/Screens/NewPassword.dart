@@ -21,6 +21,7 @@ class NewPassword extends StatefulWidget {
 }
 
 class _NewPasswordState extends State<NewPassword> {
+  var _formKey = GlobalKey<FormState>();
   String _newPassword;
   String confPassword;
   bool _load = false;
@@ -28,31 +29,33 @@ class _NewPasswordState extends State<NewPassword> {
   NewPasswordController _newPasswordController = NewPasswordController();
 
   _changePassword() async {
-    setState(() {
-      _load = true;
-    });
-    Map<String, dynamic> _result = await _newPasswordController.changePassword(
-      phone: widget.phoneForAPI,
-      code: widget.code,
-      newPassword: _newPassword,
-    );
-    if (_newPassword == confPassword) {
-      print('Match');
-      if (_result["success"]) {
+    final isValid = _formKey.currentState.validate();
+
+    if (!isValid) {
+      return;
+    } else {
+      setState(() {
+        _load = true;
+      });
+      _formKey.currentState.save();
+      Map<String, dynamic> _result =
+          await _newPasswordController.changePassword(
+        phone: widget.phoneForAPI,
+        code: widget.code,
+        newPassword: _newPassword,
+      );
+
+      if (_result["success"] == true) {
         print('Response Done');
         print(_result);
+        Navigator.of(context).pushReplacementNamed(Home.routeName);
       } else {
         print('error');
       }
-    } else {
       setState(() {
-        errorMassage = 'Password doesn\'t match';
+        _load = false;
       });
-      print('Donot match');
     }
-    setState(() {
-      _load = false;
-    });
   }
 
   @override
@@ -75,133 +78,148 @@ class _NewPasswordState extends State<NewPassword> {
           padding: EdgeInsets.all(15.0),
           child: Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(woImage),
+              Form(
+                key: _formKey,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(woImage),
+                    ),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: getProportionateScreenHeight(10),
-                    ),
-                    Text(
-                      'Create a new password',
-                      style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF000000)),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(15),
-                    ),
-                    Text(
-                      'Choose a strong password',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF000000)),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(20),
-                    ),
-                    Text(
-                      'Password *',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(10),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
-                        color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: getProportionateScreenHeight(10),
                       ),
-                      child: TextFormField(
-                        onChanged: (val) {
-                          _newPassword = val;
-                        },
-                        keyboardType: TextInputType.phone,
-                        cursorColor: Colors.black,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Colors.black,
-                          contentPadding: EdgeInsets.all(10),
-                          hintText: '*****',
-                          suffixIcon: Icon(Icons.visibility),
+                      Text(
+                        'Create a new password',
+                        style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF000000)),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(15),
+                      ),
+                      Text(
+                        'Choose a strong password',
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF000000)),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(20),
+                      ),
+                      Text(
+                        'Password *',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(10),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.5),
+                          color: Colors.white,
                         ),
-                      ),
-                    ),
-                    Text(
-                      errorMassage,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(10),
-                    ),
-                    Text(
-                      'Confirm Password *',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(10),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.5),
-                        color: Colors.white,
-                      ),
-                      child: TextFormField(
-                        keyboardType: TextInputType.phone,
-                        cursorColor: Colors.black,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Colors.black,
-                          contentPadding: EdgeInsets.all(10),
-                          hintText: '*****',
-                          suffixIcon: Icon(Icons.visibility),
-                        ),
-                        onChanged: (vla) {
-                          confPassword = vla;
-                        },
-                      ),
-                    ),
-                    Text(
-                      errorMassage,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.red),
-                    ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(10),
-                    ),
-                    _load
-                        ? Reusable.showLoader(_load,
-                            width: getProportionateScreenWidth(100),
-                            height: getProportionateScreenHeight(100))
-                        : Button(
-                            textButton: 'Change Password',
-                            onPressed: () {
-                              _changePassword();
-                              // Navigator.of(context)
-                              //     .pushReplacementNamed(Home.routeName);
-                              print('change Password');
-                              print('Data To change Password');
-                              print('----------------');
-                              print('Phone is ${widget.phoneForAPI}');
-                              print('Code is ${widget.code}');
-                              print('NewPassword $_newPassword');
-                              // print(code);
-                            },
+                        child: TextFormField(
+                          validator: (val) {
+                            if (val.isEmpty) {
+                              return 'PLEASE ENTER NEW PASSWORD';
+                            }
+                            return null;
+                          },
+                          onChanged: (val) {
+                            _newPassword = val;
+                          },
+                          keyboardType: TextInputType.phone,
+                          cursorColor: Colors.black,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            fillColor: Colors.black,
+                            contentPadding: EdgeInsets.all(10),
+                            hintText: '*****',
+                            suffixIcon: Icon(Icons.visibility),
                           ),
-                  ],
+                        ),
+                      ),
+                      Text(
+                        errorMassage,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(10),
+                      ),
+                      Text(
+                        'Confirm Password *',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(10),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.5),
+                          color: Colors.white,
+                        ),
+                        child: TextFormField(
+                          validator: (val) {
+                            if (val.isEmpty) {
+                              return 'PASSWORD ISNOT EQUAL';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.phone,
+                          cursorColor: Colors.black,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            fillColor: Colors.black,
+                            contentPadding: EdgeInsets.all(10),
+                            hintText: '*****',
+                            suffixIcon: Icon(Icons.visibility),
+                          ),
+                          onChanged: (vla) {
+                            confPassword = vla;
+                          },
+                        ),
+                      ),
+                      Text(
+                        errorMassage,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(10),
+                      ),
+                      _load
+                          ? Reusable.showLoader(_load,
+                              width: getProportionateScreenWidth(100),
+                              height: getProportionateScreenHeight(100))
+                          : Button(
+                              textButton: 'Change Password',
+                              onPressed: () {
+                                _changePassword();
+                                // Navigator.of(context)
+                                //     .pushReplacementNamed(Home.routeName);
+                                print('change Password');
+                                print('Data To change Password');
+                                print('----------------');
+                                print('Phone is ${widget.phoneForAPI}');
+                                print('Code is ${widget.code}');
+                                print('NewPassword $_newPassword');
+                                // print(code);
+                              },
+                            ),
+                    ],
+                  ),
                 ),
               ),
             ],

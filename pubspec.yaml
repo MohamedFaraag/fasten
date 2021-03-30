@@ -29,7 +29,9 @@ dependencies:
   url_launcher: ^5.7.10
   ## Rate
   smooth_star_rating: ^1.1.1
-  ## Local Storage
+  multi_select_item: ^1.0.3
+  smart_select: ^4.3.2
+  ## Local Storage^1.0.3
   shared_preferences: ^0.5.12+4
   ## Networking
   dio: ^3.0.10

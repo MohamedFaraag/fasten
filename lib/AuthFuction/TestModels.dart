@@ -1,63 +1,81 @@
-// import 'package:flutter/material.dart';
-//
-// class HomeAge extends StatefulWidget {
-//   @override
-//   _HomeAgeState createState() => _HomeAgeState();
-// }
-//
-// class _HomeAgeState extends State<HomeAge> {
-//   List<ListItem<String>> list;
-//   @override
-//   void initState() {
-//     super.initState();
-//     populateData();
-//   }
-//
-//   void populateData() {
-//     list = [];
-//     for (int i = 0; i < 10; i++) list.add(ListItem<String>("item $i"));
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text("List Selection"),
-//       ),
-//       body: ListView.builder(
-//         itemCount: list.length,
-//         itemBuilder: _getListItemTile,
-//       ),
-//     );
-//   }
-//
-//   Widget _getListItemTile(BuildContext context, int index) {
-//     return GestureDetector(
-//       onTap: () {
-//         if (list.any((item) => item.isSelected)) {
-//           setState(() {
-//             list[index].isSelected = !list[index].isSelected;
-//           });
-//         } else {
-//           setState(() {
-//             list[index].isSelected = true;
-//           });
-//         }
-//       },
-//       onLongPress: () {},
-//       child: Container(
-//         margin: EdgeInsets.symmetric(vertical: 4),
-//         color: list[index].isSelected ? Colors.red[100] : Colors.white,
-//         child: ListTile(
-//           title: Text(list[index].data),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class ListItem<T> {
-//   bool isSelected = false; //Selection property to highlight or not
-//   T data; //Data of the user
-//   ListItem(this.data); //Constructor to assign the data
-// }
+import 'package:flutter/material.dart';
+class MultipleSelectItems extends StatefulWidget {
+  @override
+  _MultipleSelectItemsState createState() => _MultipleSelectItemsState();
+}
+
+class _MultipleSelectItemsState extends State<MultipleSelectItems> {
+
+  // This is responsible to crate your buttons
+  // Every button is created will be having it's unique instance only
+  // Means, if you hit one button, it won't effect another, and you can select
+  // multiple
+  // And you don't have to declare your buttons multiple times in the code
+  // Which is indeed bad way of coding :)
+  List<Widget> get listTileWidgets{
+    List<Widget> _widget = [SizedBox(height: 40.0)];
+    List<String> _buttonName = ['First', 'Second', 'Third', 'Fourth'];
+
+    // ListTileWidget is defined below in another StatefulWidget
+    _buttonName.forEach((name){
+      _widget.add(ListTileWidget(name: name));
+      _widget.add(SizedBox(height: 20.0));
+    });
+
+    return _widget;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+        child: Container(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: this.listTileWidgets
+            )
+        )
+    );
+  }
+}
+
+
+// This will accept name of the button which will be used to be given
+// plus maintaining the uniqueness
+class ListTileWidget extends StatefulWidget{
+  final String name;
+
+  ListTileWidget({Key key, this.name}):super(key:key);
+
+  @override
+  ListTileWidgetState createState() => ListTileWidgetState();
+}
+
+class ListTileWidgetState extends State<ListTileWidget>{
+  bool isTapped = false;
+
+  @override
+  Widget build(BuildContext context){
+    return GestureDetector(
+        onTap: () {
+          setState(() => isTapped = !isTapped);
+        },
+        child: Container(
+            margin: EdgeInsets.only(left: 15, right: 15),
+            height:100,
+            color: isTapped ? Colors.redAccent : Colors.lightBlueAccent,
+            width: double.maxFinite,
+            child: ListTile(
+                title: Text(
+                    widget.name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'WorksSansSemiBold',
+                      fontWeight: FontWeight.bold,
+                    )
+                )
+            )
+        )
+    );
+  }
+}

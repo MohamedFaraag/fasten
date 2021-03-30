@@ -31,6 +31,7 @@ class _RegeisterState extends State<Regeister> {
   AllCitiesModel _allCitiesModel = AllCitiesModel();
   AllCitiesController _allCitiesController = AllCitiesController();
   AllCountriesController _allCountriesController = AllCountriesController();
+  String message = '';
   bool _isloading = false;
   bool _loadmore = false;
   bool _loading = false;
@@ -89,15 +90,15 @@ class _RegeisterState extends State<Regeister> {
         country_id: _myCountry,
         city_id: _myCity,
       );
-      if (_result['success']) {
+      if (_result['success'] == true) {
         print('Response Done');
         print(_result);
-        Navigator.of(context).pushReplacementNamed(Home.routeName);
+         Navigator.of(context).pushReplacementNamed(Home.routeName);
       } else {
         print('Response error');
-        print("Result is ${_result['errPhone']}");
-        print("Result is ${_result['errPassword']}");
+        message = 'Email OR PASSWORD IS USED';
         print(_result['success']);
+        print(message);
       }
 
       setState(() {
@@ -468,6 +469,18 @@ class _RegeisterState extends State<Regeister> {
                                     suffixIcon: Icon(Icons.visibility),
                                   ),
                                   obscureText: true,
+                                ),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(20),
+                              ),
+                              Center(
+                                child: Text(
+                                  message,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Theme.of(context).errorColor,
+                                  ),
                                 ),
                               ),
                               SizedBox(

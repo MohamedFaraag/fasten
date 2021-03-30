@@ -210,7 +210,7 @@ class _HomeState extends State<Home> {
                                     height: getProportionateScreenHeight(30.0),
                                   ),
                                   SizedBox(
-                                    height: getProportionateScreenHeight(13),
+                                    height: getProportionateScreenHeight(10),
                                   ),
                                   Row(
                                     mainAxisAlignment:
@@ -230,6 +230,11 @@ class _HomeState extends State<Home> {
                                             child: SelectCategory(
                                               image: e.image,
                                             ),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    10.0),
                                           ),
                                           Text(e.name)
                                         ],
@@ -425,7 +430,6 @@ class _HomeState extends State<Home> {
                                                                   CustomButton(
                                                                       name:
                                                                           'L'),
-
                                                                   Container(
                                                                     height:
                                                                         getProportionateScreenHeight(

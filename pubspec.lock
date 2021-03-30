@@ -301,6 +301,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.8"
+  multi_select_item:
+    dependency: "direct main"
+    description:
+      name: multi_select_item
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   otp_text_field:
     dependency: "direct main"
     description:
@@ -425,6 +432,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  smart_select:
+    dependency: "direct main"
+    description:
+      name: smart_select
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.2"
   smooth_star_rating:
     dependency: "direct main"
     description:

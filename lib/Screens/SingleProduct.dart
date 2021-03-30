@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import '../Helpers/images.dart';
 import '../Helpers/size_conifg.dart';
@@ -18,9 +20,6 @@ import '../Controllers/AddFavController.dart';
 import '../Controllers/UnFavController.dart';
 
 import '../Screens/Login.dart';
-
-import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class SingleProduct extends StatefulWidget {
   static String routeName = '/Details';
@@ -151,7 +150,8 @@ class _SingleProductState extends State<SingleProduct> {
             ),
           ],
         ),
-        body: !_isLoading && _singleProductModel.data != null
+        body: !_isLoading &&
+                (_singleProductModel.data != null || _relatedAdsModel != null)
             ? Container(
                 padding: EdgeInsets.all(15.0),
                 child: ListView(
@@ -475,7 +475,7 @@ class _SingleProductState extends State<SingleProduct> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: getProportionateScreenHeight(225),
+                          height: getProportionateScreenHeight(250),
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: _relatedAdsModel.data.data.length,
@@ -494,7 +494,7 @@ class _SingleProductState extends State<SingleProduct> {
                                                 BorderRadius.circular(10.5)),
                                         height:
                                             getProportionateScreenHeight(260),
-                                        width: getProportionateScreenWidth(170),
+                                        width: getProportionateScreenWidth(180),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
@@ -504,11 +504,11 @@ class _SingleProductState extends State<SingleProduct> {
                                             Container(
                                               height:
                                                   getProportionateScreenHeight(
-                                                      150),
+                                                      140),
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
                                                     image:
-                                                        AssetImage(ProImage[0]),
+                                                        NetworkImage(_relatedAdsModel.data.data[index].lastImage.fullFile),
                                                     fit: BoxFit.cover),
                                               ),
                                             ),
@@ -520,7 +520,7 @@ class _SingleProductState extends State<SingleProduct> {
                                                 Container(
                                                   width:
                                                       getProportionateScreenWidth(
-                                                          200),
+                                                          90),
                                                   child: Text(
                                                     _relatedAdsModel
                                                         .data.data[index].name,

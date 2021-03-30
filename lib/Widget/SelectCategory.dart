@@ -9,12 +9,16 @@ class SelectCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-        radius: getProportionateScreenWidth(40),
+
+        radius: getProportionateScreenWidth(35),
         foregroundColor: Colors.white,
         backgroundColor: s,
-        child: Image.network(
-          image,
-          fit: BoxFit.fill,
+        child: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Image.network(
+            image,
+            fit: BoxFit.cover,
+          ),
         ));
   }
 }
