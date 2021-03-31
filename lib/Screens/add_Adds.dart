@@ -6,21 +6,27 @@ import 'package:path/path.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_select/smart_select.dart';
+
 import '../Controllers/AttributeForAddController.dart';
-import '../Helpers/FormatColor.dart';
-import '../Models/AttributeForAddModel.dart';
 import '../Controllers/AdTypesForAddController.dart';
 import '../Controllers/AllCategoryController.dart';
+import '../Controllers/CreateadsController.dart';
+import '../Controllers/AllAttributesController.dart';
+
+import '../Models/AllAttributesModel.dart';
+import '../Models/AttributeForAddModel.dart';
 import '../Models/AdTypesForAddModel.dart';
 import '../Models/AllCategoryModel.dart';
-import '../Helpers/size_conifg.dart';
-import '../Widget/SelectedColor.dart';
-import '../Widget/seletCategory.dart';
-import '../Helpers/images.dart';
-import '../Controllers/CreateadsController.dart';
 import '../Models/CreateadsModel.dart';
+
+import '../Helpers/FormatColor.dart';
+import '../Helpers/size_conifg.dart';
+import '../Helpers/images.dart';
 import '../Helpers/Loading.dart';
 import '../Helpers/contactData.dart';
+
+import '../Widget/seletCategory.dart';
+
 import '../Screens/myAdds.dart';
 
 class AddAdds extends StatefulWidget {
@@ -40,6 +46,9 @@ class _AddAddsState extends State<AddAdds> {
   AttributeForAddModel _attributeForAddModel = AttributeForAddModel();
   CreateadsController _createadsController = CreateadsController();
   CreateadsModel _createadsModel = CreateadsModel();
+  AllAttributesController _allAttributesController = AllAttributesController();
+  AllAttributesModel _allAttributesModel = AllAttributesModel();
+
   List<Map> staticData = ContactData.data;
   Map<int, bool> selectedFlag = {};
   bool isSelectionMode = false;
@@ -48,10 +57,13 @@ class _AddAddsState extends State<AddAdds> {
   bool _isVisible = true;
   String _token;
   Color color = Colors.black;
+  final _multiSelectKey = GlobalKey<FormFieldState>();
+  final _multiSelectss = GlobalKey<FormFieldState>();
+  final _mutliSelectXX = GlobalKey<FormFieldState>();
   void showToast() {
     setState(() {
       _isVisible = !_isVisible;
-      MultiSelectItem('', '');
+      categoryindex = null;
     });
   }
 
@@ -64,16 +76,23 @@ class _AddAddsState extends State<AddAdds> {
   ];
 
   ///var for index
-  List<dynamic> colorindex;
+  int colorindex;
   var sizeindex;
   var categoryindex;
   var tybeindex;
   int contactindex;
-  List<dynamic> _selecteditems = [];
-  List<dynamic> _selecteditems2 = [];
+  List<int> _selecteditems = [];
+  List<int> _selectSize = [];
+  List<int> _selectedContact = [];
+
   List _sellect = [];
   int id;
+
   var item;
+
+  ///TestForMe
+  List<AdTypesForAddModel> itemList;
+  List<AdTypesForAddModel> selectedList;
 
   ///var for create ads
   String name;
@@ -126,7 +145,7 @@ class _AddAddsState extends State<AddAdds> {
     _allCategoryModel = await _allCategoryController.getAllCategory();
     _adTypesForAddModel = await _adTypesForAddController.getadTypesForAdd();
     _attributeForAddModel = await _attributeForAddController.getAttModel();
-
+    _allAttributesModel = await _allAttributesController.AllAttributes();
     setState(() {
       _isLoading = false;
     });
@@ -142,7 +161,7 @@ class _AddAddsState extends State<AddAdds> {
       price: price,
       body: body,
       ad_typeId: tybeindex,
-      attributes1: _selecteditems2.map((e) => e).toList(),
+      attributes1: _selectSize,
       attributes2: colorindex,
       contname: contactname,
     );
@@ -250,63 +269,15 @@ class _AddAddsState extends State<AddAdds> {
                           Text(
                             'Choose the category',
                             style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: getProportionateScreenWidth(14),
-                                fontWeight: FontWeight.bold),
+                              decoration: TextDecoration.underline,
+                              fontSize: getProportionateScreenWidth(14),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
 
-                          ///WE Will Use it
-                          // MultiSelectChipField(
-                          //   items: _allCategoryModel.data
-                          //       .map((e) => MultiSelectItem(e.id, e.name))
-                          //       .toList(),
-                          //   // initialValue: [
-                          //   //   _animals[4],
-                          //   //   _animals[7],
-                          //   //   _animals[9]
-                          //   // ],
-                          //   title: Text(
-                          //     "Choose the Category",
-                          //     style: TextStyle(
-                          //         decoration: TextDecoration.underline),
-                          //   ),
-                          //   headerColor: Colors.transparent,
-                          //   decoration: BoxDecoration(
-                          //     border:
-                          //         Border.all(color: Colors.white, width: 1.8),
-                          //   ),
-                          //   selectedChipColor: s,
-                          //   selectedTextStyle: TextStyle(color: Colors.white),
-                          //   onTap: (values) {
-                          //     _selecteditems = values;
-                          //   },
-                          // ),
-                          ///Finish
-                          ///ForTest
-                          // MultiSelectDialogField(
-                          //   items: _allCategoryModel.data
-                          //       .map((e) => MultiSelectItem(e, e.name.toString()))
-                          //       .toList(),
-                          //   title: Text("Animals"),
-                          //   selectedColor: Colors.blue,
-                          //   buttonIcon: Icon(
-                          //     Icons.pets,
-                          //     color: Colors.blue,
-                          //   ),
-                          //   buttonText: Text(
-                          //     "Favorite Animals",
-                          //     style: TextStyle(
-                          //       color: Colors.blue[800],
-                          //       fontSize: 16,
-                          //     ),
-                          //   ),
-                          //   onConfirm: (results) {
-                          //     // _selectedAnimals = results;
-                          //   },
-                          // ),
                           ///Finish
                           AnimatedOpacity(
                             opacity: !_isVisible ? 1.0 : 0.5,
@@ -359,11 +330,7 @@ class _AddAddsState extends State<AddAdds> {
                                         .map((e) =>
                                             MultiSelectItem(e.id, e.name))
                                         .toList(),
-                                    // initialValue: [
-                                    //   _animals[4],
-                                    //   _animals[7],
-                                    //   _animals[9]
-                                    // ],
+
                                     title: Text(
                                       "",
                                       style: TextStyle(
@@ -382,38 +349,11 @@ class _AddAddsState extends State<AddAdds> {
                                         TextStyle(color: Colors.white),
                                     onTap: (values) {
                                       setState(() {
-                                        _selecteditems2 = values;
+                                        _selectSize = values;
                                       });
                                     },
                                   ),
                                 )
-                              // Row(
-                              //         mainAxisAlignment:
-                              //             MainAxisAlignment.spaceEvenly,
-                              //         children: List.generate(
-                              //             _allCategoryModel.data[categoryindex - 1]
-                              //                 .childs.length, (i) {
-                              //           return AnimatedOpacity(
-                              //               opacity: _isVisible ? 1.0 : 0.0,
-                              //               duration: Duration(milliseconds: 500),
-                              //               child: GestureDetector(
-                              //                 onTap: () {
-                              //                   setState(() {
-                              //                     _sellect.add(_allCategoryModel
-                              //                         .data[categoryindex - 1]
-                              //                         .childs[i]
-                              //                         .id);
-                              //                   });
-                              //                 },
-                              //                 child: Container(
-                              //                   child: Text(
-                              //                     '${_allCategoryModel.data[categoryindex - 1].childs[i].name}',
-                              //                     style: TextStyle(color: color),
-                              //                   ),
-                              //                 ),
-                              //               ));
-                              //         }),
-                              //       )
                               : Container(),
 
                           SizedBox(
@@ -517,12 +457,6 @@ class _AddAddsState extends State<AddAdds> {
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
-                          // SmartSelect.multiple(
-                          //     title: 'Selct',
-                          //     value: value,
-                          //     choiceItems: options,
-                          //     onChange: (state) =>
-                          //         setState(() => value = state.value)),
 
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -547,164 +481,221 @@ class _AddAddsState extends State<AddAdds> {
                                   name: _adTypesForAddModel.data[index].name,
                                 ),
                               )),
-                          SizedBox(
-                            height: getProportionateScreenHeight(20),
-                          ),
-                          Text('Sizes'),
-                          SizedBox(
-                            height: getProportionateScreenHeight(20),
-                          ),
+
                           MultiSelectChipField(
+                            key: _multiSelectKey,
                             height: getProportionateScreenHeight(40),
+                            title: Text(
+                              'Size',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w300,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            chipWidth: 25,
+                            textStyle:
+                                TextStyle(color: Colors.black, fontSize: 13),
+                            headerColor: Colors.transparent,
                             items: _attributeForAddModel.data[1].options
                                 .map((e) => MultiSelectItem(e.id, e.name))
                                 .toList(),
-                            // initialValue: [
-                            //   _animals[4],
-                            //   _animals[7],
-                            //   _animals[9]
-                            // ],
-                            title: Text(
-                              "",
-                              style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  fontSize: 12),
-                            ),
-                            chipWidth: 30,
-                            headerColor: Colors.transparent,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.white, width: 0.5),
-                            ),
-                            selectedChipColor: s,
-
-                            selectedTextStyle: TextStyle(color: Colors.white),
-                            onTap: (values) {
-                              setState(() {
-                                _selecteditems2 = values;
-                              });
+                            itemBuilder: (
+                              item,
+                              state,
+                            ) {
+                              return GestureDetector(
+                                onTap: () {
+                                  _selectSize.contains(item.value)
+                                      ? _selectSize.remove(item.value)
+                                      : _selectSize.add(item.value);
+                                  state.didChange(_selectSize);
+                                  _multiSelectKey.currentState.validate();
+                                  print(_selectSize);
+                                },
+                                child: Card(
+                                  elevation: 0.0,
+                                  child: Container(
+                                    // padding: EdgeInsets.all(value),
+                                    decoration: BoxDecoration(
+                                      color: _selectSize.contains(item.value)
+                                          ? s
+                                          : Colors.white,
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1.3),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    // height: getProportionateScreenHeight(10),
+                                    width: getProportionateScreenWidth(80),
+                                    child: Center(
+                                        child: Text(
+                                      item.label,
+                                    )),
+                                  ),
+                                ),
+                              );
                             },
-                          ),
-                          // Container(
-                          //   child: GridView.builder(
-                          //     shrinkWrap: true,
-                          //     physics: ScrollPhysics(),
-                          //     itemCount:
-                          //         _attributeForAddModel.data[1].options.length,
-                          //     gridDelegate:
-                          //         SliverGridDelegateWithMaxCrossAxisExtent(
-                          //             maxCrossAxisExtent: 120,
-                          //             childAspectRatio: 4.5 / 1,
-                          //             crossAxisSpacing: 40,
-                          //             mainAxisSpacing: 10),
-                          //     itemBuilder: (BuildContext context, int index) {
-                          //       return selectedCategory(
-                          //         textColor: sizeindex !=
-                          //                 _attributeForAddModel
-                          //                     .data[1].options[index].id
-                          //             ? Colors.black
-                          //             : Colors.white,
-                          //         onTap: () {
-                          //           setState(() {
-                          //             sizeindex = _attributeForAddModel
-                          //                 .data[1].options[index].id;
-                          //           });
-                          //           print('Size index is $sizeindex');
-                          //         },
-                          //         name: _attributeForAddModel
-                          //             .data[1].options[index].name,
-                          //         sele: sizeindex !=
-                          //                 _attributeForAddModel
-                          //                     .data[1].options[index].id
-                          //             ? Colors.white
-                          //             : s,
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(20),
-                          ),
-                          Text('Contact'),
-                          SizedBox(
-                            height: getProportionateScreenHeight(8),
-                          ),
-                          Container(
-                            child: GridView.builder(
-                              shrinkWrap: true,
-                              physics: ScrollPhysics(),
-                              itemCount: staticData.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 120,
-                                      childAspectRatio: 4.5 / 1,
-                                      crossAxisSpacing: 40,
-                                      mainAxisSpacing: 10),
-                              itemBuilder: (BuildContext context, int index) {
-                                Map data = staticData[index];
-                                selectedFlag[index] =
-                                    selectedFlag[index] ?? false;
-                                bool isSelected = selectedFlag[index];
-                                return selectedCategory(
-                                  textColor: contactindex != data['id']
-                                      ? Colors.black
-                                      : Colors.white,
-                                  onTap: () {
-                                    setState(() {
-                                      contactindex = data['id'];
-                                      contactname = data['name'];
-                                    });
-                                    print('contactindex is $contactindex');
-                                    print('contactname is $contactname');
-                                  },
-                                  name: data['name'],
-                                  sele: contactindex != data['id']
-                                      ? Colors.white
-                                      : s,
-                                );
-                              },
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(color: Colors.transparent),
                             ),
+                            // title: Text(
                           ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(20),
-                          ),
-                          Text('Colors'),
-                          SizedBox(
-                            height: getProportionateScreenHeight(10),
-                          ),
-                          Container(
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: List.generate(
-                                    _attributeForAddModel
-                                        .data[0].options.length, (index) {
-                                  int id = _attributeForAddModel
-                                      .data[0].options[index].id;
-                                  return SelectedColor(
-                                      onTap: () {
-                                        setState(() {
-                                          colorindex.add(id);
-                                        });
-                                        print('Color index is $colorindex');
-                                      },
-                                      s: HexColor(
-                                        _attributeForAddModel
-                                            .data[0].options[index].name,
+
+                          MultiSelectChipField(
+                            key: _mutliSelectXX,
+                            height: getProportionateScreenHeight(40),
+                            title: Text(
+                              'Contact',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w300,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            chipWidth: 25,
+                            textStyle:
+                                TextStyle(color: Colors.black, fontSize: 13),
+                            headerColor: Colors.transparent,
+                            items: _allAttributesModel
+                                .data.attributes[2].selectedOptions
+                                .map((e) => MultiSelectItem(e.id, e.name))
+                                .toList(),
+                            itemBuilder: (
+                              item,
+                              state,
+                            ) {
+                              return GestureDetector(
+                                onTap: () {
+                                  _selectSize.contains(item.value)
+                                      ? _selectSize.remove(item.value)
+                                      : _selectSize.add(item.value);
+                                  state.didChange(_selectSize);
+                                  _multiSelectKey.currentState.validate();
+                                  print(_selectSize);
+                                },
+                                child: Card(
+                                  elevation: 0.0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1.3),
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    height: getProportionateScreenHeight(29),
+                                    width: getProportionateScreenWidth(100),
+                                    child: Center(
+                                        child: Text(
+                                      item.label,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
                                       ),
-                                      set:
-                                          // colorindex.map((e) => e ) !=
-                                          //         _attributeForAddModel
-                                          //             .data[0].options[index].id
-                                          //    ?
-                                          Colors.white
-                                      // : HexColor(
-                                      //     _attributeForAddModel
-                                      //         .data[0].options[index].name,
-                                      //   ),
-                                      );
-                                })),
+                                    )),
+                                  ),
+                                ),
+                              );
+                            },
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(color: Colors.transparent),
+                            ),
+                            // title: Text(
                           ),
+
+                          MultiSelectChipField(
+                            key: _multiSelectss,
+                            height: getProportionateScreenHeight(40),
+                            title: Text(
+                              'Colors',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w300,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                            chipWidth: 25,
+
+                            headerColor: Colors.transparent,
+                            items: _attributeForAddModel.data[0].options
+                                .map((e) => MultiSelectItem(e.id, e.name))
+                                .toList(),
+                            itemBuilder: (
+                              item,
+                              state,
+                            ) {
+                              return GestureDetector(
+                                onTap: () {
+                                  _selecteditems.contains(item.value)
+                                      ? _selecteditems.remove(item.value)
+                                      : _selecteditems.add(item.value);
+                                  state.didChange(_selecteditems);
+                                  _multiSelectss.currentState.validate();
+                                  print(_selecteditems);
+                                },
+                                child: Card(
+                                  elevation: 0.0,
+                                  child: Container(
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 35,
+                                          width: 35,
+                                          decoration: BoxDecoration(
+                                            color: _selecteditems
+                                                    .contains(item.value)
+                                                ? HexColor(item.label)
+                                                : Colors.white,
+                                            border: Border.all(
+                                                color: Colors.grey[400]),
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          child: Center(
+                                            child: Container(
+                                              height: 15,
+                                              width: 15,
+                                              decoration: BoxDecoration(
+                                                color: HexColor(item.label),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              child: Center(
+                                                child: Container(
+                                                  height: 5,
+                                                  width: 5,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            2),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(color: Colors.transparent),
+                            ),
+                            // title: Text(
+                          ),
+
                           SizedBox(
                             height: getProportionateScreenHeight(20),
                           ),
@@ -730,8 +721,9 @@ class _AddAddsState extends State<AddAdds> {
                                     ),
                                     child: FlatButton(
                                       onPressed: () {
-                                        colorList.add(_attributeForAddModel
-                                            .data[0].options[0].id);
+                                        print(_selectSize.length);
+                                        _createads(context);
+
                                         // print(_selecteditems);
                                         // print(_allCategoryModel
                                         //         .data[1].childs??[0].name ??
@@ -745,7 +737,7 @@ class _AddAddsState extends State<AddAdds> {
                                         // _createads(context);
                                         // print(id);
                                         // print(_selecteditems2.map((e) => e));
-                                        print(value);
+                                        // print(value);
 
                                         // Navigator.of(context)
                                         //     .pushReplacementNamed(MyAdds.routeName);
@@ -768,15 +760,5 @@ class _AddAddsState extends State<AddAdds> {
               ),
             ),
     );
-  }
-
-  void onTap(bool isSelected, int index) {
-    setState(() {
-      selectedFlag[index] = !isSelected;
-      print(staticData[index]['id']);
-      // If there will be any true in the selectionFlag then
-      // selection Mode will be true
-      isSelectionMode = selectedFlag.containsValue(true);
-    });
   }
 }

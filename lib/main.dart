@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,6 +6,7 @@ import './localization/Demo_localization.dart';
 import './localization/Local_localization.dart';
 import './Helpers/routes.dart';
 import './Screens/SplashScreen.dart';
+import './AuthFuction/TestModels.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -13,7 +13,7 @@ class CreateadsController {
     var ad_typeId,
     String price,
     String contname,
-    List attributes1,
+    List<int> attributes1,
     var attributes2,
   }) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,15 +27,14 @@ class CreateadsController {
     ];
     FormData formData = FormData.fromMap(
       {
-        'name': name,
-        'body': body,
-        'contact_types[1]': "whatsapp",
-        'category_id': category_Id,
-        'ad_type': ad_typeId,
-        'price': price,
-        'attributes[1][]':
-            attributes1.map((e) => e.toString()).toList(),
-        'attributes[2][$attributes2]': attributes2,
+        'name': 'TestINANDROID',
+        'body': "ANDROID",
+        'contact_types':["whatsup","phone"],
+        'category_id': 1,
+        'ad_type': 1,
+        'price': 411,
+        'attributes[1]': ["1"],
+        'attributes[2]': ["2"],
       },
     );
     var response = await _netWork.postData(
