@@ -60,6 +60,7 @@ class _AddAddsState extends State<AddAdds> {
   final _multiSelectKey = GlobalKey<FormFieldState>();
   final _multiSelectss = GlobalKey<FormFieldState>();
   final _mutliSelectXX = GlobalKey<FormFieldState>();
+
   void showToast() {
     setState(() {
       _isVisible = !_isVisible;
@@ -162,7 +163,7 @@ class _AddAddsState extends State<AddAdds> {
       body: body,
       ad_typeId: tybeindex,
       attributes1: _selectSize,
-      attributes2: colorindex,
+      attributes2: _selecteditems,
       contname: contactname,
     );
 
@@ -560,9 +561,8 @@ class _AddAddsState extends State<AddAdds> {
                             textStyle:
                                 TextStyle(color: Colors.black, fontSize: 13),
                             headerColor: Colors.transparent,
-                            items: _allAttributesModel
-                                .data.attributes[2].selectedOptions
-                                .map((e) => MultiSelectItem(e.id, e.name))
+                            items: ContactData.data
+                                .map((e) => MultiSelectItem(e['id'], e['name']))
                                 .toList(),
                             itemBuilder: (
                               item,
@@ -570,18 +570,21 @@ class _AddAddsState extends State<AddAdds> {
                             ) {
                               return GestureDetector(
                                 onTap: () {
-                                  _selectSize.contains(item.value)
-                                      ? _selectSize.remove(item.value)
-                                      : _selectSize.add(item.value);
-                                  state.didChange(_selectSize);
-                                  _multiSelectKey.currentState.validate();
-                                  print(_selectSize);
+                                  _selectedContact.contains(item.value)
+                                      ? _selectedContact.remove(item.value)
+                                      : _selectedContact.add(item.value);
+                                  state.didChange(_selectedContact);
+                                  // _mutliSelectssssXT.currentState.validate();
+                                  print(_selectedContact);
                                 },
                                 child: Card(
                                   elevation: 0.0,
                                   child: Container(
                                     decoration: BoxDecoration(
-
+                                      color:
+                                          _selectedContact.contains(item.value)
+                                              ? s
+                                              : Colors.transparent,
                                       border: Border.all(
                                           color: Colors.grey, width: 1.3),
                                       borderRadius: BorderRadius.circular(20.0),
@@ -593,7 +596,10 @@ class _AddAddsState extends State<AddAdds> {
                                       item.label,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        color: Colors.black,
+                                        color: _selectedContact
+                                                .contains(item.value)
+                                            ? Colors.white
+                                            : Colors.black,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     )),
